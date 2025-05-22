@@ -1,10 +1,13 @@
 package com.example.e_permoziapp.di.usecase
 
+import com.example.e_permoziapp.domain.usecase.ClearAllUserInfoUseCase
 import com.example.e_permoziapp.domain.usecase.GetIsLogginUseCase
 import com.example.e_permoziapp.domain.usecase.GetUserIdUseCase
+import com.example.e_permoziapp.domain.usecase.LogOutUseCase
 import com.example.e_permoziapp.domain.usecase.LoginUseCase
 import com.example.e_permoziapp.domain.usecase.RegisterUseCase
 import com.example.e_permoziapp.domain.usecase.SaveIsLoginUseCase
+import com.example.e_permoziapp.domain.usecase.SaveRoleUseCase
 import com.example.e_permoziapp.domain.usecase.SaveUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.ValidateEmailUseCase
 import com.example.e_permoziapp.domain.usecase.ValidateFileUploadUseCase
@@ -27,4 +30,7 @@ val useCaseModule = module {
     factory { SaveUserIdUseCase(get()) }
     factory { SaveIsLoginUseCase(get()) }
     factory { ValidateLoginUseCase(get(), get()) }
+    factory { ClearAllUserInfoUseCase(get()) }
+    factory { LogOutUseCase(get()) }
+    factory { SaveRoleUseCase(get()) }
 }

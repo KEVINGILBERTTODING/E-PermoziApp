@@ -23,4 +23,6 @@ data class UserModel(
     val ktp: String? = "",
     @SerialName("created_at")
     val createdAt: String = "",
+    @SerialName("role")
+    val role: String
 )

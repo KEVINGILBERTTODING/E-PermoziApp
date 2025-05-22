@@ -5,4 +5,5 @@ interface UserRepository {
     fun getUserId(): Int
     fun saveIsLogged(logged: Boolean)
     fun getIsLogged(): Boolean
+    fun saveRole(role: String)
 }

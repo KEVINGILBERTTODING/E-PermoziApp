@@ -1,4 +1,4 @@
-package com.example.e_permoziapp.data.login.remote
+package com.example.e_permoziapp.domain.remote
 
 import com.example.e_permoziapp.data.common.model.ResponseApiModel
 import com.example.e_permoziapp.data.login.model.UserModel

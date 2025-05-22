@@ -2,6 +2,7 @@ package com.example.e_permoziapp.data.register.remote
 
 import android.util.Log
 import com.example.e_permoziapp.core.constant.Constant
+import com.example.e_permoziapp.domain.remote.RegisterService
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.forms.submitFormWithBinaryData

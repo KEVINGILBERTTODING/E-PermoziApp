@@ -2,11 +2,10 @@ package com.example.e_permoziapp.data.login.repository
 
 import com.example.e_permoziapp.data.common.model.ResponseApiModel
 import com.example.e_permoziapp.data.login.model.UserModel
-import com.example.e_permoziapp.data.login.remote.LoginService
+import com.example.e_permoziapp.domain.remote.LoginService
 import com.example.e_permoziapp.domain.repository.LoginRepository
 import io.ktor.client.call.body
 import io.ktor.http.HttpStatusCode
-import timber.log.Timber
 
 class LoginRepositoryImpl(
     private val loginService: LoginService

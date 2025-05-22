@@ -1,7 +1,7 @@
 package com.example.e_permoziapp.data.register.repository
 
 import com.example.e_permoziapp.data.common.model.ResponseApiModel
-import com.example.e_permoziapp.data.register.remote.RegisterService
+import com.example.e_permoziapp.domain.remote.RegisterService
 import com.example.e_permoziapp.domain.repository.RegisterRepository
 import io.ktor.client.call.body
 import io.ktor.http.HttpStatusCode

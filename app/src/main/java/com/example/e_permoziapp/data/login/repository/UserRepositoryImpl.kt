@@ -8,6 +8,8 @@ class UserRepositoryImpl(
 ): UserRepository {
     private val userIdKey = "user_id"
     private val isLoggedKey = "is_logged"
+    private val roleKey = "role"
+
     override fun saveUserId(userId: Int) {
         prefHelper.putInt(userIdKey, userId)
     }
@@ -22,5 +24,9 @@ class UserRepositoryImpl(
 
     override fun getIsLogged(): Boolean {
         return prefHelper.getBoolen(isLoggedKey)
+    }
+
+    override fun saveRole(role: String) {
+        prefHelper.putString(roleKey, role)
     }
 }
