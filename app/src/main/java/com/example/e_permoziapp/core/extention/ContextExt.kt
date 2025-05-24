@@ -5,9 +5,12 @@ import android.content.Intent
 import android.os.Parcelable
 import java.io.Serializable
 
-
-inline fun <reified T> Context.launchActivity(vararg extras: Pair<String, Any?>) {
+inline fun <reified T> Context.launchActivity(
+    vararg extras: Pair<String, Any?>,
+    flags: Int? = null
+) {
     val intent = Intent(this, T::class.java).apply {
+        flags?.let { this.flags = it }
         for ((key, value) in extras) {
             when (value) {
                 null -> putExtra(key, null as java.io.Serializable?)

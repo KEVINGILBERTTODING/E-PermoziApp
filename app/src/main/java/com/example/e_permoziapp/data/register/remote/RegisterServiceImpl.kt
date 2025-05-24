@@ -22,7 +22,6 @@ class RegisterServiceImpl(
         password: String,
         ktp: ByteArray
     ): HttpResponse {
-        Log.d("service", "register: $password")
         val response = service.submitFormWithBinaryData(
             url = "${Constant.BASE_URL}user/register",
             formData = formData {

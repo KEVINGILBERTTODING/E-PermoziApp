@@ -20,9 +20,9 @@ data class UserModel(
     @SerialName("mobile_number")
     val mobileNumber: String = "",
     @SerialName("ktp")
-    val ktp: String? = "",
+    val ktp: String = "",
     @SerialName("created_at")
     val createdAt: String = "",
     @SerialName("role")
-    val role: String
+    val role: String = ""
 )

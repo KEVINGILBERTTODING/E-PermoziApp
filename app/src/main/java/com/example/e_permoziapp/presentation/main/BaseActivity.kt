@@ -1,10 +1,11 @@
 package com.example.e_permoziapp.presentation.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.e_permoziapp.core.extention.launchActivity
-import com.example.e_permoziapp.presentation.login.LoginActivity
+import com.example.e_permoziapp.presentation.user.login.LoginActivity
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -14,20 +15,20 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         collectUiState()
     }
-
     private fun collectUiState() {
         lifecycleScope.launch {
-            baseViewmodel.isLogout.collect {
-                if (it){
-                    logOut()
-                }
+            baseViewmodel.logoutTrigger.collect {
+                logOut()
             }
         }
+
     }
 
-    fun logOut() {
+    private fun logOut() {
         baseViewmodel.logOut()
-        launchActivity<LoginActivity>()
+        launchActivity<LoginActivity>(
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        )
         finish()
     }
 

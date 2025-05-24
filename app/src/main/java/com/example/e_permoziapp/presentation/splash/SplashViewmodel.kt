@@ -2,7 +2,7 @@ package com.example.e_permoziapp.presentation.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.e_permoziapp.domain.usecase.ValidateLoginUseCase
+import com.example.e_permoziapp.domain.usecase.auth.ValidateLoginUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow

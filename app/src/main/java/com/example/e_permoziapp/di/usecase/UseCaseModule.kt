@@ -1,20 +1,22 @@
 package com.example.e_permoziapp.di.usecase
 
-import com.example.e_permoziapp.domain.usecase.ClearAllUserInfoUseCase
-import com.example.e_permoziapp.domain.usecase.GetIsLogginUseCase
-import com.example.e_permoziapp.domain.usecase.GetUserIdUseCase
-import com.example.e_permoziapp.domain.usecase.LogOutUseCase
-import com.example.e_permoziapp.domain.usecase.LoginUseCase
-import com.example.e_permoziapp.domain.usecase.RegisterUseCase
-import com.example.e_permoziapp.domain.usecase.SaveIsLoginUseCase
-import com.example.e_permoziapp.domain.usecase.SaveRoleUseCase
-import com.example.e_permoziapp.domain.usecase.SaveUserIdUseCase
-import com.example.e_permoziapp.domain.usecase.ValidateEmailUseCase
-import com.example.e_permoziapp.domain.usecase.ValidateFileUploadUseCase
-import com.example.e_permoziapp.domain.usecase.ValidateFormTextUseCase
-import com.example.e_permoziapp.domain.usecase.ValidateLoginUseCase
-import com.example.e_permoziapp.domain.usecase.ValidateMobileNumberUseCase
-import com.example.e_permoziapp.domain.usecase.ValidatePasswordUseCase
+import com.example.e_permoziapp.domain.usecase.auth.ClearAllUserInfoUseCase
+import com.example.e_permoziapp.domain.usecase.auth.GetIsLoginUseCase
+import com.example.e_permoziapp.domain.usecase.auth.GetUserDataUseCase
+import com.example.e_permoziapp.domain.usecase.auth.GetUserIdUseCase
+import com.example.e_permoziapp.domain.usecase.auth.LoginUseCase
+import com.example.e_permoziapp.domain.usecase.auth.LogoutUseCase
+import com.example.e_permoziapp.domain.usecase.auth.RegisterUseCase
+import com.example.e_permoziapp.domain.usecase.auth.SaveIsLoginUseCase
+import com.example.e_permoziapp.domain.usecase.auth.SaveRoleUseCase
+import com.example.e_permoziapp.domain.usecase.auth.SaveUserIdUseCase
+import com.example.e_permoziapp.domain.usecase.auth.ValidateEmailUseCase
+import com.example.e_permoziapp.domain.usecase.auth.ValidateFileUploadUseCase
+import com.example.e_permoziapp.domain.usecase.auth.ValidateFormTextUseCase
+import com.example.e_permoziapp.domain.usecase.auth.ValidateLoginUseCase
+import com.example.e_permoziapp.domain.usecase.auth.ValidateMobileNumberUseCase
+import com.example.e_permoziapp.domain.usecase.auth.ValidatePasswordUseCase
+import com.example.e_permoziapp.domain.usecase.pengajuan.GetUserAllPengajuanUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -26,11 +28,13 @@ val useCaseModule = module {
     factory { ValidateFormTextUseCase() }
     factory { ValidateMobileNumberUseCase() }
     factory { GetUserIdUseCase(get()) }
-    factory { GetIsLogginUseCase(get()) }
+    factory { GetIsLoginUseCase(get()) }
     factory { SaveUserIdUseCase(get()) }
     factory { SaveIsLoginUseCase(get()) }
     factory { ValidateLoginUseCase(get(), get()) }
     factory { ClearAllUserInfoUseCase(get()) }
-    factory { LogOutUseCase(get()) }
     factory { SaveRoleUseCase(get()) }
+    factory { GetUserDataUseCase(get())}
+    factory { GetUserAllPengajuanUseCase(get())}
+    factory { LogoutUseCase(get(), get())}
 }

@@ -23,13 +23,13 @@
             android:name=".presentation.onboarding.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.home.HomeActivity"
+            android:name=".presentation.user.home.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.register.RegisterActivity"
+            android:name=".presentation.user.register.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.login.LoginActivity"
+            android:name=".presentation.user.login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.splash.SplashActivity"

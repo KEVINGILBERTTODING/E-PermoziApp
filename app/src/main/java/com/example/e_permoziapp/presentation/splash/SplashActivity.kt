@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.databinding.ActivitySplashBinding
-import com.example.e_permoziapp.presentation.home.HomeActivity
-import com.example.e_permoziapp.presentation.login.LoginActivity
+import com.example.e_permoziapp.presentation.user.home.HomeActivity
+import com.example.e_permoziapp.presentation.user.login.LoginActivity
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
