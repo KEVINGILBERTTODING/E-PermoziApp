@@ -1,9 +1,9 @@
-package com.example.e_permoziapp.presentation.user.home
+package com.example.e_permoziapp.presentation.user.home.ui
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.example.e_permoziapp.databinding.ActivityHomeBinding
-import com.example.e_permoziapp.presentation.main.BaseActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.example.e_permoziapp.presentation.main.ui.BaseActivity
 
 class HomeActivity : BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -15,12 +15,11 @@ class HomeActivity : BaseActivity() {
         onCollectEventState()
         onCollectUiState()
     }
-    init {
 
-    }
 
     private fun initUi() {
        binding.bottomBar.background = null
+        fragmentTransaction(HomeFragment())
     }
 
 
@@ -30,5 +29,10 @@ class HomeActivity : BaseActivity() {
 
     private fun onCollectEventState() {
 //        TODO("Not yet implemented")
+    }
+    private fun fragmentTransaction(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+        .replace(binding.homeContainer.id, fragment)
+            .commit()
     }
 }

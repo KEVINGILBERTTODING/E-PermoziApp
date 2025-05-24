@@ -7,4 +7,5 @@ object Constant {
     const val userIdKey = "user_id"
     const val isLoggedKey = "is_logged"
     const val roleKey = "role"
+    const val somethingWrong = "Something went wrong, please try again.."
 }

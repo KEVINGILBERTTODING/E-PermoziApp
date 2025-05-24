@@ -1,8 +1,7 @@
-package com.example.e_permoziapp.presentation.user.login
+package com.example.e_permoziapp.presentation.user.login.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,11 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.databinding.ActivityLoginBinding
 import com.example.e_permoziapp.presentation.common.UiState
-import com.example.e_permoziapp.presentation.user.home.HomeActivity
-import com.example.e_permoziapp.presentation.user.register.RegisterActivity
-import kotlinx.coroutines.Dispatchers
+import com.example.e_permoziapp.presentation.user.home.ui.HomeActivity
+import com.example.e_permoziapp.presentation.user.login.viewmodel.LoginViewmodel
+import com.example.e_permoziapp.presentation.user.register.ui.RegisterActivity
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {

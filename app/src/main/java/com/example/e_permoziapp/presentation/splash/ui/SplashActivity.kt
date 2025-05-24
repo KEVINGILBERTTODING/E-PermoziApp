@@ -1,12 +1,12 @@
-package com.example.e_permoziapp.presentation.splash
+package com.example.e_permoziapp.presentation.splash.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.databinding.ActivitySplashBinding
-import com.example.e_permoziapp.presentation.user.home.HomeActivity
-import com.example.e_permoziapp.presentation.user.login.LoginActivity
+import com.example.e_permoziapp.presentation.user.home.ui.HomeActivity
+import com.example.e_permoziapp.presentation.user.login.ui.LoginActivity
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

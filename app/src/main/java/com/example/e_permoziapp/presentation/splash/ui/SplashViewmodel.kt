@@ -1,4 +1,4 @@
-package com.example.e_permoziapp.presentation.splash
+package com.example.e_permoziapp.presentation.splash.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

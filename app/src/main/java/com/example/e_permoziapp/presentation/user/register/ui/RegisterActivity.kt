@@ -1,9 +1,8 @@
-package com.example.e_permoziapp.presentation.user.register
+package com.example.e_permoziapp.presentation.user.register.ui
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.e_permoziapp.databinding.ActivityRegisterBinding
 import com.example.e_permoziapp.presentation.common.UiState
-import kotlinx.coroutines.flow.collect
+import com.example.e_permoziapp.presentation.user.register.viewmodel.RegisterViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

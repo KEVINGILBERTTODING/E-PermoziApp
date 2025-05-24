@@ -1,4 +1,4 @@
-package com.example.e_permoziapp.presentation.user.register
+package com.example.e_permoziapp.presentation.user.register.viewmodel
 
 import android.app.Application
 import android.content.Context

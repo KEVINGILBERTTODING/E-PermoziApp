@@ -1,12 +1,12 @@
 package com.example.e_permoziapp.domain.usecase.pengajuan
 
-import com.example.e_permoziapp.data.pengajuan.model.UserPengajuanModel
+import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
 import com.example.e_permoziapp.domain.repository.PengajuanRepository
 
-class GetUserAllPengajuanUseCase(
+class GetPengajuanByUserIdUseCase(
     val pengajuanRepository: PengajuanRepository
 ) {
-    suspend operator fun invoke(userId: Int): Result<List<UserPengajuanModel>> {
+    suspend operator fun invoke(userId: Int): Result<List<PengajuanModel>?> {
         if (userId < 1) {
             return Result.failure(Exception("Invalid user ID"))
         }

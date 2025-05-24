@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserPengajuanModel (
+data class PengajuanModel (
     @SerialName("id")
     val id: Int,
     @SerialName("jenis_perizinan_id")

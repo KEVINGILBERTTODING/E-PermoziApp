@@ -1,9 +1,7 @@
-package com.example.e_permoziapp.presentation.user.login
+package com.example.e_permoziapp.presentation.user.login.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.data.login.model.UserModel
 import com.example.e_permoziapp.domain.usecase.auth.LoginUseCase
 import com.example.e_permoziapp.domain.usecase.auth.SaveIsLoginUseCase
@@ -12,12 +10,9 @@ import com.example.e_permoziapp.domain.usecase.auth.ValidateEmailUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidatePasswordUseCase
 import com.example.e_permoziapp.presentation.common.UiState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class LoginViewmodel(

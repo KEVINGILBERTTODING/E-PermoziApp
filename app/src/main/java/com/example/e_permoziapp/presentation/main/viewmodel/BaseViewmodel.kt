@@ -1,4 +1,4 @@
-package com.example.e_permoziapp.presentation.main
+package com.example.e_permoziapp.presentation.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

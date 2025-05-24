@@ -1,4 +1,4 @@
-package com.example.e_permoziapp.presentation.onboarding
+package com.example.e_permoziapp.presentation.onboarding.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
