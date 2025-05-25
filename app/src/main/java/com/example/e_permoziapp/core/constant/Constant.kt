@@ -8,4 +8,7 @@ object Constant {
     const val isLoggedKey = "is_logged"
     const val roleKey = "role"
     const val somethingWrong = "Something went wrong, please try again.."
+    const val FILE_PATH = "http://$IP_ADDRESS:8000/perizinan/"
+    const val FILE_PATH_PERSYARATAN = "${FILE_PATH}file_persyaratan/"
+
 }

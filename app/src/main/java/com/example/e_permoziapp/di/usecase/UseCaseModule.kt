@@ -16,6 +16,7 @@ import com.example.e_permoziapp.domain.usecase.auth.ValidateFormTextUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateLoginUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateMobileNumberUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidatePasswordUseCase
+import com.example.e_permoziapp.domain.usecase.common.DownloadFileUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanByUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanDetailUseCase
 import org.koin.dsl.module
@@ -39,4 +40,5 @@ val useCaseModule = module {
     factory { GetPengajuanByUserIdUseCase(get())}
     factory { LogoutUseCase(get(), get())}
     factory { GetPengajuanDetailUseCase(get())}
+    factory { DownloadFileUseCase(get())}
 }

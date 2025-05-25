@@ -1,28 +1,24 @@
 package com.example.e_permoziapp.presentation.user.Pengajuan.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.os.Environment
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.e_permoziapp.R
 import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.core.extention.getIntentExtraOrDefault
-import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
-import com.example.e_permoziapp.data.persyaratan.model.PersyaratanPerizinanModel
 import com.example.e_permoziapp.databinding.ActivityDetailPengajuanBinding
 import com.example.e_permoziapp.presentation.common.UiState
 import com.example.e_permoziapp.presentation.user.Pengajuan.adapter.PersyaratanPerizinanAdapter
 import com.example.e_permoziapp.presentation.user.Pengajuan.viewmodel.DetailPengajuanViewmodel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+
 
 class DetailPengajuanActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPengajuanBinding
@@ -77,6 +73,23 @@ class DetailPengajuanActivity : AppCompatActivity() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            viewmodel.downloadState.collect {
+                when(it) {
+                    is UiState.Loading -> {
+                        Toast.makeText(this@DetailPengajuanActivity, "Mengunduh file...", Toast.LENGTH_SHORT).show()
+                    }
+                    is UiState.Success -> {
+                        Toast.makeText(this@DetailPengajuanActivity, "Download berhasil", Toast.LENGTH_SHORT).show()
+                    }
+                    is UiState.Error -> {
+                        Toast.makeText(this@DetailPengajuanActivity, it.message, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     private fun getDetailPengajuan() {
@@ -85,7 +98,11 @@ class DetailPengajuanActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         adapter = PersyaratanPerizinanAdapter(mutableListOf(), isEdit) {
-            Timber.w("${it.content}")
+            val url = "${Constant.FILE_PATH_PERSYARATAN}${it.content}"
+            Timber.w(url)
+            it.content?.let {content ->
+                viewmodel.download(url, content)
+            }
         }
         binding.rvPersyaratan.adapter = adapter
         binding.rvPersyaratan.layoutManager = LinearLayoutManager(this)
@@ -93,6 +110,9 @@ class DetailPengajuanActivity : AppCompatActivity() {
 
     private fun init() {
         pengajuanId = getIntentExtraOrDefault("id", 0)
+
+
+
     }
 
     private fun initUi(){
