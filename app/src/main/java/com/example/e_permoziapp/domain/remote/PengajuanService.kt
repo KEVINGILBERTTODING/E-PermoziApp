@@ -5,4 +5,5 @@ import io.ktor.client.statement.HttpResponse
 
 interface PengajuanService {
     suspend fun getPengajuanByUserId(params: PengajuanRequestModel) : HttpResponse
+    suspend fun getPengajuanDetail(params: Int) : HttpResponse
 }

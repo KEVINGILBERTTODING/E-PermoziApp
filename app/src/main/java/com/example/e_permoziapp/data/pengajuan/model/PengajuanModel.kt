@@ -19,5 +19,5 @@ data class PengajuanModel (
     @SerialName("updated_at")
     val updatedAt: String,
     @SerialName("jenis_perizinan")
-    val jenisPerizinan: JenisPerizinanModel
+    val jenisPerizinan: JenisPerizinanModel? = null
 )

@@ -4,6 +4,7 @@ import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanRequestModel
 import com.example.e_permoziapp.domain.remote.PengajuanService
 import io.ktor.client.HttpClient
+import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
@@ -18,5 +19,9 @@ class PengajuanServiceImpl(
             contentType(ContentType.Application.Json)
             setBody(params)
         }
+    }
+
+    override suspend fun getPengajuanDetail(params: Int): HttpResponse {
+        return httpClient.get("${Constant.BASE_URL}user/pengajuan/$params")
     }
 }

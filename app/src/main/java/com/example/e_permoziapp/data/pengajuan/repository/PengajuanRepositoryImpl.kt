@@ -4,6 +4,7 @@ import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.data.common.model.ResponseApiModel
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanRequestModel
+import com.example.e_permoziapp.data.pengajuan.model.UserPengajuanDetailModel
 import com.example.e_permoziapp.domain.remote.PengajuanService
 import com.example.e_permoziapp.domain.repository.PengajuanRepository
 import io.ktor.client.call.body
@@ -23,6 +24,28 @@ class PengajuanRepositoryImpl(
                     Result.success(body.data)
                 }else -> {
                     Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }
+            }
+
+        }catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getPengajuanDetail(id: Int): Result<UserPengajuanDetailModel> {
+        return try {
+            if (id < 1) return Result.failure(Exception("Invalid pengajuan id"))
+            val response = pengajuanService.getPengajuanDetail(id)
+            val body = response.body<ResponseApiModel<UserPengajuanDetailModel?>>()
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    if (body.data != null) {
+                        Result.success(body.data)
+                    }else {
+                        Result.failure(Exception(Constant.somethingWrong))
+                    }
+                }else -> {
+                Result.failure(Exception(body.message ?: Constant.somethingWrong))
                 }
             }
 

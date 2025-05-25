@@ -9,9 +9,11 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_permoziapp.R
+import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
 import com.example.e_permoziapp.databinding.FragmentHomeBinding
 import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.user.Pengajuan.ui.DetailPengajuanActivity
 import com.example.e_permoziapp.presentation.user.home.adapter.PengajuanAdapter
 import com.example.e_permoziapp.presentation.user.home.viewmodel.HomeViewmodel
 import kotlinx.coroutines.launch
@@ -71,7 +73,9 @@ class HomeFragment : Fragment() {
         pengajuanAdapter = PengajuanAdapter(
             mutableListOf()
         ){
-            Toast.makeText(requireActivity(), it.jenisPerizinan.namaPerizinan, Toast.LENGTH_SHORT).show()
+            requireActivity().launchActivity<DetailPengajuanActivity>(
+                "id" to  it.id
+            )
         }
         binding.rvPengajuan.adapter = pengajuanAdapter
         binding.rvPengajuan.layoutManager = LinearLayoutManager(requireActivity())

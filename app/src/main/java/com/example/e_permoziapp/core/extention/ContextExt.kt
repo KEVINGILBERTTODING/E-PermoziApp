@@ -1,5 +1,6 @@
 package com.example.e_permoziapp.core.extention
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
@@ -43,4 +44,22 @@ inline fun <reified T> Context.launchActivity(
         }
     }
     startActivity(intent)
+}
+
+inline fun <reified T> Activity.getIntentExtraOrDefault(key: String, default: T): T {
+    return intent.getExtraOrDefault(key, default)
+}
+
+inline fun <reified T> Intent.getExtraOrDefault(key: String, default: T): T {
+    return when (T::class) {
+        String::class -> getStringExtra(key) as? T ?: default
+        Int::class -> if (hasExtra(key)) getIntExtra(key, 0) as T else default
+        Boolean::class -> if (hasExtra(key)) getBooleanExtra(key, false) as T else default
+        Float::class -> if (hasExtra(key)) getFloatExtra(key, 0f) as T else default
+        Double::class -> if (hasExtra(key)) getDoubleExtra(key, 0.0) as T else default
+        Long::class -> if (hasExtra(key)) getLongExtra(key, 0L) as T else default
+        Short::class -> if (hasExtra(key)) getShortExtra(key, 0) as T else default
+        Char::class -> if (hasExtra(key)) getCharExtra(key, '\u0000') as T else default
+        else -> getSerializableExtra(key) as? T ?: default
+    }
 }

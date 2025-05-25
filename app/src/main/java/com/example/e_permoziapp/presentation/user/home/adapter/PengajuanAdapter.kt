@@ -25,7 +25,7 @@ class PengajuanAdapter(
     override fun onBindViewHolder(holder: PengajuanAdapter.PengajuanViewHolder, position: Int) {
         val dataPengajuan = listPengajuan.get(position)
         holder.binding.tvStatus.text = dataPengajuan.status
-        holder.binding.tvJenisPengajuan.text = dataPengajuan.jenisPerizinan.namaPerizinan
+        holder.binding.tvJenisPengajuan.text = dataPengajuan.jenisPerizinan?.namaPerizinan
         holder.itemView.setOnClickListener {
             onClick(dataPengajuan)
         }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:textSize="16sp"
+        android:layout_height="wrap_content"
+        android:text="Title"/>
+
+    <TextView
+        android:id="@+id/tvRequired"
+        android:layout_width="match_parent"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:text="required"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/unduh_file"
+        android:id="@+id/btnDownload"/>
+
+    <RelativeLayout
+        android:id="@+id/rlUploadFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pilih_file"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/btnUpload"/>
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/btnUpload"
+            android:layout_height="wrap_content"
+            android:text=""/>
+    </RelativeLayout>
+
+</LinearLayout>
