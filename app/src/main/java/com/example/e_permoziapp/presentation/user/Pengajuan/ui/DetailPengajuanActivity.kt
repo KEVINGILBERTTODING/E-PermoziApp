@@ -43,11 +43,15 @@ class DetailPengajuanActivity : AppCompatActivity() {
     }
 
     private fun onCollectEventState() {
+        binding.swipeRefresh.setOnRefreshListener {
+            getDetailPengajuan()
+        }
     }
 
     private fun onCollectUiState() {
         lifecycleScope.launch {
             viewmodel.detailPengajuanState.collect {
+                binding.swipeRefresh.isRefreshing = false
                 when(val state = it) {
                     is UiState.Loading -> {
                         setLoadingView()

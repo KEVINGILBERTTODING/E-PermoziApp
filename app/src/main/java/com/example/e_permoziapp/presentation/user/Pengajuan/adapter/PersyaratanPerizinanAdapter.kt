@@ -37,6 +37,8 @@ class PersyaratanPerizinanAdapter(
             holder.binding.rlUploadFile.visibility = View.GONE
         }
 
+        holder.binding.tvRequired.visibility = if (dataPersyaratan.isRequired == 1) View.VISIBLE else View.GONE
+
         holder.binding.btnDownload.setOnClickListener {
             onClick(dataPersyaratan)
         }

@@ -27,7 +27,6 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -38,9 +37,16 @@ class HomeFragment : Fragment() {
         initUi()
         initAdapter()
         onCollectUiState()
+        onCollectEventState()
         getAllPengajuan()
 
         return binding.root
+    }
+
+    private fun onCollectEventState() {
+        binding.swipeRefresh.setOnRefreshListener {
+            getAllPengajuan()
+        }
     }
 
     private fun getAllPengajuan() {
@@ -50,6 +56,7 @@ class HomeFragment : Fragment() {
     private fun onCollectUiState() {
         lifecycleScope.launch {
             viewmodel.uiState.collect {
+                binding.swipeRefresh.isRefreshing = false
                 when(val state= it) {
                     is UiState.Idle -> {}
                     is UiState.Loading -> {setLoadingView()}
