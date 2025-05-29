@@ -1,6 +1,7 @@
 package com.example.e_permoziapp.data.user.remote
 
 import com.example.e_permoziapp.core.constant.Constant
+import com.example.e_permoziapp.core.constant.ServerInfo
 import com.example.e_permoziapp.domain.remote.UserService
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -10,6 +11,6 @@ class UserServiceImpl(
     private val httpClient: HttpClient
 ): UserService {
     override suspend fun getDataUser(userId: Int): HttpResponse {
-        return httpClient.get("${Constant.BASE_URL}user/$userId")
+        return httpClient.get("${ServerInfo.BASE_URL}user/$userId")
     }
 }

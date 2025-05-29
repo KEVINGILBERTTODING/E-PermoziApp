@@ -2,6 +2,7 @@ package com.example.e_permoziapp.data.register.remote
 
 import android.util.Log
 import com.example.e_permoziapp.core.constant.Constant
+import com.example.e_permoziapp.core.constant.ServerInfo
 import com.example.e_permoziapp.domain.remote.RegisterService
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.formData
@@ -23,7 +24,7 @@ class RegisterServiceImpl(
         ktp: ByteArray
     ): HttpResponse {
         val response = service.submitFormWithBinaryData(
-            url = "${Constant.BASE_URL}user/register",
+            url = "${ServerInfo.BASE_URL}user/register",
             formData = formData {
                 append("full_name", fullname)
                 append("email", email)

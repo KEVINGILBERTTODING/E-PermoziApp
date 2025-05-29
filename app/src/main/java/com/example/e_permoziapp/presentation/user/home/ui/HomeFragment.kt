@@ -1,5 +1,6 @@
 package com.example.e_permoziapp.presentation.user.home.ui
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -47,7 +48,10 @@ class HomeFragment : Fragment() {
         binding.swipeRefresh.setOnRefreshListener {
             getAllPengajuan()
         }
+
     }
+
+
 
     private fun getAllPengajuan() {
         viewmodel.getAllPengajuan()

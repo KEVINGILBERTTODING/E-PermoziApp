@@ -2,9 +2,11 @@ package com.example.e_permoziapp.core.util
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
+import java.net.URI
 import kotlin.Exception
 
 object FileHelper {
@@ -40,6 +42,19 @@ object FileHelper {
     fun isByteArraySizeValid(byteArray: ByteArray, maxSizeMB: Int): Boolean {
         val maxSizeBytes = maxSizeMB * 1024 * 1024
         return byteArray.size <= maxSizeBytes
+    }
+
+    fun openFile(context: Context, uri: Uri) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW)
+            val mimeType = getMimeTypeFromUri(context, uri)
+                ?: "*/*"
+            intent.setDataAndType(uri, mimeType)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.e_permoziapp.data.login.remote
 
 import com.example.e_permoziapp.core.constant.Constant
+import com.example.e_permoziapp.core.constant.ServerInfo
 import com.example.e_permoziapp.data.login.model.LoginRequestModel
 import com.example.e_permoziapp.domain.remote.LoginService
 import io.ktor.client.HttpClient
@@ -17,7 +18,7 @@ class LoginServiceImpl(
         email: String,
         password: String
     ): HttpResponse {
-     return httpClient.post("${Constant.BASE_URL}user/login") {
+     return httpClient.post("${ServerInfo.BASE_URL}user/login") {
          contentType(ContentType.Application.Json)
          setBody(LoginRequestModel(email, password))
      }

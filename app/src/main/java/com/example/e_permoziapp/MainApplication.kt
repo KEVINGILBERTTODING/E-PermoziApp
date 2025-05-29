@@ -1,7 +1,6 @@
 package com.example.e_permoziapp
 
 import android.app.Application
-import com.example.e_permoziapp.di.download.downloadModule
 import com.example.e_permoziapp.di.network.networkModule
 import com.example.e_permoziapp.di.pref.prefModule
 import com.example.e_permoziapp.di.repository.repositoryModule
@@ -22,8 +21,7 @@ class MainApplication : Application() {
                 repositoryModule,
                 useCaseModule,
                 viewmodelModule,
-                prefModule,
-                downloadModule)
+                prefModule)
             )
         }
     }

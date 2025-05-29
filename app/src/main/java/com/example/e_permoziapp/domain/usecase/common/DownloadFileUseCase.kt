@@ -1,19 +1,12 @@
 package com.example.e_permoziapp.domain.usecase.common
 
-import com.example.e_permoziapp.core.util.DownloadHelper
-import com.example.e_permoziapp.presentation.common.UiState
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import android.net.Uri
+import com.example.e_permoziapp.domain.repository.DownloadFileRepository
 
 class DownloadFileUseCase(
-    private val downloadHelper: DownloadHelper
+    private val repository: DownloadFileRepository
 ) {
-    operator fun invoke(url: String, fileName: String): Flow<UiState<String>> = flow {
-        emit(UiState.Loading)
-        val result = runCatching { downloadHelper.downloadFile(url, fileName) }
-        result.fold(
-            onSuccess = { res -> emit(UiState.Success("Download berhasil")) },
-            onFailure = { error -> emit(UiState.Error(error.message ?: "Download gagal")) }
-        )
+    suspend operator fun invoke(url: String, fileName: String): Result<Uri> {
+        return repository.downloadFile(url, fileName)
     }
 }

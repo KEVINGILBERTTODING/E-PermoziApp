@@ -1,21 +1,20 @@
 package com.example.e_permoziapp.presentation.user.Pengajuan.ui
-
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_permoziapp.core.constant.Constant
+import com.example.e_permoziapp.core.constant.ServerInfo
 import com.example.e_permoziapp.core.extention.getIntentExtraOrDefault
+import com.example.e_permoziapp.core.util.FileHelper
 import com.example.e_permoziapp.databinding.ActivityDetailPengajuanBinding
 import com.example.e_permoziapp.presentation.common.UiState
 import com.example.e_permoziapp.presentation.user.Pengajuan.adapter.PersyaratanPerizinanAdapter
 import com.example.e_permoziapp.presentation.user.Pengajuan.viewmodel.DetailPengajuanViewmodel
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -76,15 +75,16 @@ class DetailPengajuanActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewmodel.downloadState.collect {
-                when(it) {
+                when(val state = it) {
                     is UiState.Loading -> {
                         Toast.makeText(this@DetailPengajuanActivity, "Mengunduh file...", Toast.LENGTH_SHORT).show()
                     }
                     is UiState.Success -> {
                         Toast.makeText(this@DetailPengajuanActivity, "Download berhasil", Toast.LENGTH_SHORT).show()
+                        FileHelper.openFile(this@DetailPengajuanActivity, state.data)
                     }
                     is UiState.Error -> {
-                        Toast.makeText(this@DetailPengajuanActivity, it.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@DetailPengajuanActivity, state.message, Toast.LENGTH_SHORT).show()
                     }
                     else -> {}
                 }
@@ -98,7 +98,7 @@ class DetailPengajuanActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         adapter = PersyaratanPerizinanAdapter(mutableListOf(), isEdit) {
-            val url = "${Constant.FILE_PATH_PERSYARATAN}${it.content}"
+            val url = "${ServerInfo.FILE_PATH_PERSYARATAN}${it.content}"
             Timber.w(url)
             it.content?.let {content ->
                 viewmodel.download(url, content)
@@ -110,9 +110,6 @@ class DetailPengajuanActivity : AppCompatActivity() {
 
     private fun init() {
         pengajuanId = getIntentExtraOrDefault("id", 0)
-
-
-
     }
 
     private fun initUi(){

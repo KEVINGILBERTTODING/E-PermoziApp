@@ -1,5 +1,6 @@
 package com.example.e_permoziapp.presentation.user.Pengajuan.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.e_permoziapp.core.constant.Constant
@@ -19,8 +20,8 @@ class DetailPengajuanViewmodel(
 ): ViewModel() {
     private val _detailPengajuanState = MutableStateFlow<UiState<UserPengajuanDetailModel>>(UiState.Idle)
     val detailPengajuanState: StateFlow<UiState<UserPengajuanDetailModel>> = _detailPengajuanState
-    private val _downloadState = MutableStateFlow<UiState<String>>(UiState.Idle)
-    val downloadState: StateFlow<UiState<String>> = _downloadState
+    private val _downloadState = MutableStateFlow<UiState<Uri>>(UiState.Idle)
+    val downloadState: StateFlow<UiState<Uri>> = _downloadState
 
      fun getDetailPengajuan(id: Int) {
          viewModelScope.launch(Dispatchers.IO) {
@@ -37,10 +38,13 @@ class DetailPengajuanViewmodel(
     }
 
     fun download(url: String, fileName: String) {
-        viewModelScope.launch {
-            downloadFileUseCase(url, fileName).collect {
-                Timber.w("state download $it")
-                _downloadState.value = it
+        viewModelScope.launch(Dispatchers.IO) {
+            _downloadState.emit(UiState.Loading)
+            val response = downloadFileUseCase(url, fileName)
+            if (response.isSuccess) {
+                _downloadState.emit(UiState.Success(response.getOrThrow()))
+            } else {
+                _downloadState.emit(UiState.Error(response.exceptionOrNull()?.message ?: Constant.somethingWrong))
             }
         }
     }
