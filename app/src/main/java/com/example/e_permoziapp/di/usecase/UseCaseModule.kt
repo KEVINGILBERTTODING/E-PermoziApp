@@ -11,7 +11,7 @@ import com.example.e_permoziapp.domain.usecase.auth.SaveIsLoginUseCase
 import com.example.e_permoziapp.domain.usecase.auth.SaveRoleUseCase
 import com.example.e_permoziapp.domain.usecase.auth.SaveUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateEmailUseCase
-import com.example.e_permoziapp.domain.usecase.auth.ValidateFileUploadUseCase
+import com.example.e_permoziapp.domain.usecase.common.ValidateFileUploadUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateFormTextUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateLoginUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateMobileNumberUseCase

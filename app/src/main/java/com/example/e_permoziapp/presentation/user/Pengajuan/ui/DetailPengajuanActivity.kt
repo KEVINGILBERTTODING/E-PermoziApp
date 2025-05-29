@@ -1,7 +1,10 @@
 package com.example.e_permoziapp.presentation.user.Pengajuan.ui
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +12,9 @@ import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.core.constant.ServerInfo
 import com.example.e_permoziapp.core.extention.getIntentExtraOrDefault
 import com.example.e_permoziapp.core.util.FileHelper
+import com.example.e_permoziapp.core.util.ImageHelper
 import com.example.e_permoziapp.databinding.ActivityDetailPengajuanBinding
+import com.example.e_permoziapp.domain.Entity.FileSelectModel
 import com.example.e_permoziapp.presentation.common.UiState
 import com.example.e_permoziapp.presentation.user.Pengajuan.adapter.PersyaratanPerizinanAdapter
 import com.example.e_permoziapp.presentation.user.Pengajuan.viewmodel.DetailPengajuanViewmodel
@@ -23,8 +28,8 @@ class DetailPengajuanActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPengajuanBinding
     private lateinit var adapter: PersyaratanPerizinanAdapter
     private val viewmodel: DetailPengajuanViewmodel by viewModel()
-    private var pengajuanId = 0
     private var isEdit = false
+    private lateinit var filePickerLauncher: ActivityResultLauncher<Array<String>>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailPengajuanBinding.inflate(layoutInflater)
@@ -90,30 +95,65 @@ class DetailPengajuanActivity : AppCompatActivity() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            viewmodel.fileSelectedState.collect {
+                when(val state = it) {
+                    is UiState.Success -> {
+                        adapter.updateFilePersyaratan(state.data, viewmodel.currentPosId.first)
+                    }
+                    is UiState.Error -> {
+                        Toast.makeText(this@DetailPengajuanActivity, state.message, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {}
+                }
+            }
+        }
+
+        filePickerLauncher = registerForActivityResult(
+            ActivityResultContracts.OpenDocument()
+        ) { uri: Uri? ->
+            uri?.let {
+                viewmodel.validateFileSelected(uri, this@DetailPengajuanActivity)
+            }
+        }
     }
 
     private fun getDetailPengajuan() {
-        viewmodel.getDetailPengajuan(pengajuanId)
+        viewmodel.getDetailPengajuan(viewmodel.pengajuanId)
     }
 
     private fun initAdapter() {
-        adapter = PersyaratanPerizinanAdapter(mutableListOf(), isEdit) {
+        adapter = PersyaratanPerizinanAdapter(mutableListOf(), isEdit, mutableListOf(),
+            {
             val url = "${ServerInfo.FILE_PATH_PERSYARATAN}${it.content}"
             Timber.w(url)
             it.content?.let {content ->
                 viewmodel.download(url, content)
             }
-        }
+        }, {
+            viewmodel.currentPosId = it
+            if (it.first > -1 && it.second > 0) {
+                filePickerLauncher.launch(arrayOf(
+                    "application/pdf",
+                    "image/png",
+                    "image/jpeg"
+                ))
+            }else {
+                Toast.makeText(this, "Pilih persyaratan perizinan", Toast.LENGTH_SHORT).show()
+            }
+        })
         binding.rvPersyaratan.adapter = adapter
         binding.rvPersyaratan.layoutManager = LinearLayoutManager(this)
     }
 
     private fun init() {
-        pengajuanId = getIntentExtraOrDefault("id", 0)
+        viewmodel.pengajuanId = getIntentExtraOrDefault("id", 0)
+        isEdit = getIntentExtraOrDefault("is_edit", false)
     }
 
     private fun initUi(){
-        if (pengajuanId < 1) finish()
+        if (viewmodel.pengajuanId < 1) finish()
     }
 
     private fun setLoadingView() {

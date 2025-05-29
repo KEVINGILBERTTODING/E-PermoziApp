@@ -8,7 +8,7 @@ import com.example.e_permoziapp.databinding.ItemPengajuanBinding
 
 class PengajuanAdapter(
     private var listPengajuan: MutableList<PengajuanModel>,
-    private val onClick: (PengajuanModel) -> Unit,
+    private val onClick: (PengajuanModel, isEdit: Boolean) -> Unit,
 ): RecyclerView.Adapter<PengajuanAdapter.PengajuanViewHolder>() {
 
     inner class PengajuanViewHolder(
@@ -23,11 +23,15 @@ class PengajuanAdapter(
     }
 
     override fun onBindViewHolder(holder: PengajuanAdapter.PengajuanViewHolder, position: Int) {
-        val dataPengajuan = listPengajuan.get(position)
+        val dataPengajuan = listPengajuan[position]
         holder.binding.tvStatus.text = dataPengajuan.status
         holder.binding.tvJenisPengajuan.text = dataPengajuan.jenisPerizinan?.namaPerizinan
-        holder.itemView.setOnClickListener {
-            onClick(dataPengajuan)
+
+        holder.binding.btnView.setOnClickListener {
+            onClick(dataPengajuan, false)
+        }
+        holder.binding.btnEdit.setOnClickListener {
+            onClick(dataPengajuan, true)
         }
     }
 

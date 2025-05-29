@@ -10,7 +10,7 @@ import com.example.e_permoziapp.core.util.ImageHelper
 import com.example.e_permoziapp.domain.Entity.ImageSelectModel
 import com.example.e_permoziapp.domain.usecase.auth.RegisterUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateEmailUseCase
-import com.example.e_permoziapp.domain.usecase.auth.ValidateFileUploadUseCase
+import com.example.e_permoziapp.domain.usecase.common.ValidateFileUploadUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateFormTextUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateMobileNumberUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidatePasswordUseCase

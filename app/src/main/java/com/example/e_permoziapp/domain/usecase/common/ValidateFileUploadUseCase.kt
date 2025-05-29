@@ -1,4 +1,4 @@
-package com.example.e_permoziapp.domain.usecase.auth
+package com.example.e_permoziapp.domain.usecase.common
 
 import com.example.e_permoziapp.core.util.FileHelper
 

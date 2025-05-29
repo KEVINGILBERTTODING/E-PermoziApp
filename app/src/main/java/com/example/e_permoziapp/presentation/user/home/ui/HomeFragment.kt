@@ -83,9 +83,10 @@ class HomeFragment : Fragment() {
     private fun initAdapter() {
         pengajuanAdapter = PengajuanAdapter(
             mutableListOf()
-        ){
+        ){ data, isEdit ->
             requireActivity().launchActivity<DetailPengajuanActivity>(
-                "id" to  it.id
+                "id" to  data.id,
+                "is_edit" to isEdit
             )
         }
         binding.rvPengajuan.adapter = pengajuanAdapter
