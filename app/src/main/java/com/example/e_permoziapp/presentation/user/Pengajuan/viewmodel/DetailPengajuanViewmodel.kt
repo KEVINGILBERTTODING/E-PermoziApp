@@ -9,9 +9,12 @@ import com.example.e_permoziapp.core.util.FileHelper
 import com.example.e_permoziapp.core.util.ImageHelper
 import com.example.e_permoziapp.data.pengajuan.model.UserPengajuanDetailModel
 import com.example.e_permoziapp.domain.Entity.FileSelectModel
+import com.example.e_permoziapp.domain.usecase.auth.GetUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.common.DownloadFileUseCase
 import com.example.e_permoziapp.domain.usecase.common.ValidateFileUploadUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanDetailUseCase
+import com.example.e_permoziapp.domain.usecase.pengajuan.UpdatePengajuanUseCase
+import com.example.e_permoziapp.domain.usecase.pengajuan.ValidatePengajuanUseCase
 import com.example.e_permoziapp.presentation.common.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -25,7 +28,10 @@ import java.io.File
 class DetailPengajuanViewmodel(
     private val getPengajuanDetailUseCase: GetPengajuanDetailUseCase,
     private val downloadFileUseCase: DownloadFileUseCase,
-    private val validateFileUploadUseCase: ValidateFileUploadUseCase
+    private val validateFileUploadUseCase: ValidateFileUploadUseCase,
+    private val getUserIdUseCase: GetUserIdUseCase,
+    private val validatePengajuanUseCase: ValidatePengajuanUseCase,
+    private val updatePengajuanUseCase: UpdatePengajuanUseCase
 ): ViewModel() {
     private val _detailPengajuanState = MutableStateFlow<UiState<UserPengajuanDetailModel>>(UiState.Idle)
     val detailPengajuanState: StateFlow<UiState<UserPengajuanDetailModel>> = _detailPengajuanState
@@ -34,7 +40,10 @@ class DetailPengajuanViewmodel(
     private val _fileSelectedState = MutableStateFlow<UiState<FileSelectModel>>(UiState.Idle)
     val fileSelectedState: StateFlow<UiState<FileSelectModel>> = _fileSelectedState
     var pengajuanId = 0
-    var currentPosId = Pair<Int, Int>(-1, -1) // CURRENT POSITION AND ID PERSYARATAN
+    var currentPosId = Pair<Int, Int>(-1, -1) // [1] CURRENT POSITION [2] ID PERSYARATAN
+    var fileSelectedModlList = mutableListOf<FileSelectModel>()
+    private val _updateDataState = MutableStateFlow<UiState<Unit>>(UiState.Idle)
+    val updateDataState: StateFlow<UiState<Unit>> = _updateDataState
 
 
      fun getDetailPengajuan(id: Int) {
@@ -72,7 +81,7 @@ class DetailPengajuanViewmodel(
                 val byteArray = if (ImageHelper.isImageUri(context, uri)) ImageHelper.uriToBitmap(context, uri)
                 else FileHelper.uriToByteArray(context, uri)
 
-                val validateResponse = validateFileUploadUseCase.invoke(key, fileName, format, byteArray)
+                val validateResponse = validateFileUploadUseCase(key, fileName, format, byteArray, true)
                 if (validateResponse.isSuccess) {
                     val filePersyaratanFix = FileSelectModel(uri, fileName, format, byteArray, key)
                     _fileSelectedState.emit(UiState.Success(filePersyaratanFix))
@@ -85,5 +94,45 @@ class DetailPengajuanViewmodel(
                 _fileSelectedState.emit(UiState.Error("File tidak valid"))
             }
         }
+    }
+
+    fun validateUpdateData() {
+        viewModelScope.launch {
+            val userId = getUserIdUseCase.invoke()
+            val dataPengajuan = if (detailPengajuanState.value is UiState.Success) {
+                (detailPengajuanState.value as UiState.Success).data
+            }else {
+                null
+            }
+            val pengajuanId = dataPengajuan?.dataPengajuan?.id ?: -1
+            val jenisPerizinanId = dataPengajuan?.dataJenisPersyaratan?.id ?: -1
+            val filePersyaratanList = fileSelectedModlList.filter {
+                it.key.isNullOrEmpty().not() && it.byteArray != null
+            }
+
+            if (filePersyaratanList.isEmpty()) {
+                return@launch _updateDataState.emit(UiState.Error("Anda belum memilih file"))
+            }
+            val validateResponse = validatePengajuanUseCase(userId, pengajuanId, jenisPerizinanId, true)
+            if (validateResponse.isSuccess) {
+                updateData(userId, pengajuanId, jenisPerizinanId, filePersyaratanList)
+            }else {
+                _updateDataState.emit(UiState.Error(validateResponse.exceptionOrNull()?.message ?: Constant.somethingWrong))
+            }
+        }
+    }
+
+    fun updateData(userId: Int, pengajuanId: Int, jenisPerizinanId: Int,
+                           filePersyaratanList: List<FileSelectModel>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _updateDataState.emit(UiState.Loading)
+            val response = updatePengajuanUseCase(userId, pengajuanId, jenisPerizinanId, filePersyaratanList)
+            if (response.isSuccess) {
+                _updateDataState.emit(UiState.Success(Unit))
+            }else {
+                _updateDataState.emit(UiState.Error(response.exceptionOrNull()?.message ?: Constant.somethingWrong))
+            }
+        }
+
     }
 }

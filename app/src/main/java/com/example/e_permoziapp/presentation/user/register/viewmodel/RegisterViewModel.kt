@@ -49,7 +49,7 @@ class RegisterViewModel(
             val uriKtp = imgSelected.value.uri
             val ktpBteArray = ImageHelper.uriToBitmap(context, uriKtp)
             val fileFormat = FileHelper.getMimeTypeFromUri(context, uriKtp)
-            val fileUploadUseCase = validateFileUploadUseCase.invoke("ktp", imgSelected.value.fileName, fileFormat, ktpBteArray)
+            val fileUploadUseCase = validateFileUploadUseCase.invoke("ktp", imgSelected.value.fileName, fileFormat, ktpBteArray, true)
 
             if (validateEmail.isFailure) {
                 _uiState.emit(UiState.Error(validateEmail.exceptionOrNull()?.message ?: "Email tidak valid"))

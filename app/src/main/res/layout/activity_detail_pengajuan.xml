@@ -16,6 +16,7 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:id="@+id/swipeRefresh"
+        android:layout_above="@+id/btnSave"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -24,5 +25,13 @@
             android:layout_height="match_parent"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:text="Simpan Perubahan"/>
 
 </RelativeLayout>

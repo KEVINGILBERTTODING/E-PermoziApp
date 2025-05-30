@@ -3,7 +3,8 @@ package com.example.e_permoziapp.domain.usecase.common
 import com.example.e_permoziapp.core.util.FileHelper
 
 class ValidateFileUploadUseCase {
-    operator fun invoke(key: String?, fileName: String?, format: String?, byteArray: ByteArray?): Result<String> {
+    operator fun invoke(key: String?, fileName: String?, format: String?, byteArray: ByteArray?, isRequired: Boolean): Result<String> {
+        if (isRequired.not()) return Result.success("success")
         if (key.isNullOrEmpty()) {
             return Result.failure(Exception("Nama file tidak valid"))
         }

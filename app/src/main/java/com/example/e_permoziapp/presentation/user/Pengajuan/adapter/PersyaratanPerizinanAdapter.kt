@@ -11,7 +11,7 @@ import com.example.e_permoziapp.domain.Entity.FileSelectModel
 class PersyaratanPerizinanAdapter(
     private var persyaratanList: MutableList<PersyaratanPerizinanModel>,
     private val isEdit: Boolean,
-    private val fileSelectedList: MutableList<FileSelectModel?>,
+    private val fileSelectedList: MutableList<FileSelectModel>,
     private val onClick: (PersyaratanPerizinanModel) -> Unit,
     private val chooseFileClick: (Pair<Int, Int>) -> Unit
 ): RecyclerView.Adapter<PersyaratanPerizinanAdapter.ViewHolder>() {
@@ -63,7 +63,7 @@ class PersyaratanPerizinanAdapter(
         persyaratanList.clear()
         fileSelectedList.clear()
         persyaratanList.addAll(dataList)
-        fileSelectedList.addAll(dataList.map { null })
+        fileSelectedList.addAll(List(dataList.size) { FileSelectModel(null, "", "", null) })
         notifyDataSetChanged()
     }
 }

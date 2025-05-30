@@ -46,12 +46,17 @@ class DetailPengajuanActivity : AppCompatActivity() {
         binding.swipeRefresh.setOnRefreshListener {
             getDetailPengajuan()
         }
+        binding.btnSave.setOnClickListener {
+            viewmodel.validateUpdateData()
+        }
     }
 
     private fun onCollectUiState() {
         lifecycleScope.launch {
             viewmodel.detailPengajuanState.collect {
                 binding.swipeRefresh.isRefreshing = false
+                viewmodel.fileSelectedModlList.clear()
+                binding.btnSave.visibility = View.GONE
                 when(val state = it) {
                     is UiState.Loading -> {
                         setLoadingView()
@@ -101,6 +106,7 @@ class DetailPengajuanActivity : AppCompatActivity() {
                 when(val state = it) {
                     is UiState.Success -> {
                         adapter.updateFilePersyaratan(state.data, viewmodel.currentPosId.first)
+                        binding.btnSave.visibility = View.VISIBLE
                     }
                     is UiState.Error -> {
                         Toast.makeText(this@DetailPengajuanActivity, state.message, Toast.LENGTH_SHORT).show()
@@ -117,6 +123,28 @@ class DetailPengajuanActivity : AppCompatActivity() {
                 viewmodel.validateFileSelected(uri, this@DetailPengajuanActivity)
             }
         }
+
+        lifecycleScope.launch {
+            viewmodel.updateDataState.collect {
+                when(val state = it) {
+                    is UiState.Loading -> {
+                        Toast.makeText(this@DetailPengajuanActivity, "Mengupdate data...", Toast.LENGTH_SHORT).show()
+                    }
+                    is UiState.Success -> {
+                        Toast.makeText(
+                            this@DetailPengajuanActivity,
+                            "Update berhasil",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    }
+                    is UiState.Error -> {
+                        Toast.makeText(this@DetailPengajuanActivity, state.message, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     private fun getDetailPengajuan() {
@@ -124,7 +152,7 @@ class DetailPengajuanActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        adapter = PersyaratanPerizinanAdapter(mutableListOf(), isEdit, mutableListOf(),
+        adapter = PersyaratanPerizinanAdapter(mutableListOf(), isEdit, viewmodel.fileSelectedModlList,
             {
             val url = "${ServerInfo.FILE_PATH_PERSYARATAN}${it.content}"
             Timber.w(url)
@@ -154,6 +182,7 @@ class DetailPengajuanActivity : AppCompatActivity() {
 
     private fun initUi(){
         if (viewmodel.pengajuanId < 1) finish()
+        binding.btnSave.visibility = View.GONE
     }
 
     private fun setLoadingView() {

@@ -5,10 +5,12 @@ import com.example.e_permoziapp.data.common.model.ResponseApiModel
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanRequestModel
 import com.example.e_permoziapp.data.pengajuan.model.UserPengajuanDetailModel
+import com.example.e_permoziapp.domain.Entity.FileSelectModel
 import com.example.e_permoziapp.domain.remote.PengajuanService
 import com.example.e_permoziapp.domain.repository.PengajuanRepository
 import io.ktor.client.call.body
 import io.ktor.http.HttpStatusCode
+import timber.log.Timber
 
 class PengajuanRepositoryImpl(
     private val pengajuanService: PengajuanService
@@ -51,6 +53,28 @@ class PengajuanRepositoryImpl(
 
         }catch (e: Exception) {
             Result.failure(e)
+        }
+    }
+
+    override suspend fun updatePengajuan(
+        userId: Int,
+        pengajuanId: Int,
+        jenisPerizinanId: Int,
+        filePersyaratanList: List<FileSelectModel>
+    ): Result<Unit> {
+        return try {
+            val response = pengajuanService.updatePengajuan(userId, pengajuanId, jenisPerizinanId, filePersyaratanList)
+            val body = response.body<ResponseApiModel<Unit>>()
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    Result.success(Unit)
+                }else -> {
+                    Result.failure(Exception(body.message))
+                }
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
+            Result.failure(Exception(e.message))
         }
     }
 
