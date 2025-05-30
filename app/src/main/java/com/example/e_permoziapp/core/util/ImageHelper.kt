@@ -20,7 +20,7 @@ object ImageHelper {
         }else {
             bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uriClear)
         }
-        return compressBitmapToByteArray(bitmap, 80)
+        return compressBitmapToByteArray(bitmap, 50)
     }
 
     fun compressBitmapToByteArray(bitmap: Bitmap?, quality: Int): ByteArray? {
