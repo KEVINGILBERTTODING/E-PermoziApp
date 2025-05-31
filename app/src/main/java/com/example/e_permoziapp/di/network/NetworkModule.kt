@@ -3,10 +3,12 @@ package com.example.e_permoziapp.di.network
 import com.example.e_permoziapp.domain.remote.LoginService
 import com.example.e_permoziapp.data.login.remote.LoginServiceImpl
 import com.example.e_permoziapp.data.pengajuan.remote.PengajuanServiceImpl
+import com.example.e_permoziapp.data.perizinan.remote.PerizinanServiceImpl
 import com.example.e_permoziapp.domain.remote.RegisterService
 import com.example.e_permoziapp.data.register.remote.RegisterServiceImpl
 import com.example.e_permoziapp.data.user.remote.UserServiceImpl
 import com.example.e_permoziapp.domain.remote.PengajuanService
+import com.example.e_permoziapp.domain.remote.PerizinanService
 import com.example.e_permoziapp.domain.remote.UserService
 import com.example.e_permoziapp.domain.usecase.auth.LogoutUseCase
 import io.ktor.client.HttpClient
@@ -51,4 +53,5 @@ val networkModule = module {
     single<RegisterService> { RegisterServiceImpl(get()) }
     single<UserService> { UserServiceImpl(get()) }
     single<PengajuanService> { PengajuanServiceImpl(get()) }
+    single<PerizinanService> { PerizinanServiceImpl(get()) }
 }

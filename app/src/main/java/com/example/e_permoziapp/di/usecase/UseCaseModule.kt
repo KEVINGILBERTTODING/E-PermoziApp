@@ -21,6 +21,7 @@ import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanByUserIdUse
 import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanDetailUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.UpdatePengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidatePengajuanUseCase
+import com.example.e_permoziapp.domain.usecase.perizinan.GetJenisPeriziananUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -45,4 +46,5 @@ val useCaseModule = module {
     factory { DownloadFileUseCase(get())}
     factory { ValidatePengajuanUseCase()}
     factory { UpdatePengajuanUseCase( get())}
+    factory { GetJenisPeriziananUseCase( get())}
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_height="match_parent">
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/pilih_perizinan"
+        android:layout_height="wrap_content"/>
+    <include
+        android:id="@+id/skeletonJenisPerizinan"
+        layout="@layout/item_jenis_perizinan_skeleton"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        tools:listitem="@layout/item_jenis_perizinan"
+        android:id="@+id/rvJenisPerizinan"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
