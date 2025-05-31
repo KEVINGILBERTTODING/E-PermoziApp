@@ -113,6 +113,10 @@ class DetailPengajuanViewmodel(
             if (filePersyaratanList.isEmpty()) {
                 return@launch _updateDataState.emit(UiState.Error("Anda belum memilih file"))
             }
+
+            filePersyaratanList.forEach{
+                Timber.w("file list= ${it.filename}")
+            }
             val validateResponse = validatePengajuanUseCase(userId, pengajuanId, jenisPerizinanId, true)
             if (validateResponse.isSuccess) {
                 updateData(userId, pengajuanId, jenisPerizinanId, filePersyaratanList)

@@ -17,7 +17,7 @@ object FileHelper {
                context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
                    val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
                    if (cursor.moveToFirst() && nameIndex != -1) {
-                       return cursor.getString(nameIndex)
+                       return clearFileName(cursor.getString(nameIndex))
                    }
                }
            }
@@ -67,6 +67,12 @@ object FileHelper {
             e.printStackTrace()
             null
         }
+    }
+
+    fun clearFileName(filename: String?): String {
+        if (filename.isNullOrEmpty()) return ""
+        val cleaned = filename.replace(Regex("[^A-Za-z0-9._-]"), "_")
+        return cleaned.trim()
     }
 
 }
