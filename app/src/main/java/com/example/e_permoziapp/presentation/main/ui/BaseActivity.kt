@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 open class BaseActivity : AppCompatActivity() {
-    private val baseViewmodel: BaseViewmodel by viewModel()
+    val baseViewmodel: BaseViewmodel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         collectUiState()
@@ -25,7 +25,7 @@ open class BaseActivity : AppCompatActivity() {
 
     }
 
-    private fun logOut() {
+    fun logOut() {
         baseViewmodel.logOut()
         launchActivity<LoginActivity>(
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

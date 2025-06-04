@@ -40,5 +40,6 @@ class PengajuanAdapter(
     fun updateData(params: List<PengajuanModel>) {
         listPengajuan.clear()
         listPengajuan.addAll(params)
+        notifyDataSetChanged()
     }
 }

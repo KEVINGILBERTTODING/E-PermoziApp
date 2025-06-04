@@ -78,4 +78,25 @@ class PengajuanRepositoryImpl(
         }
     }
 
+    override suspend fun submitPengajuan(
+        userId: Int,
+        jenisPerizinanId: Int,
+        filePersyaratanList: List<FileSelectModel>
+    ): Result<Unit> {
+        return try {
+            val response = pengajuanService.submitPengajuan(userId, jenisPerizinanId, filePersyaratanList)
+            val body = response.body<ResponseApiModel<Nothing>>()
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    Result.success(Unit)
+                }else -> {
+                    Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }
+            }
+
+        }catch (e: Exception) {
+            Result.failure(Exception(e.message))
+        }
+    }
+
 }

@@ -9,4 +9,6 @@ interface PengajuanService {
     suspend fun getPengajuanDetail(params: Int) : HttpResponse
     suspend fun updatePengajuan( userId: Int,pengajuanId: Int,jenisPerizinanId: Int,
                                  filePersyaratanList: List<FileSelectModel>) : HttpResponse
+    suspend fun submitPengajuan( userId: Int, jenisPerizinanId: Int,
+                                 filePersyaratanList: List<FileSelectModel>) : HttpResponse
 }

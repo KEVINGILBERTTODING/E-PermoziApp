@@ -19,7 +19,9 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class JenisPerizinanPickerBottomSheet: BottomSheetDialogFragment() {
+class JenisPerizinanPickerBottomSheet(
+    private val onClick: (Int) -> Unit
+): BottomSheetDialogFragment() {
     private val homeViewmodel: HomeViewmodel by activityViewModel()
     private lateinit var binding: JenisPerizinanPickerLayoutBinding
     private lateinit var adapter: JenisPerizinanAdapter
@@ -42,7 +44,8 @@ class JenisPerizinanPickerBottomSheet: BottomSheetDialogFragment() {
 
     private fun init() {
         adapter = JenisPerizinanAdapter(mutableListOf()) {
-            Timber.w(it.namaPerizinan)
+            onClick(it.id)
+            dismiss()
         }
         binding.rvJenisPerizinan.adapter = adapter
         binding.rvJenisPerizinan.layoutManager = LinearLayoutManager(requireActivity())

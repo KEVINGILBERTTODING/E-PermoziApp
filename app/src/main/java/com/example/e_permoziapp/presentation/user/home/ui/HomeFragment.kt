@@ -51,8 +51,6 @@ class HomeFragment : Fragment() {
 
     }
 
-
-
     private fun getAllPengajuan() {
         viewmodel.getAllPengajuan()
     }
@@ -112,5 +110,8 @@ class HomeFragment : Fragment() {
         binding.rvPengajuan.visibility = View.GONE
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        getAllPengajuan()
+    }
 }

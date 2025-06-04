@@ -9,4 +9,6 @@ interface PengajuanRepository {
     suspend fun getPengajuanDetail(id: Int): Result<UserPengajuanDetailModel>
     suspend fun updatePengajuan(userId: Int, pengajuanId: Int, jenisPerizinanId: Int,
                                 filePersyaratanList: List<FileSelectModel>) : Result<Unit>
+    suspend fun submitPengajuan(userId: Int, jenisPerizinanId: Int,
+                                filePersyaratanList: List<FileSelectModel>) : Result<Unit>
 }

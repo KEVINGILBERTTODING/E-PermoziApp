@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import java.util.Locale
 
 
 class DetailPengajuanActivity : AppCompatActivity() {
@@ -64,7 +65,15 @@ class DetailPengajuanActivity : AppCompatActivity() {
                     is UiState.Success -> {
                         val dataPersyaratan = state.data.dataPersyaratan
                         if (!dataPersyaratan.isNullOrEmpty()) {
-                            adapter.updateData(dataPersyaratan)
+                            val dataFiltered = dataPersyaratan.filter { it.name.lowercase()
+                                .contains("ktp") }
+                            adapter.updateData(
+                                if (isEdit) {
+                                    dataFiltered
+                                }else {
+                                    dataPersyaratan
+                                }
+                            )
                             setSuccessView()
                         }else {
                             Toast.makeText(this@DetailPengajuanActivity, Constant.somethingWrong, Toast.LENGTH_SHORT)

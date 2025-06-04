@@ -56,4 +56,27 @@ class PengajuanServiceImpl(
         }
         return response
     }
+
+    override suspend fun submitPengajuan(
+        userId: Int,
+        jenisPerizinanId: Int,
+        filePersyaratanList: List<FileSelectModel>
+    ): HttpResponse {
+        val response = httpClient.submitFormWithBinaryData(
+            url = "${ServerInfo.BASE_URL}user/pengajuan/store",
+            formData = formData {
+                append("user_id", userId)
+                append("jenis_perizinan_id", jenisPerizinanId)
+                for (file in filePersyaratanList) {
+                    append(file.key!!, file.byteArray!!, Headers.build {
+                        append(HttpHeaders.ContentDisposition, "filename=${file.filename}")
+                        append(HttpHeaders.ContentType, file.format!!)
+                    })
+                }
+            }
+        ){
+            method = HttpMethod.Post
+        }
+        return response
+    }
 }

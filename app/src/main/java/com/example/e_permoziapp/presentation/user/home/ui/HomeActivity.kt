@@ -2,9 +2,12 @@ package com.example.e_permoziapp.presentation.user.home.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.databinding.ActivityHomeBinding
 import com.example.e_permoziapp.presentation.main.ui.BaseActivity
+import com.example.e_permoziapp.presentation.user.Pengajuan.ui.SubmitPengajuanActivity
 import com.example.e_permoziapp.presentation.user.home.component.JenisPerizinanPickerBottomSheet
+import timber.log.Timber
 
 class HomeActivity : BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -20,7 +23,12 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun init() {
-        jenisPerizinanPickerBottomSheet = JenisPerizinanPickerBottomSheet()
+        jenisPerizinanPickerBottomSheet = JenisPerizinanPickerBottomSheet {
+            Timber.w("id $it")
+            launchActivity<SubmitPengajuanActivity>(
+                "id" to it
+            )
+        }
     }
 
     private fun initUi() {

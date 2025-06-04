@@ -19,9 +19,13 @@ import com.example.e_permoziapp.domain.usecase.auth.ValidatePasswordUseCase
 import com.example.e_permoziapp.domain.usecase.common.DownloadFileUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanByUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanDetailUseCase
+import com.example.e_permoziapp.domain.usecase.pengajuan.SubmitPengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.UpdatePengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidatePengajuanUseCase
+import com.example.e_permoziapp.domain.usecase.pengajuan.ValidateSubmitFilePengajuan
+import com.example.e_permoziapp.domain.usecase.pengajuan.ValidateSubmitPengajuan
 import com.example.e_permoziapp.domain.usecase.perizinan.GetJenisPeriziananUseCase
+import com.example.e_permoziapp.domain.usecase.persyaratan.GetPersyaratanByJenisIdUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -47,4 +51,8 @@ val useCaseModule = module {
     factory { ValidatePengajuanUseCase()}
     factory { UpdatePengajuanUseCase( get())}
     factory { GetJenisPeriziananUseCase( get())}
+    factory { ValidateSubmitFilePengajuan( get())}
+    factory { ValidateSubmitPengajuan()}
+    factory { GetPersyaratanByJenisIdUseCase(get())}
+    factory { SubmitPengajuanUseCase(get())}
 }
