@@ -1,6 +1,7 @@
 package com.example.e_permoziapp.presentation.user.home.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
@@ -26,6 +27,8 @@ class PengajuanAdapter(
         val dataPengajuan = listPengajuan[position]
         holder.binding.tvStatus.text = dataPengajuan.status
         holder.binding.tvJenisPengajuan.text = dataPengajuan.jenisPerizinan?.namaPerizinan
+
+        holder.binding.btnEdit.visibility = if (dataPengajuan.isEdit!!) View.VISIBLE else View.GONE
 
         holder.binding.btnView.setOnClickListener {
             onClick(dataPengajuan, false)

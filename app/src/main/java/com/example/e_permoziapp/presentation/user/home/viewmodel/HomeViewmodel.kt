@@ -8,6 +8,7 @@ import com.example.e_permoziapp.data.perizinan.model.JenisPerizinanModel
 import com.example.e_permoziapp.domain.repository.PerizinanRepository
 import com.example.e_permoziapp.domain.usecase.auth.GetUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanByUserIdUseCase
+import com.example.e_permoziapp.domain.usecase.pengajuan.ValidatePengajuanDate
 import com.example.e_permoziapp.domain.usecase.perizinan.GetJenisPeriziananUseCase
 import com.example.e_permoziapp.presentation.common.UiState
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 class HomeViewmodel(
     private val getUserIdUseCase: GetUserIdUseCase,
     private val pengajuanByUserIdUseCase: GetPengajuanByUserIdUseCase,
-    private val getJenisPeriziananUseCase: GetJenisPeriziananUseCase
+    private val getJenisPeriziananUseCase: GetJenisPeriziananUseCase,
+    private val validatePengajuanDate: ValidatePengajuanDate
 ): ViewModel() {
     private val _uiState = MutableStateFlow<UiState<List<PengajuanModel>?>>(UiState.Idle)
     val uiState: StateFlow<UiState<List<PengajuanModel>?>> = _uiState
@@ -34,7 +36,8 @@ class HomeViewmodel(
                 val response = pengajuanByUserIdUseCase.invoke(userId)
                 val dataPengajuan = response.getOrNull()
                 if (response.isSuccess) {
-                    _uiState.emit(UiState.Success(dataPengajuan))
+                    val filteredData = dataPengajuan?.map { it.copy(isEdit = validatePengajuanDate(it.createdAt)) }
+                    _uiState.emit(UiState.Success(filteredData))
                 }else {
                     _uiState.emit(UiState.Error(response.exceptionOrNull()?.message ?: Constant.somethingWrong))
                 }

@@ -66,7 +66,7 @@ class DetailPengajuanActivity : AppCompatActivity() {
                         val dataPersyaratan = state.data.dataPersyaratan
                         if (!dataPersyaratan.isNullOrEmpty()) {
                             val dataFiltered = dataPersyaratan.filter { it.name.lowercase()
-                                .contains("ktp") }
+                                .contains("ktp").not() }
                             adapter.updateData(
                                 if (isEdit) {
                                     dataFiltered

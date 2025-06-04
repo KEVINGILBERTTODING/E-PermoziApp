@@ -21,6 +21,7 @@ import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanByUserIdUse
 import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanDetailUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.SubmitPengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.UpdatePengajuanUseCase
+import com.example.e_permoziapp.domain.usecase.pengajuan.ValidatePengajuanDate
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidatePengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidateSubmitFilePengajuan
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidateSubmitPengajuan
@@ -55,4 +56,5 @@ val useCaseModule = module {
     factory { ValidateSubmitPengajuan()}
     factory { GetPersyaratanByJenisIdUseCase(get())}
     factory { SubmitPengajuanUseCase(get())}
+    factory { ValidatePengajuanDate()}
 }
