@@ -50,6 +50,9 @@ class DetailPengajuanActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             viewmodel.validateUpdateData()
         }
+        binding.btnDelete.setOnClickListener {
+            viewmodel.destroyPengajuan()
+        }
     }
 
     private fun onCollectUiState() {
@@ -58,35 +61,48 @@ class DetailPengajuanActivity : AppCompatActivity() {
                 binding.swipeRefresh.isRefreshing = false
                 viewmodel.fileSelectedModlList.clear()
                 binding.btnSave.visibility = View.GONE
-                when(val state = it) {
+                when (val state = it) {
                     is UiState.Loading -> {
                         setLoadingView()
                     }
+
                     is UiState.Success -> {
                         val dataPersyaratan = state.data.dataPersyaratan
                         if (!dataPersyaratan.isNullOrEmpty()) {
-                            val dataFiltered = dataPersyaratan.filter { it.name.lowercase()
-                                .contains("ktp").not() }
+                            val dataFiltered = dataPersyaratan.filter {
+                                it.name.lowercase()
+                                    .contains("ktp").not()
+                            }
                             adapter.updateData(
                                 if (isEdit) {
                                     dataFiltered
-                                }else {
+                                } else {
                                     dataPersyaratan
                                 }
                             )
                             setSuccessView()
-                        }else {
-                            Toast.makeText(this@DetailPengajuanActivity, Constant.somethingWrong, Toast.LENGTH_SHORT)
+                        } else {
+                            Toast.makeText(
+                                this@DetailPengajuanActivity,
+                                Constant.somethingWrong,
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                             finish()
                         }
                     }
+
                     is UiState.Error -> {
                         setErrorView()
-                        Toast.makeText(this@DetailPengajuanActivity, state.message, Toast.LENGTH_SHORT)
+                        Toast.makeText(
+                            this@DetailPengajuanActivity,
+                            state.message,
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
                         finish()
                     }
+
                     else -> {}
                 }
             }
@@ -94,17 +110,32 @@ class DetailPengajuanActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewmodel.downloadState.collect {
-                when(val state = it) {
+                when (val state = it) {
                     is UiState.Loading -> {
-                        Toast.makeText(this@DetailPengajuanActivity, "Mengunduh file...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@DetailPengajuanActivity,
+                            "Mengunduh file...",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+
                     is UiState.Success -> {
-                        Toast.makeText(this@DetailPengajuanActivity, "Download berhasil", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@DetailPengajuanActivity,
+                            "Download berhasil",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         FileHelper.openFile(this@DetailPengajuanActivity, state.data)
                     }
+
                     is UiState.Error -> {
-                        Toast.makeText(this@DetailPengajuanActivity, state.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@DetailPengajuanActivity,
+                            state.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+
                     else -> {}
                 }
             }
@@ -112,14 +143,20 @@ class DetailPengajuanActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewmodel.fileSelectedState.collect {
-                when(val state = it) {
+                when (val state = it) {
                     is UiState.Success -> {
                         adapter.updateFilePersyaratan(state.data, viewmodel.currentPosId.first)
                         binding.btnSave.visibility = View.VISIBLE
                     }
+
                     is UiState.Error -> {
-                        Toast.makeText(this@DetailPengajuanActivity, state.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@DetailPengajuanActivity,
+                            state.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+
                     else -> {}
                 }
             }
@@ -135,10 +172,15 @@ class DetailPengajuanActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewmodel.updateDataState.collect {
-                when(val state = it) {
+                when (val state = it) {
                     is UiState.Loading -> {
-                        Toast.makeText(this@DetailPengajuanActivity, "Mengupdate data...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@DetailPengajuanActivity,
+                            "Mengupdate data...",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+
                     is UiState.Success -> {
                         Toast.makeText(
                             this@DetailPengajuanActivity,
@@ -147,9 +189,44 @@ class DetailPengajuanActivity : AppCompatActivity() {
                         ).show()
                         finish()
                     }
+
                     is UiState.Error -> {
-                        Toast.makeText(this@DetailPengajuanActivity, state.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@DetailPengajuanActivity,
+                            state.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+
+                    else -> {}
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewmodel.destroyState.collect {
+                when (val state = it) {
+                    is UiState.Loading -> {
+                        Toast.makeText(this@DetailPengajuanActivity, "Loading", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    is UiState.Success -> {
+                        Toast.makeText(
+                            this@DetailPengajuanActivity,
+                            "Data berhasil dihapus",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    }
+
+                    is UiState.Error -> {
+                        Toast.makeText(
+                            this@DetailPengajuanActivity,
+                            state.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
                     else -> {}
                 }
             }
@@ -191,6 +268,7 @@ class DetailPengajuanActivity : AppCompatActivity() {
 
     private fun initUi(){
         if (viewmodel.pengajuanId < 1) finish()
+        binding.lrAction.visibility = if (isEdit) View.VISIBLE else View.GONE
         binding.btnSave.visibility = View.GONE
     }
 

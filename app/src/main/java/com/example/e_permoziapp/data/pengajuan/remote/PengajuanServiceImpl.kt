@@ -6,6 +6,7 @@ import com.example.e_permoziapp.data.pengajuan.model.PengajuanRequestModel
 import com.example.e_permoziapp.domain.Entity.FileSelectModel
 import com.example.e_permoziapp.domain.remote.PengajuanService
 import io.ktor.client.HttpClient
+import io.ktor.client.request.delete
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.client.request.get
@@ -78,5 +79,9 @@ class PengajuanServiceImpl(
             method = HttpMethod.Post
         }
         return response
+    }
+
+    override suspend fun destroyPengajuan(id: Int): HttpResponse {
+        return httpClient.delete("${ServerInfo.BASE_URL}pengajuan/destroy/$id")
     }
 }

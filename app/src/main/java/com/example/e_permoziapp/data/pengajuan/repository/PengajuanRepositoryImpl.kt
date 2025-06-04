@@ -99,4 +99,21 @@ class PengajuanRepositoryImpl(
         }
     }
 
+    override suspend fun destroyPengajuan(id: Int): Result<Unit> {
+        return try {
+            val response = pengajuanService.destroyPengajuan(id)
+            val body = response.body<ResponseApiModel<Nothing>>()
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    Result.success(Unit)
+                }else -> {
+                    Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }
+            }
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure(Exception(e.message))
+        }
+    }
+
 }

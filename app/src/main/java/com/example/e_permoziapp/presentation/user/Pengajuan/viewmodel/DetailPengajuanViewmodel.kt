@@ -12,6 +12,7 @@ import com.example.e_permoziapp.domain.Entity.FileSelectModel
 import com.example.e_permoziapp.domain.usecase.auth.GetUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.common.DownloadFileUseCase
 import com.example.e_permoziapp.domain.usecase.common.ValidateFileUploadUseCase
+import com.example.e_permoziapp.domain.usecase.pengajuan.DestroyPengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanDetailUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.UpdatePengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidatePengajuanUseCase
@@ -31,7 +32,8 @@ class DetailPengajuanViewmodel(
     private val validateFileUploadUseCase: ValidateFileUploadUseCase,
     private val getUserIdUseCase: GetUserIdUseCase,
     private val validatePengajuanUseCase: ValidatePengajuanUseCase,
-    private val updatePengajuanUseCase: UpdatePengajuanUseCase
+    private val updatePengajuanUseCase: UpdatePengajuanUseCase,
+    private val destroyPengajuanUseCase: DestroyPengajuanUseCase
 ): ViewModel() {
     private val _detailPengajuanState = MutableStateFlow<UiState<UserPengajuanDetailModel>>(UiState.Idle)
     val detailPengajuanState: StateFlow<UiState<UserPengajuanDetailModel>> = _detailPengajuanState
@@ -44,6 +46,8 @@ class DetailPengajuanViewmodel(
     var fileSelectedModlList = mutableListOf<FileSelectModel>()
     private val _updateDataState = MutableStateFlow<UiState<Unit>>(UiState.Idle)
     val updateDataState: StateFlow<UiState<Unit>> = _updateDataState
+    private val _destroyState = MutableStateFlow<UiState<Unit>>(UiState.Idle)
+    val destroyState: StateFlow<UiState<Unit>> = _destroyState
 
 
      fun getDetailPengajuan(id: Int) {
@@ -138,5 +142,15 @@ class DetailPengajuanViewmodel(
             }
         }
 
+    }
+
+    fun destroyPengajuan() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _destroyState.emit(UiState.Loading)
+            val response = destroyPengajuanUseCase(pengajuanId)
+            response
+                .onSuccess { _destroyState.emit(UiState.Success(Unit)) }
+                .onFailure { _destroyState.emit(UiState.Error(it.message ?: Constant.somethingWrong)) }
+        }
     }
 }

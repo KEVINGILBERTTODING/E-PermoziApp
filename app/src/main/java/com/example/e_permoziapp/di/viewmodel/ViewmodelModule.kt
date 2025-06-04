@@ -16,6 +16,6 @@ val viewmodelModule = module {
     viewModel { SplashViewmodel(get()) }
     viewModel { BaseViewmodel(get(), get(), get()) }
     viewModel { HomeViewmodel(get(), get(), get(), get()) }
-    viewModel { DetailPengajuanViewmodel(get(), get(), get(), get(), get(), get()) }
+    viewModel { DetailPengajuanViewmodel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SubmitPengajuanViewmodel(get(), get(), get(), get(), get(), get()) }
 }

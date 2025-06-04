@@ -11,4 +11,5 @@ interface PengajuanRepository {
                                 filePersyaratanList: List<FileSelectModel>) : Result<Unit>
     suspend fun submitPengajuan(userId: Int, jenisPerizinanId: Int,
                                 filePersyaratanList: List<FileSelectModel>) : Result<Unit>
+    suspend fun destroyPengajuan(id: Int): Result<Unit>
 }
