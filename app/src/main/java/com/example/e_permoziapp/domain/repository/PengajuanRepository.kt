@@ -2,6 +2,7 @@ package com.example.e_permoziapp.domain.repository
 
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
 import com.example.e_permoziapp.data.pengajuan.model.UserPengajuanDetailModel
+import com.example.e_permoziapp.data.pengajuan.model.UserProfilePengajuanModel
 import com.example.e_permoziapp.domain.Entity.FileSelectModel
 
 interface PengajuanRepository {
@@ -12,4 +13,5 @@ interface PengajuanRepository {
     suspend fun submitPengajuan(userId: Int, jenisPerizinanId: Int,
                                 filePersyaratanList: List<FileSelectModel>) : Result<Unit>
     suspend fun destroyPengajuan(id: Int): Result<Unit>
+    suspend fun getUserProfilePengajuan(userId: Int): Result<UserProfilePengajuanModel>
 }

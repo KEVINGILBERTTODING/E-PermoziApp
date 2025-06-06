@@ -84,4 +84,8 @@ class PengajuanServiceImpl(
     override suspend fun destroyPengajuan(id: Int): HttpResponse {
         return httpClient.delete("${ServerInfo.BASE_URL}pengajuan/destroy/$id")
     }
+
+    override suspend fun getUserProfilePengajuan(userId: Int): HttpResponse {
+        return httpClient.get("${ServerInfo.BASE_URL}user/profile/pengajuan/$userId")
+    }
 }

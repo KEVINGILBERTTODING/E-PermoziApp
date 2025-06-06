@@ -1,4 +1,5 @@
 package com.example.e_permoziapp.presentation.user.Pengajuan.ui
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -11,13 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.core.constant.ServerInfo
 import com.example.e_permoziapp.core.extention.getIntentExtraOrDefault
+import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.core.util.FileHelper
 import com.example.e_permoziapp.core.util.ImageHelper
 import com.example.e_permoziapp.databinding.ActivityDetailPengajuanBinding
 import com.example.e_permoziapp.domain.Entity.FileSelectModel
 import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.main.ui.BaseActivity
 import com.example.e_permoziapp.presentation.user.Pengajuan.adapter.PersyaratanPerizinanAdapter
 import com.example.e_permoziapp.presentation.user.Pengajuan.viewmodel.DetailPengajuanViewmodel
+import com.example.e_permoziapp.presentation.user.home.ui.HomeActivity
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,11 +29,12 @@ import timber.log.Timber
 import java.util.Locale
 
 
-class DetailPengajuanActivity : AppCompatActivity() {
+class DetailPengajuanActivity : BaseActivity() {
     private lateinit var binding: ActivityDetailPengajuanBinding
     private lateinit var adapter: PersyaratanPerizinanAdapter
     private val viewmodel: DetailPengajuanViewmodel by viewModel()
     private var isEdit = false
+    private var isFromProfile = false
     private lateinit var filePickerLauncher: ActivityResultLauncher<Array<String>>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -216,6 +221,10 @@ class DetailPengajuanActivity : AppCompatActivity() {
                             "Data berhasil dihapus",
                             Toast.LENGTH_SHORT
                         ).show()
+                        launchActivity<HomeActivity>(
+                            "is_from_profile" to  isFromProfile,
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK,
+                        )
                         finish()
                     }
 
@@ -264,11 +273,12 @@ class DetailPengajuanActivity : AppCompatActivity() {
     private fun init() {
         viewmodel.pengajuanId = getIntentExtraOrDefault("id", 0)
         isEdit = getIntentExtraOrDefault("is_edit", false)
+        isFromProfile = getIntentExtraOrDefault("is_from_profile", false)
     }
 
     private fun initUi(){
         if (viewmodel.pengajuanId < 1) finish()
-        binding.lrAction.visibility = if (isEdit) View.VISIBLE else View.GONE
+        binding.lrBottom.visibility = if (isEdit) View.VISIBLE else View.GONE
         binding.btnSave.visibility = View.GONE
     }
 

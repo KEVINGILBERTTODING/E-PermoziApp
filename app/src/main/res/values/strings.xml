@@ -13,4 +13,9 @@
     <string name="unduh_file">Unduh File</string>
     <string name="pilih_file">Pilih File</string>
     <string name="pilih_perizinan">Pilih Perizinan</string>
+    <string name="balasan">Balasan</string>
+    <string name="success">Success</string>
+    <string name="process">Process</string>
+    <string name="failed">Ditolak</string>
+    <string name="data_empty">Data tidak ditemukan</string>
 </resources>

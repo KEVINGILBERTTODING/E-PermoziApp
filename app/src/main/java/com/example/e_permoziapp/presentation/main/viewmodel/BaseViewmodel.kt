@@ -37,7 +37,7 @@ class BaseViewmodel(
         }
     }
 
-    private suspend fun getUserData() {
+    private fun getUserData() {
         viewModelScope.launch(Dispatchers.IO) {
             val userId = getUserIdUseCase.invoke()
             if (userId < 1) {

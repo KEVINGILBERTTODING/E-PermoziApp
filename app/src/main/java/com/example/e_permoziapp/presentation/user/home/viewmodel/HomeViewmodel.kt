@@ -36,7 +36,7 @@ class HomeViewmodel(
                 val response = pengajuanByUserIdUseCase.invoke(userId)
                 val dataPengajuan = response.getOrNull()
                 if (response.isSuccess) {
-                    val filteredData = dataPengajuan?.map { it.copy(isEdit = validatePengajuanDate(it.createdAt)) }
+                    val filteredData = dataPengajuan?.map { it.copy(isEdit = validatePengajuanDate(it.createdAt, it.status)) }
                     _uiState.emit(UiState.Success(filteredData))
                 }else {
                     _uiState.emit(UiState.Error(response.exceptionOrNull()?.message ?: Constant.somethingWrong))

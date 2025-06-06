@@ -12,4 +12,5 @@ interface PengajuanService {
     suspend fun submitPengajuan(userId: Int, jenisPerizinanId: Int,
                                  filePersyaratanList: List<FileSelectModel>) : HttpResponse
     suspend fun destroyPengajuan(id: Int) : HttpResponse
+    suspend fun getUserProfilePengajuan(userId: Int): HttpResponse
 }

@@ -1,5 +1,6 @@
 package com.example.e_permoziapp.presentation.user.Pengajuan.ui
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -15,11 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_permoziapp.R
 import com.example.e_permoziapp.core.constant.ServerInfo
 import com.example.e_permoziapp.core.extention.getExtraOrDefault
+import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.databinding.ActivitySubmitPengajuanBinding
 import com.example.e_permoziapp.presentation.common.UiState
 import com.example.e_permoziapp.presentation.main.ui.BaseActivity
 import com.example.e_permoziapp.presentation.user.Pengajuan.adapter.PersyaratanPerizinanAdapter
 import com.example.e_permoziapp.presentation.user.Pengajuan.viewmodel.SubmitPengajuanViewmodel
+import com.example.e_permoziapp.presentation.user.home.ui.HomeActivity
+import com.example.e_permoziapp.presentation.user.login.ui.LoginActivity
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinApplication.Companion.init
@@ -122,6 +126,9 @@ class SubmitPengajuanActivity : BaseActivity() {
                     }
                     is UiState.Success -> {
                         Toast.makeText(this@SubmitPengajuanActivity, "Berhasil submit pengajuan", Toast.LENGTH_SHORT).show()
+                        launchActivity<HomeActivity>(
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        )
                         finish()
                     }
                     else -> {}
@@ -136,7 +143,6 @@ class SubmitPengajuanActivity : BaseActivity() {
         binding.btnSave.setOnClickListener {
             viewmodel.validateSubmitForm()
         }
-
     }
 
     private fun initUi() {

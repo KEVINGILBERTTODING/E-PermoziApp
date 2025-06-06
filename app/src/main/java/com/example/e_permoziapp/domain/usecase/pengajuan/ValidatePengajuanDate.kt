@@ -4,10 +4,10 @@ import java.time.Duration
 import java.time.Instant
 
 class ValidatePengajuanDate {
-    operator fun invoke(timeStamp: String): Boolean {
+    operator fun invoke(timeStamp: String, status: String): Boolean {
         val inputTime = Instant.parse(timeStamp)
         val now = Instant.now()
         val duration = Duration.between(inputTime, now)
-        return duration.toDays() <= 3
+        return duration.toDays() <= 3 && status == "proccess"
     }
 }

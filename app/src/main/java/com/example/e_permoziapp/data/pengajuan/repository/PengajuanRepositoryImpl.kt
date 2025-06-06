@@ -5,6 +5,7 @@ import com.example.e_permoziapp.data.common.model.ResponseApiModel
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanRequestModel
 import com.example.e_permoziapp.data.pengajuan.model.UserPengajuanDetailModel
+import com.example.e_permoziapp.data.pengajuan.model.UserProfilePengajuanModel
 import com.example.e_permoziapp.domain.Entity.FileSelectModel
 import com.example.e_permoziapp.domain.remote.PengajuanService
 import com.example.e_permoziapp.domain.repository.PengajuanRepository
@@ -113,6 +114,26 @@ class PengajuanRepositoryImpl(
         }catch (e: Exception) {
             e.printStackTrace()
             Result.failure(Exception(e.message))
+        }
+    }
+
+    override suspend fun getUserProfilePengajuan(userId: Int): Result<UserProfilePengajuanModel> {
+        return try {
+            val response = pengajuanService.getUserProfilePengajuan(userId)
+            val body = response.body<ResponseApiModel<UserProfilePengajuanModel>>()
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    if (body.data != null) {
+                        Result.success(body.data)
+                    }else
+                        Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }else -> {
+                    Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }
+            }
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure(e)
         }
     }
 

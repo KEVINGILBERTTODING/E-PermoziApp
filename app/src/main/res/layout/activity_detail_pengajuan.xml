@@ -16,7 +16,7 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:id="@+id/swipeRefresh"
-        android:layout_above="@+id/lrAction"
+        android:layout_above="@+id/lrBottom"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -26,12 +26,14 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/lrAction"
+        android:id="@+id/lrBottom"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
+        
         <Button
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
