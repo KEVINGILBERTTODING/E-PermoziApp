@@ -14,7 +14,7 @@ import com.example.e_permoziapp.domain.usecase.common.ValidateFileUploadUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateFormTextUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateMobileNumberUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidatePasswordUseCase
-import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.common.state.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

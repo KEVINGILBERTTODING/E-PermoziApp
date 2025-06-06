@@ -1,6 +1,5 @@
 package com.example.e_permoziapp.presentation.user.home.ui
 
-import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,11 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.e_permoziapp.R
 import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
 import com.example.e_permoziapp.databinding.FragmentHomeBinding
-import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.common.state.UiState
 import com.example.e_permoziapp.presentation.user.Pengajuan.ui.DetailPengajuanActivity
 import com.example.e_permoziapp.presentation.user.home.adapter.PengajuanAdapter
 import com.example.e_permoziapp.presentation.user.home.viewmodel.HomeViewmodel

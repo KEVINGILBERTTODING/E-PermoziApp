@@ -7,17 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.e_permoziapp.databinding.ItemJenisPerizinanSkeletonBinding
 import com.example.e_permoziapp.databinding.JenisPerizinanPickerLayoutBinding
-import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.common.state.UiState
 import com.example.e_permoziapp.presentation.user.home.adapter.JenisPerizinanAdapter
 import com.example.e_permoziapp.presentation.user.home.viewmodel.HomeViewmodel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class JenisPerizinanPickerBottomSheet(
     private val onClick: (Int) -> Unit

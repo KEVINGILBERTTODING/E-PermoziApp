@@ -9,7 +9,7 @@ import com.example.e_permoziapp.domain.usecase.auth.GetUserDataUseCase
 import com.example.e_permoziapp.domain.usecase.auth.GetUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.UserProfilePengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidatePengajuanDate
-import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.common.state.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

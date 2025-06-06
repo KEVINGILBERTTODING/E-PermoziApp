@@ -1,4 +1,4 @@
-package com.example.e_permoziapp.presentation.common
+package com.example.e_permoziapp.presentation.common.state
 
 import java.util.UUID
 

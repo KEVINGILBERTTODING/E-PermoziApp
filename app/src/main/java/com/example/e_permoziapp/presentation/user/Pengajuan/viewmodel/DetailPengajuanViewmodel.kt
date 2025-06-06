@@ -16,15 +16,12 @@ import com.example.e_permoziapp.domain.usecase.pengajuan.DestroyPengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanDetailUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.UpdatePengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidatePengajuanUseCase
-import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.common.state.UiState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.File
 
 class DetailPengajuanViewmodel(
     private val getPengajuanDetailUseCase: GetPengajuanDetailUseCase,

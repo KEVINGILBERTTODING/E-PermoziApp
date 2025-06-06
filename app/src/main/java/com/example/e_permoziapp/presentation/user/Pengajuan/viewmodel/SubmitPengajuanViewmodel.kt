@@ -15,7 +15,7 @@ import com.example.e_permoziapp.domain.usecase.pengajuan.SubmitPengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidateSubmitFilePengajuan
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidateSubmitPengajuan
 import com.example.e_permoziapp.domain.usecase.persyaratan.GetPersyaratanByJenisIdUseCase
-import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.common.state.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,7 +38,8 @@ class SubmitPengajuanViewmodel(
     var fileSelectedModlList = mutableListOf<FileSelectModel>()
     private val _submitState = MutableStateFlow<UiState<Unit>>(UiState.Idle)
     val submitState: StateFlow<UiState<Unit>> = _submitState
-    private val _getPersyaratanState = MutableStateFlow<UiState<List<PersyaratanPerizinanModel>>>(UiState.Idle)
+    private val _getPersyaratanState = MutableStateFlow<UiState<List<PersyaratanPerizinanModel>>>(
+        UiState.Idle)
     val getPersyaratanState: StateFlow<UiState<List<PersyaratanPerizinanModel>>> = _getPersyaratanState
 
     fun validateFileSelected(uri: Uri, context: Context) {

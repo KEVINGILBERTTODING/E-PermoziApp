@@ -12,18 +12,20 @@ import com.example.e_permoziapp.core.constant.ServerInfo
 import com.example.e_permoziapp.data.login.model.UserModel
 import com.example.e_permoziapp.data.pengajuan.model.UserProfilePengajuanModel
 import com.example.e_permoziapp.databinding.FragmentUserProfileBinding
-import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.common.component.LogOutBottomSheet
+import com.example.e_permoziapp.presentation.common.state.UiState
+import com.example.e_permoziapp.presentation.user.home.ui.HomeActivity
 import com.example.e_permoziapp.presentation.user.profile.adapter.PengajuanFragmentAdapter
 import com.example.e_permoziapp.presentation.user.profile.viewmodel.UserProfileViewmodel
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class UserProfileFragment : Fragment() {
     private lateinit var binding: FragmentUserProfileBinding
     private val viewmodel: UserProfileViewmodel by activityViewModel()
+    private lateinit var logOutBottomSheet: LogOutBottomSheet
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +37,7 @@ class UserProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
         initUi()
         initViewPager()
         onCollectEventState()
@@ -43,27 +46,18 @@ class UserProfileFragment : Fragment() {
         getPengajuan()
     }
 
+    private fun init() {
+        logOutBottomSheet = LogOutBottomSheet() {
+            Timber.w("onclick logout")
+            (activity as? HomeActivity)?.logOut()
+        }
+    }
+
     private fun initUi() {
 
     }
 
     private fun onCollectUiState() {
-    }
-
-    private fun initViewPager() {
-        val adapter = PengajuanFragmentAdapter(requireActivity())
-        binding.viewPager.adapter = adapter
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = when(position)  {
-                0 -> "Process"
-                1 -> "Success"
-                2 -> "Failed"
-                else -> ""
-            }
-        }.attach()
-    }
-
-    private fun onCollectEventState() {
         lifecycleScope.launch {
             viewmodel.userProfileState.collect {
                 when(val state = it) {
@@ -84,6 +78,25 @@ class UserProfileFragment : Fragment() {
                     else -> {}
                 }
             }
+        }
+    }
+
+    private fun initViewPager() {
+        val adapter = PengajuanFragmentAdapter(requireActivity())
+        binding.viewPager.adapter = adapter
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = when(position)  {
+                0 -> "Process"
+                1 -> "Success"
+                2 -> "Failed"
+                else -> ""
+            }
+        }.attach()
+    }
+
+    private fun onCollectEventState() {
+        binding.btnLogOut.setOnClickListener {
+            logOutBottomSheet.show(requireActivity().supportFragmentManager, "")
         }
     }
 

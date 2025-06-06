@@ -5,20 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.data.pengajuan.model.UserProfilePengajuanModel
 import com.example.e_permoziapp.databinding.FragmentProfilePengajuanBinding
-import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.common.state.UiState
 import com.example.e_permoziapp.presentation.user.Pengajuan.ui.DetailPengajuanActivity
 import com.example.e_permoziapp.presentation.user.home.adapter.PengajuanAdapter
 import com.example.e_permoziapp.presentation.user.profile.viewmodel.UserProfileViewmodel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import timber.log.Timber
 
 class ProfilePengajuanFragment : Fragment() {
     private lateinit var binding: FragmentProfilePengajuanBinding

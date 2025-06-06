@@ -6,6 +6,7 @@ import com.example.e_permoziapp.domain.repository.SessionRepository
 import com.example.e_permoziapp.domain.usecase.auth.ClearAllUserInfoUseCase
 import com.example.e_permoziapp.domain.usecase.auth.GetUserDataUseCase
 import com.example.e_permoziapp.domain.usecase.auth.GetUserIdUseCase
+import com.example.e_permoziapp.domain.usecase.auth.LogoutUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,7 +21,8 @@ import timber.log.Timber
 class BaseViewmodel(
     private val getUserDataUseCase: GetUserDataUseCase,
     private val getUserIdUseCase: GetUserIdUseCase,
-    private val sessionRepository: SessionRepository
+    private val sessionRepository: SessionRepository,
+    private val logoutUseCase: LogoutUseCase
 ): ViewModel() {
     private val _isLogOut = MutableSharedFlow<Boolean>()
     private val isLogout: SharedFlow<Boolean> = _isLogOut
@@ -63,6 +65,7 @@ class BaseViewmodel(
 
     fun logOut() {
        viewModelScope.launch {
+           logoutUseCase.invoke()
            _isLogOut.emit(true)
        }
     }

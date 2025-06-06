@@ -5,12 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
 import com.example.e_permoziapp.data.perizinan.model.JenisPerizinanModel
-import com.example.e_permoziapp.domain.repository.PerizinanRepository
 import com.example.e_permoziapp.domain.usecase.auth.GetUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.GetPengajuanByUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidatePengajuanDate
 import com.example.e_permoziapp.domain.usecase.perizinan.GetJenisPeriziananUseCase
-import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.common.state.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +24,8 @@ class HomeViewmodel(
     private val _uiState = MutableStateFlow<UiState<List<PengajuanModel>?>>(UiState.Idle)
     val uiState: StateFlow<UiState<List<PengajuanModel>?>> = _uiState
 
-    private val _jenisPerizinanUiState = MutableStateFlow<UiState<List<JenisPerizinanModel>>>(UiState.Idle)
+    private val _jenisPerizinanUiState = MutableStateFlow<UiState<List<JenisPerizinanModel>>>(
+        UiState.Idle)
     val jenisPerizinanUiState: StateFlow<UiState<List<JenisPerizinanModel>>> = _jenisPerizinanUiState
 
     fun getAllPengajuan() {

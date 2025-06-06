@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_permoziapp.core.constant.Constant
@@ -14,19 +13,15 @@ import com.example.e_permoziapp.core.constant.ServerInfo
 import com.example.e_permoziapp.core.extention.getIntentExtraOrDefault
 import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.core.util.FileHelper
-import com.example.e_permoziapp.core.util.ImageHelper
 import com.example.e_permoziapp.databinding.ActivityDetailPengajuanBinding
-import com.example.e_permoziapp.domain.Entity.FileSelectModel
-import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.common.state.UiState
 import com.example.e_permoziapp.presentation.main.ui.BaseActivity
 import com.example.e_permoziapp.presentation.user.Pengajuan.adapter.PersyaratanPerizinanAdapter
 import com.example.e_permoziapp.presentation.user.Pengajuan.viewmodel.DetailPengajuanViewmodel
 import com.example.e_permoziapp.presentation.user.home.ui.HomeActivity
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
-import java.util.Locale
 
 
 class DetailPengajuanActivity : BaseActivity() {

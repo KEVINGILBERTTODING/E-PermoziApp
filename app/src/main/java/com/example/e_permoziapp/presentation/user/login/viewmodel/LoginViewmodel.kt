@@ -8,7 +8,7 @@ import com.example.e_permoziapp.domain.usecase.auth.SaveIsLoginUseCase
 import com.example.e_permoziapp.domain.usecase.auth.SaveUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateEmailUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidatePasswordUseCase
-import com.example.e_permoziapp.presentation.common.UiState
+import com.example.e_permoziapp.presentation.common.state.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
