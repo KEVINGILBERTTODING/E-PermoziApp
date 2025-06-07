@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun onCollectUiState() {
         lifecycleScope.launch {
             viewmodel.imgSelected.collect {
-                it.fileName?.let { it1 -> binding.tvFileName.text = it1 }
+                it.fileName?.let { it1 -> binding.etFileName.setText(it1) }
             }
         }
         lifecycleScope.launch {
@@ -72,6 +72,9 @@ class RegisterActivity : AppCompatActivity() {
                 binding.etPassword.text.toString(),
                 binding.etNoHp.text.toString(),
             )
+        }
+        binding.lrBack.btnBack.setOnClickListener {
+            finish()
         }
     }
 

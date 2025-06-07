@@ -43,28 +43,20 @@
                     android:layout_width="match_parent"
                     android:hint="@string/email"
                     android:layout_marginTop="18dp"
-                    app:boxCornerRadiusTopStart="14dp"
-                    app:boxCornerRadiusBottomEnd="14dp"
-                    app:boxCornerRadiusBottomStart="14dp"
-                    app:boxCornerRadiusTopEnd="14dp"
+                    style="@style/text_input_layout_default_style"
                     android:id="@+id/etEmail"
                     android:layout_height="wrap_content">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:fontFamily="@font/satoshi_medium"
+                        style="@style/text_field_default_style"
                         android:inputType="textEmailAddress"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
                         android:layout_height="wrap_content"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_marginTop="20dp"
-                    app:boxCornerRadiusTopStart="14dp"
-                    app:boxCornerRadiusBottomEnd="14dp"
-                    app:boxCornerRadiusBottomStart="14dp"
-                    app:boxCornerRadiusTopEnd="14dp"
+                    android:layout_marginTop="12dp"
+                    style="@style/text_input_layout_default_style"
                     android:hint="@string/password"
                     android:id="@+id/etPassword"
                     app:passwordToggleEnabled="true"
@@ -73,15 +65,13 @@
                         android:layout_width="match_parent"
                         android:inputType="textPassword"
                         android:maxHeight="1dp"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/satoshi_medium"
-                        android:textColor="@color/black"
+                        style="@style/text_field_default_style"
                         android:layout_height="wrap_content"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="30dp"
                     android:layout_height="wrap_content">
                     <ProgressBar
                         android:layout_width="24dp"
@@ -113,11 +103,10 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
-                    android:textColor="@color/main"
                     android:layout_marginTop="18dp"
                     android:textSize="14sp"
+                    style="@style/button_secondary_style"
                     android:fontFamily="@font/satoshi_bold"
-                    app:backgroundTint="@color/blue_ff"
                     android:layout_height="56dp"
                     android:text="@string/masuk_sebagai_admin_pegawai"/>
 

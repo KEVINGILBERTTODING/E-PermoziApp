@@ -41,6 +41,7 @@
             android:name=".presentation.user.home.ui.HomeActivity"
             android:exported="false" />
         <activity
+            android:theme="@style/White_status_bar"
             android:name=".presentation.user.register.ui.RegisterActivity"
             android:exported="false" />
         <activity

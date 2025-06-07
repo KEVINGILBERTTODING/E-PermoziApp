@@ -7,6 +7,7 @@
     <string name="no_hp">Nomor Hp</string>
     <string name="ktp">KTP</string>
     <string name="pilih">Pilih</string>
+    <string name="pilih_ktp">Pilih KTP</string>
     <string name="daftar">Daftar</string>
     <string name="something_wrong">Terjadi kesalahan</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -23,4 +24,5 @@
     <string name="atau">Atau</string>
     <string name="belum_memiliki_akun">Belum memiliki akun? <b><font color="#0d6efd">Daftar.</font></b></string>
     <string name="masuk_sebagai_admin_pegawai">Masuk sebagai admin atau pegawai</string>
+    <string name="masukkan_data_yang_anda_daftarkan_di_sistem_kami">Masukkan data Anda untuk mendaftar di sistem kami.</string>
 </resources>
