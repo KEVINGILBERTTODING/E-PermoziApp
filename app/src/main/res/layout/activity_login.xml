@@ -34,7 +34,8 @@
                 android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:inputType="textVisiblePassword"
+                    android:inputType="textPassword"
+                    android:maxHeight="1dp"
                     android:textColor="@color/black"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>

@@ -29,6 +29,9 @@ import com.example.e_permoziapp.domain.usecase.pengajuan.ValidateSubmitFilePenga
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidateSubmitPengajuan
 import com.example.e_permoziapp.domain.usecase.perizinan.GetJenisPeriziananUseCase
 import com.example.e_permoziapp.domain.usecase.persyaratan.GetPersyaratanByJenisIdUseCase
+import com.example.e_permoziapp.domain.usecase.profile.UpdateUserPhotoUseCase
+import com.example.e_permoziapp.domain.usecase.profile.UpdateUserProfileUseCase
+import com.example.e_permoziapp.domain.usecase.profile.ValidateUpdateUserProfileUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -61,4 +64,8 @@ val useCaseModule = module {
     factory { ValidatePengajuanDate()}
     factory { DestroyPengajuanUseCase(get())}
     factory { UserProfilePengajuanUseCase(get())}
+    factory { UpdateUserProfileUseCase(get())}
+    factory { ValidateUpdateUserProfileUseCase(get(), get(), get(), get(), get())}
+    factory { UpdateUserPhotoUseCase(get()) }
+
 }

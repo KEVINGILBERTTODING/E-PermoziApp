@@ -6,18 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.core.constant.ServerInfo
+import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.data.login.model.UserModel
 import com.example.e_permoziapp.data.pengajuan.model.UserProfilePengajuanModel
 import com.example.e_permoziapp.databinding.FragmentUserProfileBinding
+import com.example.e_permoziapp.domain.usecase.profile.UpdateUserPhotoUseCase
 import com.example.e_permoziapp.presentation.common.component.LogOutBottomSheet
 import com.example.e_permoziapp.presentation.common.state.UiState
 import com.example.e_permoziapp.presentation.user.home.ui.HomeActivity
 import com.example.e_permoziapp.presentation.user.profile.adapter.PengajuanFragmentAdapter
 import com.example.e_permoziapp.presentation.user.profile.viewmodel.UserProfileViewmodel
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import timber.log.Timber
@@ -26,6 +34,9 @@ class UserProfileFragment : Fragment() {
     private lateinit var binding: FragmentUserProfileBinding
     private val viewmodel: UserProfileViewmodel by activityViewModel()
     private lateinit var logOutBottomSheet: LogOutBottomSheet
+    private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,16 +65,22 @@ class UserProfileFragment : Fragment() {
     }
 
     private fun initUi() {
-
+        binding.progressBarPhoto.visibility = View.GONE
     }
 
     private fun onCollectUiState() {
         lifecycleScope.launch {
             viewmodel.userProfileState.collect {
                 when(val state = it) {
-                    is UiState.Loading -> setLoadingView()
-                    is UiState.Success -> setSuccessView(state.data)
-                    is UiState.Error -> setErrorView(state.message)
+                    is UiState.Loading -> {
+                        setLoadingView()
+                    }
+                    is UiState.Success -> {
+                        setSuccessView(state.data)
+                    }
+                    is UiState.Error -> {
+                        setErrorView(state.message)
+                    }
                     else -> {}
                 }
             }
@@ -72,11 +89,39 @@ class UserProfileFragment : Fragment() {
         lifecycleScope.launch {
             viewmodel.pengajuanState.collect {
                 when(val state = it) {
-                    is UiState.Loading -> setLoadingPengajuanView()
+                    is UiState.Loading -> {}
                     is UiState.Success -> setSuccessPengajuanView(state.data)
                     is UiState.Error -> setErrorPengajuanView(state.message)
                     else -> {}
                 }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewmodel.updatePhotoState.collect {
+                when(val state = it) {
+                    is UiState.Loading -> {
+                        binding.progressBarPhoto.visibility = View.VISIBLE
+                        binding.ivProfile.visibility = View.GONE
+                    }
+                    is UiState.Success -> {
+                        binding.progressBarPhoto.visibility = View.GONE
+                        binding.ivProfile.setImageURI(state.data)
+                        binding.ivProfile.visibility = View.VISIBLE
+                    }
+                    is UiState.Error -> {
+                        binding.progressBarPhoto.visibility = View.GONE
+                        binding.ivProfile.visibility = View.VISIBLE
+                        Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {}
+                }
+            }
+        }
+
+        pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                viewmodel.validateSelectedFile(uri)
             }
         }
     }
@@ -98,6 +143,16 @@ class UserProfileFragment : Fragment() {
         binding.btnLogOut.setOnClickListener {
             logOutBottomSheet.show(requireActivity().supportFragmentManager, "")
         }
+        binding.btnEditProfile.setOnClickListener {
+            viewmodel.userModel?.let {
+                requireContext().launchActivity<EditProfileActivity>(
+                    "data" to Gson().toJson(viewmodel.userModel)
+                )
+            }
+        }
+        binding.ivProfile.setOnClickListener {
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
     }
 
     private fun getUserProfile() {
@@ -114,12 +169,8 @@ class UserProfileFragment : Fragment() {
         Toast.makeText(requireContext(), params, Toast.LENGTH_SHORT).show()
     }
 
-    private fun setLoadingPengajuanView() {
-
-    }
-
     private fun setLoadingView() {
-
+        binding.progressBarPhoto.visibility = View.VISIBLE
     }
 
     private fun getPengajuan() {
@@ -127,12 +178,17 @@ class UserProfileFragment : Fragment() {
     }
 
     private fun setSuccessView(dataUser: UserModel) {
+        binding.progressBarPhoto.visibility = View.GONE
         binding.tvFullname.text = dataUser.name
         binding.tvEmail.text = dataUser.email
-        Glide.with(requireContext()).load(ServerInfo.IMAGE_PATH + dataUser.profilePhoto).into(binding.ivProfile)
+        Glide.with(requireContext()).load(ServerInfo.IMAGE_PATH + dataUser.profilePhoto)
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .into(binding.ivProfile)
     }
 
     private fun setErrorView(params: String) {
+        binding.progressBarPhoto.visibility = View.GONE
         Toast.makeText(requireContext(), params, Toast.LENGTH_SHORT).show()
     }
 

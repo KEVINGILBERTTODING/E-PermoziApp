@@ -4,6 +4,7 @@ import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.core.util.PrefHelper
 import com.example.e_permoziapp.data.common.model.ResponseApiModel
 import com.example.e_permoziapp.data.login.model.UserModel
+import com.example.e_permoziapp.domain.Entity.FileSelectModel
 import com.example.e_permoziapp.domain.remote.UserService
 import com.example.e_permoziapp.domain.repository.UserRepository
 import io.ktor.client.call.body
@@ -50,6 +51,40 @@ class UserRepositoryImpl(
                 }
             }
         }catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    override suspend fun updateProfile(
+        userId: Int,
+        name: String,
+        email: String,
+        password: String?,
+        mobileNumber: String,
+        ktp: FileSelectModel?
+    ): Result<Unit> {
+        return try {
+            val response = userService.updateProfile(userId, name, email, password, mobileNumber, ktp)
+            val body = response.body<ResponseApiModel<Nothing>>()
+            when(response.status) {
+                HttpStatusCode.OK -> Result.success(Unit)
+                else -> Result.failure(Exception(body.message ?: Constant.somethingWrong))
+            }
+        }catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+    override suspend fun updatePhotoProfile(userId: Int, file: FileSelectModel): Result<Unit> {
+        return try {
+            val response = userService.updatePhoto(userId, file)
+            val body = response.body<ResponseApiModel<Unit>>()
+            when(response.status) {
+                HttpStatusCode.OK -> Result.success(Unit)
+                else  -> Result.failure(Exception(body.message ?: Constant.somethingWrong))
+            }
+        }catch (e: Exception) {
+            e.printStackTrace()
             Result.failure(e)
         }
     }

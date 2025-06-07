@@ -7,6 +7,7 @@ import com.example.e_permoziapp.presentation.splash.ui.SplashViewmodel
 import com.example.e_permoziapp.presentation.user.Pengajuan.viewmodel.DetailPengajuanViewmodel
 import com.example.e_permoziapp.presentation.user.Pengajuan.viewmodel.SubmitPengajuanViewmodel
 import com.example.e_permoziapp.presentation.user.home.viewmodel.HomeViewmodel
+import com.example.e_permoziapp.presentation.user.profile.viewmodel.EditProfileViewmodel
 import com.example.e_permoziapp.presentation.user.profile.viewmodel.UserProfileViewmodel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -19,5 +20,6 @@ val viewmodelModule = module {
     viewModel { HomeViewmodel(get(), get(), get(), get()) }
     viewModel { DetailPengajuanViewmodel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SubmitPengajuanViewmodel(get(), get(), get(), get(), get(), get()) }
-    viewModel { UserProfileViewmodel(get(), get(), get(), get()) }
+    viewModel { UserProfileViewmodel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { EditProfileViewmodel(get(), get(), get(), get(),  get()) }
 }

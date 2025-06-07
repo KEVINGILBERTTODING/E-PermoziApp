@@ -6,20 +6,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_marginTop="16dp"
+    android:background="@color/white"
     android:paddingHorizontal="16dp"
     tools:context=".presentation.user.profile.ui.UserProfileFragment">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ivProfile"
-            android:layout_marginRight="10dp"
-            android:layout_width="80dp"
-            android:layout_alignParentStart="true"
-            android:layout_height="80dp"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/rlPhoto"
+            android:layout_height="wrap_content">
+            <ProgressBar
+                android:id="@+id/progressBarPhoto"
+                android:layout_centerInParent="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivProfile"
+                android:layout_marginRight="10dp"
+                android:layout_width="80dp"
+                android:layout_alignParentStart="true"
+                android:layout_height="80dp"/>
+        </RelativeLayout>
+
 
         <LinearLayout
-            android:layout_toRightOf="@id/ivProfile"
+            android:layout_toRightOf="@id/rlPhoto"
             android:layout_width="match_parent"
             android:layout_centerVertical="true"
             android:layout_height="wrap_content"
