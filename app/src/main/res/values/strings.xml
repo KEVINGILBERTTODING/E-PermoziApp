@@ -18,4 +18,9 @@
     <string name="process">Process</string>
     <string name="failed">Ditolak</string>
     <string name="data_empty">Data tidak ditemukan</string>
+    <string name="masuk">Masuk</string>
+    <string name="masukkan_data_yang_anda_daftarkan">Masukkan data yang Anda daftarkan, pada waktu registrasi.</string>
+    <string name="atau">Atau</string>
+    <string name="belum_memiliki_akun">Belum memiliki akun? <b><font color="#0d6efd">Daftar.</font></b></string>
+    <string name="masuk_sebagai_admin_pegawai">Masuk sebagai admin atau pegawai</string>
 </resources>

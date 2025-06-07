@@ -5,68 +5,138 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:padding="16dp"
+        android:background="@color/white"
         android:layout_height="match_parent"
         tools:context=".presentation.user.login.ui.LoginActivity">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            tools:ignore="UselessParent">
-            <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="match_parent">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:hint="@string/email"
-                android:id="@+id/etEmail"
-                android:layout_height="wrap_content">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:inputType="textEmailAddress"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:hint="@string/password"
-                android:id="@+id/etPassword"
-                app:passwordToggleEnabled="true"
-                android:layout_height="wrap_content">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:inputType="textPassword"
-                    android:maxHeight="1dp"
-                    android:textColor="@color/black"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_height="wrap_content">
-                <ProgressBar
+                <ImageView
                     android:layout_width="wrap_content"
-                    android:visibility="gone"
-                    android:id="@+id/progressBar"
-                    android:layout_centerInParent="true"
-                    android:layout_height="wrap_content"/>
+                    android:src="@drawable/iv_login"
+                    android:layout_height="220dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/masuk"
+                    android:layout_marginTop="20dp"
+                    android:textSize="30sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/satoshi_bold"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/masukkan_data_yang_anda_daftarkan"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/satoshi_regular"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:hint="@string/email"
+                    android:layout_marginTop="18dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    android:id="@+id/etEmail"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:fontFamily="@font/satoshi_medium"
+                        android:inputType="textEmailAddress"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="20dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    android:hint="@string/password"
+                    android:id="@+id/etPassword"
+                    app:passwordToggleEnabled="true"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:inputType="textPassword"
+                        android:maxHeight="1dp"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/satoshi_medium"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="wrap_content">
+                    <ProgressBar
+                        android:layout_width="24dp"
+                        android:indeterminateTint="@color/main"
+                        android:id="@+id/progressBar"
+                        android:visibility="gone"
+                        android:layout_centerInParent="true"
+                        android:layout_height="24dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:id="@+id/btnLogin"
+                        android:fontFamily="@font/satoshi_bold"
+                        android:layout_height="56dp"
+                        android:textSize="16sp"
+                        android:text="@string/masuk"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/atau"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="18dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/black_80"
+                    android:fontFamily="@font/satoshi_medium"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
-                    android:id="@+id/btnLogin"
+                    android:textColor="@color/main"
+                    android:layout_marginTop="18dp"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/satoshi_bold"
+                    app:backgroundTint="@color/blue_ff"
                     android:layout_height="56dp"
-                    android:text="@string/login"/>
+                    android:text="@string/masuk_sebagai_admin_pegawai"/>
 
-            </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/belum_memiliki_akun"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="18dp"
+                    android:textSize="14sp"
+                    android:id="@+id/btnRegister"
+                    android:textColor="@color/black_80"
+                    android:fontFamily="@font/satoshi_medium"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:id="@+id/btnRegister"
-                android:layout_height="56dp"
-                android:text="@string/daftar"/>
 
 
-        </LinearLayout>
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
 
     </RelativeLayout>

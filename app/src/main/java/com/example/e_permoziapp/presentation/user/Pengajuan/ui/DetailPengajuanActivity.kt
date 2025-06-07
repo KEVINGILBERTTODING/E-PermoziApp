@@ -10,9 +10,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.core.constant.ServerInfo
+import com.example.e_permoziapp.core.extention.formatedDateToIndonesia
 import com.example.e_permoziapp.core.extention.getIntentExtraOrDefault
 import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.core.util.FileHelper
+import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
+import com.example.e_permoziapp.data.perizinan.model.JenisPerizinanModel
 import com.example.e_permoziapp.databinding.ActivityDetailPengajuanBinding
 import com.example.e_permoziapp.presentation.common.state.UiState
 import com.example.e_permoziapp.presentation.main.ui.BaseActivity
@@ -67,7 +70,9 @@ class DetailPengajuanActivity : BaseActivity() {
                     }
 
                     is UiState.Success -> {
+                        val dataPengajuan = state.data.dataPengajuan
                         val dataPersyaratan = state.data.dataPersyaratan
+                        val dataJenisPerizinan = state.data.dataJenisPersyaratan
                         if (!dataPersyaratan.isNullOrEmpty()) {
                             val dataFiltered = dataPersyaratan.filter {
                                 it.name.lowercase()
@@ -80,7 +85,7 @@ class DetailPengajuanActivity : BaseActivity() {
                                     dataPersyaratan
                                 }
                             )
-                            setSuccessView()
+                            setSuccessView(dataPengajuan, dataJenisPerizinan)
                         } else {
                             Toast.makeText(
                                 this@DetailPengajuanActivity,
@@ -206,8 +211,8 @@ class DetailPengajuanActivity : BaseActivity() {
             viewmodel.destroyState.collect {
                 when (val state = it) {
                     is UiState.Loading -> {
-                        Toast.makeText(this@DetailPengajuanActivity, "Loading", Toast.LENGTH_SHORT)
-                            .show()
+                        binding.progressBarDelete.visibility = View.VISIBLE
+                        binding.btnDelete.visibility = View.GONE
                     }
 
                     is UiState.Success -> {
@@ -229,6 +234,8 @@ class DetailPengajuanActivity : BaseActivity() {
                             state.message,
                             Toast.LENGTH_SHORT
                         ).show()
+                        binding.progressBarDelete.visibility = View.GONE
+                        binding.btnDelete.visibility = View.VISIBLE
                     }
 
                     else -> {}
@@ -273,8 +280,9 @@ class DetailPengajuanActivity : BaseActivity() {
 
     private fun initUi(){
         if (viewmodel.pengajuanId < 1) finish()
-        binding.lrBottom.visibility = if (isEdit) View.VISIBLE else View.GONE
         binding.btnSave.visibility = View.GONE
+        binding.rlDelete.visibility = View.GONE
+        binding.lrBottom.visibility = View.GONE
     }
 
     private fun setLoadingView() {
@@ -282,9 +290,14 @@ class DetailPengajuanActivity : BaseActivity() {
         binding.rvPersyaratan.visibility = View.GONE
     }
 
-    private fun setSuccessView() {
+    private fun setSuccessView(dataPengajuan: PengajuanModel?, dataJenisPerizinan: JenisPerizinanModel?) {
         binding.progressBar.visibility = View.GONE
         binding.rvPersyaratan.visibility = View.VISIBLE
+        binding.tvTitle.text = dataJenisPerizinan?.namaPerizinan
+        binding.tvTimeStamp.text = dataPengajuan?.createdAt?.formatedDateToIndonesia()
+        binding.tvStatus.text = dataPengajuan?.status
+        binding.lrBottom.visibility = if (isEdit) View.VISIBLE else View.GONE
+        binding.rlDelete.visibility = if (isEdit) View.VISIBLE else View.GONE
     }
 
     private fun setErrorView() {
