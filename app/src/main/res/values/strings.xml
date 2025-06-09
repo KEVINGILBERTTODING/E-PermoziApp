@@ -15,14 +15,32 @@
     <string name="pilih_file">Pilih File</string>
     <string name="pilih_perizinan">Pilih Perizinan</string>
     <string name="balasan">Balasan</string>
-    <string name="success">Success</string>
-    <string name="process">Process</string>
+    <string name="success">Disetujui</string>
+    <string name="process">Proses</string>
     <string name="failed">Ditolak</string>
     <string name="data_empty">Data tidak ditemukan</string>
     <string name="masuk">Masuk</string>
+    <string name="simpan">Simpan</string>
     <string name="masukkan_data_yang_anda_daftarkan">Masukkan data yang Anda daftarkan, pada waktu registrasi.</string>
     <string name="atau">Atau</string>
     <string name="belum_memiliki_akun">Belum memiliki akun? <b><font color="#0d6efd">Daftar.</font></b></string>
     <string name="masuk_sebagai_admin_pegawai">Masuk sebagai admin atau pegawai</string>
     <string name="masukkan_data_yang_anda_daftarkan_di_sistem_kami">Masukkan data Anda untuk mendaftar di sistem kami.</string>
+    <string name="registrasi_berhasil">Registrasi berhasil!</string>
+    <string name="silahkan_masuk_untuk_melanjutkan">Silahkan masuk untuk melanjutkan.</string>
+    <string name="ajukan_perizinan_baru">Ajukan perizinan baru</string>
+    <string name="data_tidak_ditemukan">Data tidak ditemukan</string>
+    <string name="terjadi_kesalahan">Terjadi kesalahan</string>
+    <string name="sepertinya_ada_masalah">Sepertinya ada masalah saat mengambil data. Yuk coba muat ulang.</string>
+    <string name="ubah_profil">Edit profil</string>
+    <string name="keluar">Keluar</string>
+    <string name="oke">Oke</string>
+    <string name="profile">Profil</string>
+    <string name="yakin_mau_keluar">Yakin mau keluar?</string>
+    <string name="pengajuan_terkirim">Pengajuan Terkirim!</string>
+    <string name="tenang_kamu_bisa_login_lagi_kapan_aja">Tenang, kamu bisa login lagi kapan saja.</string>
+    <string name="submission_success_message">
+    Pengajuan Anda telah kami terima dan sedang diproses.&#10;Jika disetujui, Anda dapat mengunduh file persetujuan melalui halaman <b>Detail Pengajuan</b>.&#10;Jangan lupa periksa email Anda secara berkala untuk notifikasi pembaruan.
+    </string>
+
 </resources>

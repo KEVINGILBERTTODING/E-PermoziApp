@@ -76,7 +76,7 @@ class RegisterViewModel(
         }
     }
 
-    suspend fun register(email: String, name: String, password: String, mobileNumber: String, ktp: ByteArray) {
+    fun register(email: String, name: String, password: String, mobileNumber: String, ktp: ByteArray) {
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.emit(UiState.Loading)
             val response = registerUseCase.invoke(email, name, password, mobileNumber, ktp)
@@ -89,4 +89,7 @@ class RegisterViewModel(
         }
     }
 
+    fun resetKtpFile() {
+        _imgSelected.value = ImageSelectModel(null, "")
+    }
 }

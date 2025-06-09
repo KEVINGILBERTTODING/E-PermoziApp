@@ -1,49 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/main"
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".presentation.user.home.ui.HomeActivity">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/homeContainer"
-            android:layout_marginBottom="80dp"
+            android:layout_above="@id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-
-
-        <com.google.android.material.bottomappbar.BottomAppBar
+        <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"
-            android:layout_gravity="bottom"
-            app:fabCradleRoundedCornerRadius="10dp"
-            app:fabCradleMargin="15dp"
-            app:fabAlignmentMode="center"
-            app:fabCradleVerticalOffset="10dp"
-            android:id="@+id/appBar"
-            android:layout_height="wrap_content">
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:layout_width="match_parent"
-                android:id="@+id/bottomBar"
-                app:menu="@menu/bottom_bar_menu"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:contentDescription="add"
-            android:src="@drawable/ic_add"
-            app:layout_anchor="@id/appBar"
-            android:id="@+id/fabAdd"
+            android:id="@+id/bottomBar"
+            app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
+            app:backgroundTint="@color/white"
+            app:itemIconSize="24dp"
+            app:itemIconPadding="0dp"
+            android:layout_alignParentBottom="true"
+            app:labelVisibilityMode="labeled"
+            app:itemTextAppearanceActive="@style/BottomNavTextActive"
+            app:itemTextAppearanceInactive="@style/BottomNavTextInactive"
+            app:itemIconTint="@color/bottom_nav_selector"
+            app:menu="@menu/bottom_bar_menu"
             android:layout_height="wrap_content"/>
 
-
-
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </RelativeLayout>
 </layout>

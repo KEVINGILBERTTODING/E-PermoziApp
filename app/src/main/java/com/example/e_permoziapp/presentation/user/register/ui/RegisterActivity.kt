@@ -7,24 +7,37 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
+import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.databinding.ActivityRegisterBinding
 import com.example.e_permoziapp.presentation.common.state.UiState
+import com.example.e_permoziapp.presentation.common.ui.PhotoViewActivity
+import com.example.e_permoziapp.presentation.user.register.component.SuccesRegisterBottomSheet
 import com.example.e_permoziapp.presentation.user.register.viewmodel.RegisterViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class RegisterActivity : AppCompatActivity() {
     private val viewmodel: RegisterViewModel by viewModel()
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
+    private lateinit var successRegisterBottomSheet: SuccesRegisterBottomSheet
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        init()
         initUi()
         onCollectEventState()
         onCollectUiState()
+    }
+
+    private fun init() {
+        successRegisterBottomSheet = SuccesRegisterBottomSheet {
+            finish()
+        }
     }
 
     private fun onCollectUiState() {
@@ -38,7 +51,12 @@ class RegisterActivity : AppCompatActivity() {
                 when (it) {
                     is UiState.Success -> {
                         updateUiVisibility(false)
-                        finish()
+                        resetForm()
+                        if (::successRegisterBottomSheet.isInitialized) {
+                            successRegisterBottomSheet.show(supportFragmentManager, "")
+                        }else {
+                            finish()
+                        }
                     }
                     is UiState.Error -> {
                         Toast.makeText(this@RegisterActivity, it.message, Toast.LENGTH_SHORT).show()
@@ -61,6 +79,15 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    private fun resetForm() {
+        binding.etEmail.setText("")
+        binding.etFullName.setText("")
+        binding.etPassword.setText("")
+        binding.etNoHp.setText("")
+        binding.etFileName.setText("")
+        viewmodel.resetKtpFile()
+    }
+
     private fun onCollectEventState() {
         binding.btnChooseImg.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
@@ -75,6 +102,12 @@ class RegisterActivity : AppCompatActivity() {
         }
         binding.lrBack.btnBack.setOnClickListener {
             finish()
+        }
+        binding.btnFileName.setOnClickListener{
+            val uri = viewmodel.imgSelected.value.uri
+            if (uri != null) launchActivity<PhotoViewActivity>(
+                "url" to uri.toString()
+            )
         }
     }
 

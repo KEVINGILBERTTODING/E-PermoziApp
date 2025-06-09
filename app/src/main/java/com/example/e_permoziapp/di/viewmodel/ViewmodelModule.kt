@@ -1,5 +1,6 @@
 package com.example.e_permoziapp.di.viewmodel
 
+import com.example.e_permoziapp.presentation.common.viewmodel.PhotoViewmodel
 import com.example.e_permoziapp.presentation.user.login.viewmodel.LoginViewmodel
 import com.example.e_permoziapp.presentation.main.viewmodel.BaseViewmodel
 import com.example.e_permoziapp.presentation.user.register.viewmodel.RegisterViewModel
@@ -13,13 +14,14 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val viewmodelModule = module {
-    viewModel { LoginViewmodel(get(), get(), get(), get(), get()) }
+    viewModel { LoginViewmodel(get(), get(), get(), get(), get(), get()) }
     viewModel { RegisterViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
-    viewModel { SplashViewmodel(get()) }
+    viewModel { SplashViewmodel(get(), get()) }
     viewModel { BaseViewmodel(get(), get(), get(), get()) }
     viewModel { HomeViewmodel(get(), get(), get(), get()) }
     viewModel { DetailPengajuanViewmodel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SubmitPengajuanViewmodel(get(), get(), get(), get(), get(), get()) }
     viewModel { UserProfileViewmodel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { EditProfileViewmodel(get(), get(), get(), get(),  get()) }
+    viewModel { PhotoViewmodel() }
 }

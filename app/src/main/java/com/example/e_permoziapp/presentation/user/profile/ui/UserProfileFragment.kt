@@ -131,9 +131,9 @@ class UserProfileFragment : Fragment() {
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when(position)  {
-                0 -> "Process"
-                1 -> "Success"
-                2 -> "Failed"
+                0 -> "Proses"
+                1 -> "Disetujui"
+                2 -> "Ditolak"
                 else -> ""
             }
         }.attach()
@@ -198,5 +198,10 @@ class UserProfileFragment : Fragment() {
             Timber.w("show fragment")
             getUserProfile()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getUserProfile()
     }
 }

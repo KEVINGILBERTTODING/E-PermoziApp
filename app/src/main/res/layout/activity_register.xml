@@ -5,7 +5,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:padding="16dp"
-        android:background="@color/white"
+        android:background="@color/bg"
         android:layout_height="match_parent"
         tools:context=".presentation.user.register.ui.RegisterActivity">
 
@@ -95,20 +95,32 @@
                         android:layout_marginRight="10dp"
                         android:text="@string/pilih_ktp"/>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
+                    <FrameLayout
                         android:layout_toRightOf="@id/btnChooseImg"
-                        style="@style/text_input_layout_default_style"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
-                            android:maxLines="1"
-                            android:enabled="false"
-                            style="@style/text_field_default_style"
-                            android:id="@+id/etFileName"
-                            android:textColor="@color/black"
-                            android:layout_height="wrap_content"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:id="@+id/tilFilename"
+                            android:clickable="true"
+                            android:focusable="true"
+                            style="@style/text_input_layout_default_style"
+                            android:layout_height="wrap_content">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:maxLines="1"
+                                android:enabled="false"
+                                style="@style/text_field_default_style"
+                                android:id="@+id/etFileName"
+                                android:textColor="@color/black"
+                                android:layout_height="wrap_content"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <Button
+                            android:id="@+id/btnFileName"
+                            android:background="@android:color/transparent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+                    </FrameLayout>
 
                 </RelativeLayout>
 

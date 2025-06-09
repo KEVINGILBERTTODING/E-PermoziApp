@@ -2,6 +2,7 @@ package com.example.e_permoziapp.di.usecase
 
 import com.example.e_permoziapp.domain.usecase.auth.ClearAllUserInfoUseCase
 import com.example.e_permoziapp.domain.usecase.auth.GetIsLoginUseCase
+import com.example.e_permoziapp.domain.usecase.auth.GetRoleUseCase
 import com.example.e_permoziapp.domain.usecase.auth.GetUserDataUseCase
 import com.example.e_permoziapp.domain.usecase.auth.GetUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.auth.LoginUseCase
@@ -46,7 +47,7 @@ val useCaseModule = module {
     factory { GetIsLoginUseCase(get()) }
     factory { SaveUserIdUseCase(get()) }
     factory { SaveIsLoginUseCase(get()) }
-    factory { ValidateLoginUseCase(get(), get()) }
+    factory { ValidateLoginUseCase(get(), get(), get()) }
     factory { ClearAllUserInfoUseCase(get()) }
     factory { SaveRoleUseCase(get()) }
     factory { GetUserDataUseCase(get())}
@@ -67,5 +68,6 @@ val useCaseModule = module {
     factory { UpdateUserProfileUseCase(get())}
     factory { ValidateUpdateUserProfileUseCase(get(), get(), get(), get(), get())}
     factory { UpdateUserPhotoUseCase(get()) }
+    factory { GetRoleUseCase(get()) }
 
 }

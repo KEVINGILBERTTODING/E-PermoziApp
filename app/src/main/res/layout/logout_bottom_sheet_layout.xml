@@ -2,30 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="16dp"
+    android:background="@drawable/bottom_sheet_bg_white"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
+
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content"/>
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_gravity="center"
-        android:src="@color/black"
-        android:layout_height="100dp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/iv_logout" />
+
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/satoshi_bold"
+        android:text="@string/yakin_mau_keluar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
-        android:text="Apkah anda yakin ingin keluar?"/>
-
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:textColor="@color/black_80"
+        android:fontFamily="@font/satoshi_regular"
+        android:text="@string/tenang_kamu_bisa_login_lagi_kapan_aja"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:id="@+id/btnLogout"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:layout_marginTop="20dp"
-        android:text="Keluar"/>
+        android:textColor="@color/red_1b"
+        android:backgroundTint="@color/red_e2"
+        android:text="@string/keluar"
+        android:fontFamily="@font/satoshi_bold"
+        android:textSize="16sp"
+        android:layout_marginTop="30dp"/>
 
 </LinearLayout>

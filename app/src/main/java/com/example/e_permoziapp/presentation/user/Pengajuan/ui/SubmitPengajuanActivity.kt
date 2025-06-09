@@ -15,6 +15,7 @@ import com.example.e_permoziapp.databinding.ActivitySubmitPengajuanBinding
 import com.example.e_permoziapp.presentation.common.state.UiState
 import com.example.e_permoziapp.presentation.main.ui.BaseActivity
 import com.example.e_permoziapp.presentation.user.Pengajuan.adapter.PersyaratanPerizinanAdapter
+import com.example.e_permoziapp.presentation.user.Pengajuan.component.SuccesSubmitBottomSheet
 import com.example.e_permoziapp.presentation.user.Pengajuan.viewmodel.SubmitPengajuanViewmodel
 import com.example.e_permoziapp.presentation.user.home.ui.HomeActivity
 import kotlinx.coroutines.launch
@@ -26,6 +27,7 @@ class SubmitPengajuanActivity : BaseActivity() {
     private lateinit var adapter: PersyaratanPerizinanAdapter
     private val viewmodel : SubmitPengajuanViewmodel by viewModel()
     private lateinit var filePickerLauncher: ActivityResultLauncher<Array<String>>
+    private lateinit var successSubmitBottomSheet: SuccesSubmitBottomSheet
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySubmitPengajuanBinding.inflate(layoutInflater)
@@ -117,11 +119,13 @@ class SubmitPengajuanActivity : BaseActivity() {
                         Toast.makeText(this@SubmitPengajuanActivity, state.message, Toast.LENGTH_SHORT).show()
                     }
                     is UiState.Success -> {
-                        Toast.makeText(this@SubmitPengajuanActivity, "Berhasil submit pengajuan", Toast.LENGTH_SHORT).show()
-                        launchActivity<HomeActivity>(
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        )
-                        finish()
+                        if (::successSubmitBottomSheet.isInitialized) {
+                            successSubmitBottomSheet.show(supportFragmentManager, "")
+                        }else {
+                            Toast.makeText(this@SubmitPengajuanActivity, "Berhasil submit pengajuan", Toast.LENGTH_SHORT).show()
+                            navigateToHome()
+                        }
+
                     }
                     else -> {}
                 }
@@ -129,6 +133,13 @@ class SubmitPengajuanActivity : BaseActivity() {
         }
 
 
+    }
+
+    private fun navigateToHome() {
+        launchActivity<HomeActivity>(
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        )
+        finish()
     }
 
     private fun onCollectEventState() {
@@ -143,13 +154,14 @@ class SubmitPengajuanActivity : BaseActivity() {
             finish()
         }
         binding.btnSave.visibility = View.GONE
-
     }
 
     private fun init() {
         val id = intent.getExtraOrDefault("id", 0)
         viewmodel.jenisPerizinanId = id
-        Timber.w("id submit ${viewmodel.jenisPerizinanId}")
+        successSubmitBottomSheet = SuccesSubmitBottomSheet() {
+            navigateToHome()
+        }
     }
 
     private fun setLoadingView() {

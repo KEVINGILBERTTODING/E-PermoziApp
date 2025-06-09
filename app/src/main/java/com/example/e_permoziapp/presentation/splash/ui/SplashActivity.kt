@@ -17,7 +17,6 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        init()
         onCollectUiState()
     }
 
@@ -25,7 +24,11 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewmodel.isLoginValidate.collect  {
                 if (it) {
-                    launchActivity<HomeActivity>()
+                    if (viewmodel.role == "user") {
+                        launchActivity<HomeActivity>()
+                    }else {
+                        launchActivity<LoginActivity>()
+                    }
                 }else {
                     launchActivity<LoginActivity>()
                 }
@@ -33,9 +36,4 @@ class SplashActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun init() {
-
-    }
-
 }

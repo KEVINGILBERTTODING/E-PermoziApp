@@ -13,10 +13,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.e_permoziapp.R
+import com.example.e_permoziapp.core.constant.ServerInfo
 import com.example.e_permoziapp.core.extention.getIntentExtraOrDefault
+import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.data.login.model.UserModel
 import com.example.e_permoziapp.databinding.ActivityEditProfileBinding
 import com.example.e_permoziapp.presentation.common.state.UiState
+import com.example.e_permoziapp.presentation.common.ui.PhotoViewActivity
 import com.example.e_permoziapp.presentation.main.ui.BaseActivity
 import com.example.e_permoziapp.presentation.user.profile.viewmodel.EditProfileViewmodel
 import com.google.android.material.snackbar.Snackbar
@@ -46,7 +49,7 @@ class EditProfileActivity : BaseActivity() {
             binding.etEmail.setText(it.email)
             binding.etFullName.setText(it.name)
             binding.etNoHp.setText(it.mobileNumber)
-            binding.tvFileName.text = it.ktp
+            binding.etFileName.setText(it.ktp)
         }
     }
 
@@ -58,10 +61,15 @@ class EditProfileActivity : BaseActivity() {
         lifecycleScope.launch {
             viewmodel.updateState.collect {
                 when(val state = it) {
-                    is UiState.Loading -> binding.progressBar.visibility = View.VISIBLE
-                    is UiState.Success -> finish()
+                    is UiState.Loading -> {
+                        setLoadingView()
+                    }
+                    is UiState.Success -> {
+                        Toast.makeText(this@EditProfileActivity, "Berhasil mengubah profil", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
                     is UiState.Error -> {
-                        binding.progressBar.visibility = View.GONE
+                        setErrorView()
                         Toast.makeText(this@EditProfileActivity, state.message, Toast.LENGTH_SHORT).show()
                     }
                     else -> {}
@@ -73,10 +81,10 @@ class EditProfileActivity : BaseActivity() {
             viewmodel.selectedFileState.collect {
                 when(val state = it) {
                     is UiState.Error -> {
-                        binding.tvFileName.text = ""
+                        binding.etFileName.setText("")
                         Toast.makeText(this@EditProfileActivity, state.message, Toast.LENGTH_SHORT).show()
                     }
-                    is UiState.Success -> binding.tvFileName.text = state.data
+                    is UiState.Success -> binding.etFileName.setText(state.data)
                     else -> {}
                 }
             }
@@ -92,6 +100,16 @@ class EditProfileActivity : BaseActivity() {
 
     }
 
+    private fun setErrorView() {
+        binding.progressBar.visibility = View.GONE
+        binding.btnSubmit.visibility = View.VISIBLE
+    }
+
+    private fun setLoadingView() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.btnSubmit.visibility = View.GONE
+    }
+
     private fun onCollectEventState() {
         binding.btnSubmit.setOnClickListener{
             viewmodel.validateForm(
@@ -104,8 +122,28 @@ class EditProfileActivity : BaseActivity() {
         binding.btnChooseImg.setOnClickListener {
             pickMedia.launch(arrayOf(
                 "image/png",
+                "image/jpeg"
             ))
         }
+        binding.lrBack.btnBack.setOnClickListener { finish() }
+        binding.btnFileName.setOnClickListener {
+            val filename = binding.etFileName.text
+            if (filename.isNullOrEmpty().not()) {
+                if (viewmodel.fileSelectModel != null) {
+                    navigateToPhotoView(viewmodel.fileSelectModel?.uri.toString())
+                }else {
+                    val ktpFile = "${ServerInfo.FILE_PATH_PERSYARATAN}${viewmodel.userModel?.ktp ?: ""}"
+                    navigateToPhotoView(ktpFile)
+                }
+            }
+        }
     }
+
+    private fun navigateToPhotoView(url: String) {
+        launchActivity<PhotoViewActivity>(
+            "url" to url
+        )
+    }
+
 
 }

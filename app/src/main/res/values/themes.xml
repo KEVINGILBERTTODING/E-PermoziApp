@@ -8,6 +8,11 @@
         <item name="android:statusBarColor">@color/white</item>
         <item name="colorPrimary">@color/main</item>
     </style>
+    <style name="gray_status_bar" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="colorPrimary">@color/main</item>
+    </style>
     <style name="text_field_default_style" parent="Theme.Material3.Light.NoActionBar">
         <item name="fontFamily">@font/satoshi_medium</item>
         <item name="android:textSize">14sp</item>
@@ -22,6 +27,20 @@
     <style name="button_secondary_style" parent="Theme.Material3.Light.NoActionBar">
         <item name="backgroundTint">@color/blue_ff</item>
         <item name="android:textColor">@color/main</item>
+    </style>
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@android:color/transparent</item>
+    </style>
+    <style name="BottomNavTextActive" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/main</item>
+        <item name="android:fontFamily">@font/satoshi_medium</item>
+    </style>
+
+    <style name="BottomNavTextInactive" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black_80</item>
+        <item name="android:fontFamily">@font/satoshi_medium</item>
     </style>
 
     <style name="Theme.EPermoziApp" parent="Base.Theme.EPermoziApp" />

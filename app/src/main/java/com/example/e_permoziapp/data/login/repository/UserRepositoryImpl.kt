@@ -35,6 +35,10 @@ class UserRepositoryImpl(
         prefHelper.putString(Constant.roleKey, role)
     }
 
+    override fun getRole(): String {
+        return prefHelper.getString(Constant.roleKey) ?: ""
+    }
+
     override suspend fun getDataUser(userId: Int): Result<UserModel?> {
         if (userId < 1) {
             return Result.failure(Exception("Invalid user id"))

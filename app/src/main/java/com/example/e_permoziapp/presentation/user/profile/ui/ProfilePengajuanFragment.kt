@@ -79,7 +79,7 @@ class ProfilePengajuanFragment : Fragment() {
 
     private fun setLoadingView() {
         resetAllStateView()
-        binding.progressBar.visibility = View.VISIBLE
+        binding.lrSkeleton.visibility = View.VISIBLE
     }
 
     private fun setErrorView(params: String) {
@@ -99,7 +99,7 @@ class ProfilePengajuanFragment : Fragment() {
         }
         if (dataPengajuanList.isEmpty()) {
             binding.lrEmpty.visibility = View.VISIBLE
-            binding.emptyStateLayout.tvDesc.text = "Tidak ada pengajuan ditemukan."
+            binding.emptyStateLayout.tvDesc.text = "Kamu belum mengajukan perizinan untuk kategori ini."
         }else {
             adapter.updateData(dataPengajuanList)
             binding.rvPengajuan.visibility = View.VISIBLE
@@ -111,7 +111,7 @@ class ProfilePengajuanFragment : Fragment() {
     }
 
     private fun resetAllStateView() {
-        binding.progressBar.visibility = View.GONE
+        binding.lrSkeleton.visibility = View.GONE
         binding.rvPengajuan.visibility = View.GONE
         binding.lrEmpty.visibility = View.GONE
         binding.lrError.visibility = View.GONE

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.e_permoziapp.data.login.model.UserModel
 import com.example.e_permoziapp.domain.usecase.auth.LoginUseCase
 import com.example.e_permoziapp.domain.usecase.auth.SaveIsLoginUseCase
+import com.example.e_permoziapp.domain.usecase.auth.SaveRoleUseCase
 import com.example.e_permoziapp.domain.usecase.auth.SaveUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidateEmailUseCase
 import com.example.e_permoziapp.domain.usecase.auth.ValidatePasswordUseCase
@@ -20,7 +21,8 @@ class LoginViewmodel(
     private val emailUseCase: ValidateEmailUseCase,
     private val passwordUseCase: ValidatePasswordUseCase,
     private val saveUserIdUseCase: SaveUserIdUseCase,
-    private val saveIsLoginUseCase: SaveIsLoginUseCase
+    private val saveIsLoginUseCase: SaveIsLoginUseCase,
+    private val saveRoleUseCase: SaveRoleUseCase
 ) : ViewModel() {
     val _loginState = MutableStateFlow<UiState<UserModel>>(UiState.Idle)
     val loginState: StateFlow<UiState<UserModel>> = _loginState
@@ -46,9 +48,9 @@ class LoginViewmodel(
            _loginState.emit(UiState.Loading)
            try {
                val response = loginUseCase.login(email, password).getOrThrow()
-
                saveUserIdUseCase.invoke(response.id)
                saveIsLoginUseCase.invoke(true)
+               saveRoleUseCase(response.role)
                _loginState.emit(UiState.Success(response))
            }catch (e: Exception) {
                Timber.d("response login ${e.printStackTrace()}")

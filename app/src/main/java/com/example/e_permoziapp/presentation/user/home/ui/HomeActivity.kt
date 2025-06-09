@@ -16,7 +16,6 @@ import timber.log.Timber
 
 class HomeActivity : BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var jenisPerizinanPickerBottomSheet: JenisPerizinanPickerBottomSheet
     private val homeFragment = HomeFragment()
     private val userProfileFragment = UserProfileFragment()
     private var activeFragment: Fragment = homeFragment
@@ -29,17 +28,10 @@ class HomeActivity : BaseActivity() {
         setContentView(binding.root)
         init()
         initUi()
-        onCollectEventState()
         onCollectUiState()
     }
 
     private fun init() {
-        jenisPerizinanPickerBottomSheet = JenisPerizinanPickerBottomSheet {
-            Timber.w("id $it")
-            launchActivity<SubmitPengajuanActivity>(
-                "id" to it
-            )
-        }
         isFromProfile = getIntentExtraOrDefault("is_from_profile", false)
     }
 
@@ -73,11 +65,6 @@ class HomeActivity : BaseActivity() {
 
     }
 
-    private fun onCollectEventState() {
-        binding.fabAdd.setOnClickListener {
-            jenisPerizinanPickerBottomSheet.show(supportFragmentManager, jenisPerizinanPickerBottomSheet.tag)
-        }
-    }
     private fun fragmentTransaction(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .hide(activeFragment)
