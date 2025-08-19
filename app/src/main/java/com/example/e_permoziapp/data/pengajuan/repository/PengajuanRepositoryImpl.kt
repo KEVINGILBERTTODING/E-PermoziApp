@@ -1,0 +1,186 @@
+package com.example.e_permoziapp.data.pengajuan.repository
+
+import com.example.e_permoziapp.core.constant.Constant
+import com.example.e_permoziapp.data.common.model.ResponseApiModel
+import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
+import com.example.e_permoziapp.data.pengajuan.model.PengajuanRequestModel
+import com.example.e_permoziapp.data.pengajuan.model.ResponsePengajuanAEModel
+import com.example.e_permoziapp.data.pengajuan.model.UserPengajuanDetailModel
+import com.example.e_permoziapp.data.pengajuan.model.UserProfilePengajuanModel
+import com.example.e_permoziapp.domain.Entity.FileSelectModel
+import com.example.e_permoziapp.domain.remote.PengajuanService
+import com.example.e_permoziapp.domain.repository.PengajuanRepository
+import io.ktor.client.call.body
+import io.ktor.http.HttpStatusCode
+import timber.log.Timber
+
+class PengajuanRepositoryImpl(
+    private val pengajuanService: PengajuanService
+): PengajuanRepository {
+    override suspend fun getUserPengajuan(userId: Int): Result<List<PengajuanModel>?> {
+        return try {
+            if (userId < 1) return Result.failure(Exception("Invalid User Id"))
+            val dataRequest = PengajuanRequestModel(userId)
+            val response = pengajuanService.getPengajuanByUserId(dataRequest)
+            val body = response.body<ResponseApiModel<List<PengajuanModel>?>>()
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    Result.success(body.data)
+                }else -> {
+                    Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }
+            }
+
+        }catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getPengajuanDetail(id: Int): Result<UserPengajuanDetailModel> {
+        return try {
+            if (id < 1) return Result.failure(Exception("Invalid pengajuan id"))
+            val response = pengajuanService.getPengajuanDetail(id)
+            val body = response.body<ResponseApiModel<UserPengajuanDetailModel?>>()
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    if (body.data != null) {
+                        Result.success(body.data)
+                    }else {
+                        Result.failure(Exception(Constant.somethingWrong))
+                    }
+                }else -> {
+                Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }
+            }
+
+        }catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun updatePengajuan(
+        userId: Int,
+        pengajuanId: Int,
+        jenisPerizinanId: Int,
+        filePersyaratanList: List<FileSelectModel>
+    ): Result<Unit> {
+        return try {
+            val response = pengajuanService.updatePengajuan(userId, pengajuanId, jenisPerizinanId, filePersyaratanList)
+            val body = response.body<ResponseApiModel<Unit>>()
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    Result.success(Unit)
+                }else -> {
+                    Result.failure(Exception(body.message))
+                }
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
+            Result.failure(Exception(e.message))
+        }
+    }
+
+    override suspend fun submitPengajuan(
+        userId: Int,
+        jenisPerizinanId: Int,
+        filePersyaratanList: List<FileSelectModel>
+    ): Result<Unit> {
+        return try {
+            val response = pengajuanService.submitPengajuan(userId, jenisPerizinanId, filePersyaratanList)
+            val body = response.body<ResponseApiModel<Nothing>>()
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    Result.success(Unit)
+                }else -> {
+                    Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }
+            }
+
+        }catch (e: Exception) {
+            Result.failure(Exception(e.message))
+        }
+    }
+
+    override suspend fun destroyPengajuan(id: Int): Result<Unit> {
+        return try {
+            val response = pengajuanService.destroyPengajuan(id)
+            val body = response.body<ResponseApiModel<Nothing>>()
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    Result.success(Unit)
+                }else -> {
+                    Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }
+            }
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure(Exception(e.message))
+        }
+    }
+
+    override suspend fun getUserProfilePengajuan(userId: Int): Result<UserProfilePengajuanModel> {
+        return try {
+            val response = pengajuanService.getUserProfilePengajuan(userId)
+            val body = response.body<ResponseApiModel<UserProfilePengajuanModel>>()
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    if (body.data != null) {
+                        Result.success(body.data)
+                    }else
+                        Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }else -> {
+                    Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }
+            }
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getAEPengajuan(
+        startDate: String?,
+        endDate: String?,
+        userId: Int,
+        role: String,
+        idJenisPerizinan: Int?
+    ): Result<ResponsePengajuanAEModel> {
+        return try {
+            val response = pengajuanService.getAEPengajuan(startDate, endDate, userId, role, idJenisPerizinan)
+            val body = response.body<ResponseApiModel<ResponsePengajuanAEModel>>()
+            if (body.data != null) {
+                Result.success(body.data)
+            }else {
+                Result.failure(Exception(body.message))
+            }
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun replyPengajuan(
+        aempId: Int,
+        userId: Int,
+        pengajuanId: Int,
+        status: String,
+        role: String,
+        balasanFile: FileSelectModel?,
+        balasanText: String?
+    ): Result<Unit> {
+        return try {
+            val response = pengajuanService.replyPengajuan(aempId, userId, pengajuanId, status, role, balasanFile, balasanText)
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    Result.success(Unit)
+                }else -> {
+                    Result.failure(Exception(Constant.somethingWrong))
+                }
+            }
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure(e)
+        }
+    }
+
+}

@@ -1,0 +1,46 @@
+package com.example.e_permoziapp.presentation.splash.ui
+
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.e_permoziapp.core.extention.launchActivity
+import com.example.e_permoziapp.databinding.ActivitySplashBinding
+import com.example.e_permoziapp.presentation.onboarding.ui.OnboardingActivity
+import com.example.e_permoziapp.presentation.user.home.ui.HomeActivity
+import com.example.e_permoziapp.presentation.user.login.ui.LoginActivity
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
+class SplashActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySplashBinding
+    private val viewmodel: SplashViewmodel by viewModel()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        onCollectUiState()
+    }
+
+    private fun onCollectUiState() {
+        lifecycleScope.launch {
+            viewmodel.isLoginValidate.collect  {
+                if (it) {
+                    if (viewmodel.role == "user") {
+                        launchActivity<HomeActivity>()
+                    }else if (viewmodel.role == "admin" || viewmodel.role == "employee") {
+                        launchActivity<com.example.e_permoziapp.presentation.admin_employee.home.ui.HomeActivity>()
+                    }else {
+                        launchActivity<LoginActivity>()
+                    }
+                }else {
+                    if (!viewmodel.isFinishOnboarding()) {
+                        launchActivity<OnboardingActivity>()
+                    }else {
+                        launchActivity<LoginActivity>()
+                    }
+                }
+                finish()
+            }
+        }
+    }
+}

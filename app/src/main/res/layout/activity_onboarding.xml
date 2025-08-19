@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:padding="16dp"
+    android:background="@color/bg"
     android:layout_height="match_parent"
-    tools:context=".presentation.onboarding.OnboardingActivity">
+    tools:context=".presentation.onboarding.ui.OnboardingActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/satoshi_medium"
+        android:textSize="16sp"
+        android:id="@+id/tvSkip"
+        android:layout_gravity="end"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/main"
+        android:text="@string/lewati"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dots_indicator"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        app:dotsColor="@color/gray_e1"
+        app:dotsCornerRadius="8dp"
+        app:dotsSize="10dp"
+        android:layout_gravity="end"
+        app:dotsSpacing="4dp"
+        app:dotsWidthFactor="2.5"
+        app:selectedDotColor="@color/main"
+        app:progressMode="true"
+        />
+</LinearLayout>

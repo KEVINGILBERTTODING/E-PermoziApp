@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg"
+    android:padding="16dp"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/ivIllustrator"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/iv_login"
+                android:layout_height="250dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:id="@+id/tvTitle"
+                android:layout_marginTop="20dp"
+                android:textSize="22sp"
+                android:text="Selamat Datang"
+                android:textColor="@color/black"
+                android:fontFamily="@font/satoshi_bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:textSize="14sp"
+                android:id="@+id/tvDesc"
+                android:text="Selamat Datang"
+                android:textColor="@color/black_53"
+                android:fontFamily="@font/satoshi_regular"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:id="@+id/btnGetStarted"
+                android:textColor="@color/main"
+                android:backgroundTint="@color/blue_ff"
+                android:text="@string/mulai_sekarang"
+                android:fontFamily="@font/satoshi_bold"
+                android:textSize="16sp"
+                android:layout_marginTop="30dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+</androidx.core.widget.NestedScrollView>

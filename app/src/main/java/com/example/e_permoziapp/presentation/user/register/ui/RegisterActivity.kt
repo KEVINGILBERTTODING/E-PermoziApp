@@ -1,0 +1,103 @@
+package com.example.e_permoziapp.presentation.user.register.ui
+
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
+import com.example.e_permoziapp.core.extention.launchActivity
+import com.example.e_permoziapp.databinding.ActivityRegisterBinding
+import com.example.e_permoziapp.presentation.common.state.UiState
+import com.example.e_permoziapp.presentation.common.ui.PhotoViewActivity
+import com.example.e_permoziapp.presentation.user.register.component.SuccesRegisterBottomSheet
+import com.example.e_permoziapp.presentation.user.register.viewmodel.RegisterViewModel
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
+
+class RegisterActivity : AppCompatActivity() {
+    private val viewmodel: RegisterViewModel by viewModel()
+    private lateinit var binding: ActivityRegisterBinding
+    private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
+    private lateinit var successRegisterBottomSheet: SuccesRegisterBottomSheet
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        init()
+        initUi()
+        onCollectEventState()
+        onCollectUiState()
+    }
+
+    private fun init() {
+        successRegisterBottomSheet = SuccesRegisterBottomSheet {
+            finish()
+        }
+    }
+
+    private fun onCollectUiState() {
+        lifecycleScope.launch {
+            viewmodel.uiState.collect {
+                when (it) {
+                    is UiState.Success -> {
+                        updateUiVisibility(false)
+                        resetForm()
+                        if (::successRegisterBottomSheet.isInitialized) {
+                            successRegisterBottomSheet.show(supportFragmentManager, "")
+                        }else {
+                            finish()
+                        }
+                    }
+                    is UiState.Error -> {
+                        Toast.makeText(this@RegisterActivity, it.message, Toast.LENGTH_SHORT).show()
+                        updateUiVisibility(false)
+                    } 
+                    is UiState.Loading -> {
+                        updateUiVisibility(true)
+                    }
+                    else -> {updateUiVisibility(false)}
+                }
+            }
+        }
+    }
+
+    private fun initUi() {
+        pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                viewmodel.getFilename(uri)
+            }
+        }
+    }
+
+    private fun resetForm() {
+        binding.etEmail.setText("")
+        binding.etFullName.setText("")
+        binding.etPassword.setText("")
+        binding.etNoHp.setText("")
+        viewmodel.resetKtpFile()
+    }
+
+    private fun onCollectEventState() {
+        binding.btnRegister.setOnClickListener {
+            viewmodel.validateRegiserForm(
+                binding.etEmail.text.toString(),
+                binding.etFullName.text.toString(),
+                binding.etPassword.text.toString(),
+                binding.etNoHp.text.toString(),
+            )
+        }
+        binding.lrBack.btnBack.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun updateUiVisibility(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.btnRegister.visibility = if (isLoading) View.GONE else View.VISIBLE
+    }
+}

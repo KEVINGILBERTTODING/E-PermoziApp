@@ -1,9 +1,63 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.EPermoziApp" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/main</item>
     </style>
+    <style name="White_status_bar" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="colorPrimary">@color/main</item>
+    </style>
+    <style name="gray_status_bar" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="colorPrimary">@color/main</item>
+    </style>
+    <style name="tablayout_style" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:fontFamily">@font/satoshi_medium</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+    <style name="text_field_default_style" parent="Theme.Material3.Light.NoActionBar">
+        <item name="fontFamily">@font/satoshi_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="text_input_layout_default_style" parent="Theme.Material3.Light.NoActionBar">
+        <item name="boxCornerRadiusBottomEnd">14dp</item>
+        <item name="boxCornerRadiusTopEnd">14dp</item>
+        <item name="boxCornerRadiusTopStart">14dp</item>
+        <item name="boxCornerRadiusBottomStart">14dp</item>
+    </style>
+    <style name="button_secondary_style" parent="Theme.Material3.Light.NoActionBar">
+        <item name="backgroundTint">@color/blue_ff</item>
+        <item name="android:textColor">@color/main</item>
+    </style>
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@android:color/transparent</item>
+    </style>
+    <style name="BottomNavTextActive" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/main</item>
+        <item name="android:fontFamily">@font/satoshi_medium</item>
+    </style>
+
+    <style name="BottomNavTextInactive" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black_80</item>
+        <item name="android:fontFamily">@font/satoshi_medium</item>
+    </style>
+
+    <style name="SpinnerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/black</item>
+        <item name="fontFamily">@font/satoshi_regular</item>
+    </style>
+
+    <style name="MyDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/main</item>
+        <item name="fontFamily">@font/satoshi_medium</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
 
     <style name="Theme.EPermoziApp" parent="Base.Theme.EPermoziApp" />
 </resources>

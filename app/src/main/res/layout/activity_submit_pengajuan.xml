@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp"
+    android:background="@color/bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.user.Pengajuan.ui.SubmitPengajuanActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include android:id="@+id/btnBack"
+            layout="@layout/button_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text="@string/form_pengajuan"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/satoshi_bold"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/tvPengajuanName"
+            android:textColor="@color/black"
+            android:fontFamily="@font/satoshi_medium"
+            android:layout_height="wrap_content"/>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:scrollbars="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <include
+                    android:id="@+id/lrSkeleton"
+                    layout="@layout/item_persyaratan_skeleton"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPersyaratan"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <RelativeLayout
+                    android:id="@+id/rlButtonSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="bottom"
+                    android:layout_height="wrap_content">
+                    <ProgressBar
+                        android:layout_width="24dp"
+                        android:indeterminateTint="@color/main"
+                        android:id="@+id/progressBarSubmit"
+                        android:visibility="gone"
+                        android:layout_centerInParent="true"
+                        android:layout_height="24dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:id="@+id/btnSubmit"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/satoshi_bold"
+                        android:layout_height="56dp"
+                        android:text="@string/simpan"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+    <include
+        android:id="@+id/lrEmptyView"
+        layout="@layout/empty_state_layout"/>
+    <include
+        android:id="@+id/lrErrorView"
+        layout="@layout/error_state_layout"/>
+</RelativeLayout>

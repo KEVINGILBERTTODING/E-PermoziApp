@@ -1,7 +1,7 @@
 package com.example.e_permoziapp.data.register.repository
 
 import com.example.e_permoziapp.data.common.model.ResponseApiModel
-import com.example.e_permoziapp.data.register.remote.RegisterService
+import com.example.e_permoziapp.domain.remote.RegisterService
 import com.example.e_permoziapp.domain.repository.RegisterRepository
 import io.ktor.client.call.body
 import io.ktor.http.HttpStatusCode
@@ -13,11 +13,10 @@ class RegisterRepositoryImpl(
         email: String,
         fullname: String,
         mobileNumber: String,
-        password: String,
-        ktp: ByteArray
+        password: String
     ): Result<ResponseApiModel<String?>> {
         return try {
-            val response = service.register(email, fullname, mobileNumber, password, ktp)
+            val response = service.register(email, fullname, mobileNumber, password)
             val body = response.body<ResponseApiModel<Nothing>>()
             when(response.status) {
                 HttpStatusCode.OK -> {

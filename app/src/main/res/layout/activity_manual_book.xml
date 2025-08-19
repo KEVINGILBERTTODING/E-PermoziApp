@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:background="@color/bg"
+    android:layout_height="match_parent"
+    tools:context=".presentation.onboarding.ui.OnboardingActivity">
+
+    <include android:id="@+id/btnBack"
+        layout="@layout/button_back"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="@string/panduan_pengguna"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/satoshi_bold"
+        android:layout_height="wrap_content"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dots_indicator"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        app:dotsColor="@color/gray_e1"
+        app:dotsCornerRadius="8dp"
+        app:dotsSize="10dp"
+        android:layout_gravity="center"
+        app:dotsSpacing="4dp"
+        app:dotsWidthFactor="2.5"
+        app:selectedDotColor="@color/main"
+        app:progressMode="true"
+        />
+</LinearLayout>

@@ -14,8 +14,22 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions += "default"
+
+    productFlavors {
+        create("dev") {
+            dimension = "default"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            buildConfigField("String", "BASE_URL", "\"http://172.16.116.97:8000/\"")
+        }
+        create("prod") {
+            dimension = "default"
+            buildConfigField("String", "BASE_URL", "\"https://www/e-permozi.com/\"")
+        }
     }
 
     buildTypes {
@@ -38,6 +52,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 }
 
@@ -58,4 +73,12 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:3.1.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
     implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.google.code.gson:gson:2.13.1")
+    implementation("io.getstream:photoview:1.0.3")
+    implementation("com.airbnb.android:lottie:6.6.6")
+    implementation("com.tbuonomo:dotsindicator:5.1.0")
 }

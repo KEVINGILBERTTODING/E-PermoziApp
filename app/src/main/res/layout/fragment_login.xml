@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.admin_employee.auth.ui.LoginFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_above="@id/rlBottom"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvGreeting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/masuk"
+                    android:layout_marginTop="20dp"
+                    android:textSize="30sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/satoshi_bold"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/masuk_untuk_mengelola"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/satoshi_regular"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:hint="@string/email"
+                    android:layout_marginTop="18dp"
+                    style="@style/text_input_layout_default_style"
+                    android:id="@+id/etEmail"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        style="@style/text_field_default_style"
+                        android:inputType="textEmailAddress"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="12dp"
+                    style="@style/text_input_layout_default_style"
+                    android:hint="@string/password"
+                    android:id="@+id/etPassword"
+                    app:passwordToggleEnabled="true"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:inputType="textPassword"
+                        android:maxHeight="1dp"
+                        style="@style/text_field_default_style"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/rlBottom"
+            android:layout_height="wrap_content">
+            <ProgressBar
+                android:layout_width="24dp"
+                android:indeterminateTint="@color/main"
+                android:id="@+id/progressBar"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:layout_height="24dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:id="@+id/btnLogin"
+                android:fontFamily="@font/satoshi_bold"
+                android:layout_height="56dp"
+                android:textSize="16sp"
+                android:text="@string/masuk"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</FrameLayout>
