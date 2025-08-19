@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.e_permoziapp.data.perizinan.model.JenisPerizinanModel
 import com.example.e_permoziapp.databinding.JenisPerizinanPickerLayoutBinding
 import com.example.e_permoziapp.presentation.common.state.UiState
 import com.example.e_permoziapp.presentation.user.home.adapter.JenisPerizinanAdapter
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class JenisPerizinanPickerBottomSheet(
-    private val onClick: (Int) -> Unit
+    private val onClick: (JenisPerizinanModel) -> Unit
 ): BottomSheetDialogFragment() {
     private val homeViewmodel: HomeViewmodel by activityViewModel()
     private lateinit var binding: JenisPerizinanPickerLayoutBinding
@@ -40,7 +41,7 @@ class JenisPerizinanPickerBottomSheet(
 
     private fun init() {
         adapter = JenisPerizinanAdapter(mutableListOf()) {
-            onClick(it.id)
+            onClick(it)
             dismiss()
         }
         binding.rvJenisPerizinan.adapter = adapter

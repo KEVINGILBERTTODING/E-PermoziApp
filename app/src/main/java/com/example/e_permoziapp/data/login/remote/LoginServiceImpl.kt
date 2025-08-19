@@ -2,6 +2,7 @@ package com.example.e_permoziapp.data.login.remote
 
 import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.core.constant.ServerInfo
+import com.example.e_permoziapp.data.login.model.LoginAERequestModel
 import com.example.e_permoziapp.data.login.model.LoginRequestModel
 import com.example.e_permoziapp.domain.remote.LoginService
 import io.ktor.client.HttpClient
@@ -22,5 +23,12 @@ class LoginServiceImpl(
          contentType(ContentType.Application.Json)
          setBody(LoginRequestModel(email, password))
      }
+    }
+
+    override suspend fun loginAe(email: String, password: String, role: String): HttpResponse {
+        return httpClient.post("${ServerInfo.BASE_URL}admin-employee/auth") {
+            contentType(ContentType.Application.Json)
+            setBody(LoginAERequestModel(email, password, role))
+        }
     }
 }

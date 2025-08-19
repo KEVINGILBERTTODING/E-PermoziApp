@@ -13,11 +13,10 @@ class RegisterRepositoryImpl(
         email: String,
         fullname: String,
         mobileNumber: String,
-        password: String,
-        ktp: ByteArray
+        password: String
     ): Result<ResponseApiModel<String?>> {
         return try {
-            val response = service.register(email, fullname, mobileNumber, password, ktp)
+            val response = service.register(email, fullname, mobileNumber, password)
             val body = response.body<ResponseApiModel<Nothing>>()
             when(response.status) {
                 HttpStatusCode.OK -> {

@@ -1,5 +1,6 @@
 package com.example.e_permoziapp.data.pengajuan.model
 
+import com.example.e_permoziapp.data.login.model.UserModel
 import com.example.e_permoziapp.data.perizinan.model.JenisPerizinanModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -21,5 +22,7 @@ data class PengajuanModel (
     @SerialName("jenis_perizinan")
     val jenisPerizinan: JenisPerizinanModel? = null,
     @SerialName("is_edit")
-    val isEdit: Boolean? = false
+    val isEdit: Boolean? = false,
+    @SerialName("user")
+    val user: UserModel? = null
 )

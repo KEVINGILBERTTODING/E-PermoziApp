@@ -20,9 +20,31 @@ data class UserModel(
     @SerialName("mobile_number")
     val mobileNumber: String = "",
     @SerialName("ktp")
-    val ktp: String = "",
+    val ktp: String? = "",
     @SerialName("created_at")
     val createdAt: String = "",
     @SerialName("role")
-    val role: String = ""
+    val role: String? = "",
+    @SerialName("nib")
+    val nib: String? = "",
+    @SerialName("npwp")
+    val npwp: String? = "",
+    @SerialName("nik")
+    val nik: String? = "",
+    @SerialName("address")
+    val address: String? = "",
+    @SerialName("tempat_lahir")
+    val tempatLahir: String? = "",
+    @SerialName("tgl_lahir")
+    val tglLahir: String? = "",
+    @SerialName("jenis_kelamin")
+    val jenisKelamin: String? = "",
+    @SerialName("agama")
+    val agama: String? = "",
+    @SerialName("pekerjaan")
+    val pekerjaan: String? = "",
+    @SerialName("kewarganegaraan")
+    val kewarganegaraan: String? = "",
+    @SerialName("is_verified")
+    val isVerified: Boolean? = false
 )

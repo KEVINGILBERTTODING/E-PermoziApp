@@ -4,16 +4,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.e_permoziapp.core.constant.ServerInfo
+import com.example.e_permoziapp.core.util.FileHelper
 import com.example.e_permoziapp.data.persyaratan.model.PersyaratanPerizinanModel
 import com.example.e_permoziapp.databinding.ItemPersyaratanBinding
+import com.example.e_permoziapp.domain.Entity.FilePersyaratanModel
 import com.example.e_permoziapp.domain.Entity.FileSelectModel
+import timber.log.Timber
+import java.io.File
 
 class PersyaratanPerizinanAdapter(
     private var persyaratanList: MutableList<PersyaratanPerizinanModel>,
     private val isEdit: Boolean,
     private val fileSelectedList: MutableList<FileSelectModel>,
     private val onClick: (PersyaratanPerizinanModel) -> Unit,
-    private val chooseFileClick: (Pair<Int, Int>) -> Unit
+    private val chooseFileClick: (Pair<Int, Int>) -> Unit,
+    private val fileClick: (FilePersyaratanModel) -> Unit
 ): RecyclerView.Adapter<PersyaratanPerizinanAdapter.ViewHolder>() {
 
     inner class ViewHolder(
@@ -31,24 +37,54 @@ class PersyaratanPerizinanAdapter(
     override fun onBindViewHolder(holder: PersyaratanPerizinanAdapter.ViewHolder, position: Int) {
         val dataPersyaratan = persyaratanList[position]
         val fileSelectModel = fileSelectedList.getOrNull(position)
-        holder.binding.tvTitle.text = dataPersyaratan.name
+        holder.binding.tvTitle.text = dataPersyaratan.name + if (dataPersyaratan.isRequired == 1) "*" else ""
+        Timber.w("content ${dataPersyaratan.content}")
         if (isEdit) {
-            holder.binding.rlUploadFile.visibility = View.VISIBLE
-            holder.binding.btnDownload.visibility = View.GONE
-            holder.binding.tvName.text = fileSelectModel?.filename
-
+            var filePersyaratanModel = FilePersyaratanModel()
+            if (fileSelectModel != null && fileSelectModel.filename.isNullOrEmpty().not()) {
+                filePersyaratanModel = FilePersyaratanModel(
+                    url = fileSelectModel.uri.toString(),
+                    uri = fileSelectModel.uri,
+                    fileName = fileSelectModel.filename ?: "",
+                    format = fileSelectModel.format ?: "",
+                    isUri = true
+                )
+                holder.binding.etFileName.setText(fileSelectModel.filename)
+            }else {
+                filePersyaratanModel = if (dataPersyaratan.content.isNullOrEmpty().not()) {
+                    val url = "${ServerInfo.FILE_PATH_PERSYARATAN}${dataPersyaratan.content}"
+                    val format = FileHelper.getFileExtension(dataPersyaratan.content ?: "")
+                    FilePersyaratanModel(
+                        url = url,
+                        fileName = dataPersyaratan.content ?: "",
+                        format = format,
+                        isUri = false
+                    )
+                }else FilePersyaratanModel()
+                holder.binding.etFileName.setText(dataPersyaratan.content)
+            }
+            holder.binding.btnAction.text = "Pilih file"
+            holder.binding.btnAction.setOnClickListener {
+                chooseFileClick(Pair<Int, Int>(position, dataPersyaratan.id))
+            }
+            holder.binding.btnFileName.setOnClickListener {
+                if (filePersyaratanModel.url.isNotEmpty() || filePersyaratanModel.uri != null){
+                    fileClick(filePersyaratanModel)
+                }
+            }
         }else {
-            holder.binding.btnDownload.visibility = if (!dataPersyaratan.content.isNullOrEmpty()) View.VISIBLE else View.GONE
-            holder.binding.rlUploadFile.visibility = View.GONE
-        }
-
-        holder.binding.tvRequired.visibility = if (dataPersyaratan.isRequired == 1) View.VISIBLE else View.GONE
-
-        holder.binding.btnDownload.setOnClickListener {
-            onClick(dataPersyaratan)
-        }
-        holder.binding.btnUpload.setOnClickListener {
-            chooseFileClick(Pair<Int, Int>(position, dataPersyaratan.id))
+            holder.binding.btnAction.text = "Download"
+            holder.binding.etFileName.visibility = View.GONE
+            if (dataPersyaratan.content.isNullOrEmpty()) {
+                holder.binding.tvFileNotFound.visibility = View.VISIBLE
+                holder.binding.rlButton.visibility = View.GONE
+            }else {
+                holder.binding.tvFileNotFound.visibility = View.GONE
+                holder.binding.rlButton.visibility = View.VISIBLE
+            }
+            holder.binding.btnAction.setOnClickListener {
+                onClick(dataPersyaratan)
+            }
         }
     }
 

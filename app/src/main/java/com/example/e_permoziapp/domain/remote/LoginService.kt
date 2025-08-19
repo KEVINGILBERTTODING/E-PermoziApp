@@ -7,4 +7,5 @@ import io.ktor.http.cio.Response
 
 interface LoginService {
     suspend fun login(email: String, password: String) : HttpResponse
+    suspend fun loginAe(email: String, password: String, role: String) : HttpResponse
 }

@@ -10,6 +10,7 @@ import com.example.e_permoziapp.core.util.ImageHelper
 import com.example.e_permoziapp.data.persyaratan.model.PersyaratanPerizinanModel
 import com.example.e_permoziapp.domain.Entity.FileSelectModel
 import com.example.e_permoziapp.domain.usecase.auth.GetUserIdUseCase
+import com.example.e_permoziapp.domain.usecase.common.DownloadFileUseCase
 import com.example.e_permoziapp.domain.usecase.common.ValidateFileUploadUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.SubmitPengajuanUseCase
 import com.example.e_permoziapp.domain.usecase.pengajuan.ValidateSubmitFilePengajuan
@@ -27,7 +28,8 @@ class SubmitPengajuanViewmodel(
     private val validateSubmitFilePengajuan: ValidateSubmitFilePengajuan,
     private val validateSubmitPengajuan: ValidateSubmitPengajuan,
     private val getPersyaratanByJenisIdUseCase: GetPersyaratanByJenisIdUseCase,
-    private val submitPengajuanUseCase: SubmitPengajuanUseCase
+    private val submitPengajuanUseCase: SubmitPengajuanUseCase,
+    private val downloadFileUseCase: DownloadFileUseCase
 ): ViewModel() {
 
     var jenisPerizinanId = 0
@@ -41,6 +43,9 @@ class SubmitPengajuanViewmodel(
     private val _getPersyaratanState = MutableStateFlow<UiState<List<PersyaratanPerizinanModel>>>(
         UiState.Idle)
     val getPersyaratanState: StateFlow<UiState<List<PersyaratanPerizinanModel>>> = _getPersyaratanState
+    var jenisPengajuanTitle = ""
+    private val _downloadState = MutableStateFlow<UiState<Uri>>(UiState.Idle)
+    val downloadState: StateFlow<UiState<Uri>> = _downloadState
 
     fun validateFileSelected(uri: Uri, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -72,7 +77,10 @@ class SubmitPengajuanViewmodel(
             val response = getPersyaratanByJenisIdUseCase(jenisPerizinanId)
             response
                 .onSuccess {
-                    val dataFiltered = it.filter { it.name.lowercase().contains("ktp").not() }
+                    val dataFiltered = it.filter { data ->
+                        !data.name.lowercase().contains("ktp")
+                                && !data.name.lowercase().contains("npwp")
+                    }
                     persyaratanModelList.addAll(dataFiltered)
                     _getPersyaratanState.emit(UiState.Success(dataFiltered))
                 }
@@ -104,12 +112,24 @@ class SubmitPengajuanViewmodel(
         }
     }
 
-    suspend fun storePengajuan(userId: Int, filePengajuan: List<FileSelectModel>) {
+    private fun storePengajuan(userId: Int, filePengajuan: List<FileSelectModel>) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = submitPengajuanUseCase.invoke(userId, jenisPerizinanId, filePengajuan)
             response
                 .onSuccess { _submitState.emit(UiState.Success(Unit)) }
                 .onFailure { _submitState.emit(UiState.Error(it.message ?: Constant.somethingWrong)) }
+        }
+    }
+
+    fun download(url: String, fileName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _downloadState.emit(UiState.Loading)
+            val response = downloadFileUseCase(url, fileName)
+            if (response.isSuccess) {
+                _downloadState.emit(UiState.Success(response.getOrThrow()))
+            } else {
+                _downloadState.emit(UiState.Error(response.exceptionOrNull()?.message ?: Constant.somethingWrong))
+            }
         }
     }
 }

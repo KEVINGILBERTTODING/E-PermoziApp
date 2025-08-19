@@ -7,9 +7,11 @@ import com.example.e_permoziapp.domain.Entity.FileSelectModel
 import com.example.e_permoziapp.domain.remote.PengajuanService
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
+import io.ktor.client.request.forms.append
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
@@ -87,5 +89,57 @@ class PengajuanServiceImpl(
 
     override suspend fun getUserProfilePengajuan(userId: Int): HttpResponse {
         return httpClient.get("${ServerInfo.BASE_URL}user/profile/pengajuan/$userId")
+    }
+
+    override suspend fun getAEPengajuan(
+        startDate: String?,
+        endDate: String?,
+        userId: Int,
+        role: String,
+        idJenisPerizinan: Int?
+    ): HttpResponse {
+        return httpClient.get("${ServerInfo.BASE_URL}admin-employee/pengajuan",
+        ) {
+            url {
+                parameter("start_date", startDate ?: "")
+                parameter("end_date", endDate ?: "")
+                parameter("user_id", userId)
+                parameter("role", role)
+                parameter("jenis_perizinan_id", idJenisPerizinan ?: 0)
+            }
+        }
+    }
+
+    override suspend fun replyPengajuan(
+        aempId: Int,
+        userId: Int,
+        pengajuanId: Int,
+        status: String,
+        role: String,
+        balasanFile: FileSelectModel?,
+        balasanText: String?
+    ): HttpResponse {
+        val response = httpClient.submitFormWithBinaryData(
+            url = "${ServerInfo.BASE_URL}admin-employee/pengajuan/update",
+            formData = formData {
+                append("aemp_id", aempId)
+                append("user_id", userId)
+                append("role", role)
+                append("status", status)
+                append("pengajuan_id", pengajuanId)
+                if (balasanFile != null) {
+                    append(balasanFile.key!!, balasanFile.byteArray!!, Headers.build {
+                        append(HttpHeaders.ContentDisposition, "filename=${balasanFile.filename}")
+                        append(HttpHeaders.ContentType, balasanFile.format!!)
+                    })
+                }
+                if (!balasanText.isNullOrEmpty()) {
+                    append("balasan_text", balasanText)
+                }
+            }
+        ){
+            method = HttpMethod.Post
+        }
+        return response
     }
 }

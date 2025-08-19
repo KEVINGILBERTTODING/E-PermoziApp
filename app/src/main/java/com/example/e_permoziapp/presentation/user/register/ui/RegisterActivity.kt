@@ -42,11 +42,6 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun onCollectUiState() {
         lifecycleScope.launch {
-            viewmodel.imgSelected.collect {
-                it.fileName?.let { it1 -> binding.etFileName.setText(it1) }
-            }
-        }
-        lifecycleScope.launch {
             viewmodel.uiState.collect {
                 when (it) {
                     is UiState.Success -> {
@@ -84,14 +79,10 @@ class RegisterActivity : AppCompatActivity() {
         binding.etFullName.setText("")
         binding.etPassword.setText("")
         binding.etNoHp.setText("")
-        binding.etFileName.setText("")
         viewmodel.resetKtpFile()
     }
 
     private fun onCollectEventState() {
-        binding.btnChooseImg.setOnClickListener {
-            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        }
         binding.btnRegister.setOnClickListener {
             viewmodel.validateRegiserForm(
                 binding.etEmail.text.toString(),
@@ -102,12 +93,6 @@ class RegisterActivity : AppCompatActivity() {
         }
         binding.lrBack.btnBack.setOnClickListener {
             finish()
-        }
-        binding.btnFileName.setOnClickListener{
-            val uri = viewmodel.imgSelected.value.uri
-            if (uri != null) launchActivity<PhotoViewActivity>(
-                "url" to uri.toString()
-            )
         }
     }
 

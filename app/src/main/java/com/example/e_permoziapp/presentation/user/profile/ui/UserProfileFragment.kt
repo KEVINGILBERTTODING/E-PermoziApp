@@ -36,8 +36,6 @@ class UserProfileFragment : Fragment() {
     private lateinit var logOutBottomSheet: LogOutBottomSheet
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,7 +57,6 @@ class UserProfileFragment : Fragment() {
 
     private fun init() {
         logOutBottomSheet = LogOutBottomSheet() {
-            Timber.w("onclick logout")
             (activity as? HomeActivity)?.logOut()
         }
     }
@@ -103,15 +100,18 @@ class UserProfileFragment : Fragment() {
                     is UiState.Loading -> {
                         binding.progressBarPhoto.visibility = View.VISIBLE
                         binding.ivProfile.visibility = View.GONE
+                        binding.cvEdit.visibility = View.GONE
                     }
                     is UiState.Success -> {
                         binding.progressBarPhoto.visibility = View.GONE
                         binding.ivProfile.setImageURI(state.data)
                         binding.ivProfile.visibility = View.VISIBLE
+                        binding.cvEdit.visibility = View.VISIBLE
                     }
                     is UiState.Error -> {
                         binding.progressBarPhoto.visibility = View.GONE
                         binding.ivProfile.visibility = View.VISIBLE
+                        binding.cvEdit.visibility = View.VISIBLE
                         Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                     }
                     else -> {}
@@ -153,6 +153,8 @@ class UserProfileFragment : Fragment() {
         binding.ivProfile.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
+        binding.cvEdit.setOnClickListener { binding.ivProfile.performClick() }
+        binding.btnEdit.setOnClickListener { binding.ivProfile.performClick() }
     }
 
     private fun getUserProfile() {

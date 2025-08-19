@@ -42,8 +42,10 @@ class HomeActivity : BaseActivity() {
             .add(binding.homeContainer.id, homeFragment, "HOME").commit()
         activeFragment = homeFragment
         if (isFromProfile) {
+            binding.bottomBar.selectedItemId = R.id.menuProfile
             fragmentTransaction(userProfileFragment)
         }else {
+            binding.bottomBar.selectedItemId = R.id.menuHome
             fragmentTransaction(homeFragment)
         }
     }

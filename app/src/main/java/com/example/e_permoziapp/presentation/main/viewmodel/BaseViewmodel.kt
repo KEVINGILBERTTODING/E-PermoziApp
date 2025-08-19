@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.e_permoziapp.domain.repository.SessionRepository
 import com.example.e_permoziapp.domain.usecase.auth.ClearAllUserInfoUseCase
+import com.example.e_permoziapp.domain.usecase.auth.GetRoleUseCase
 import com.example.e_permoziapp.domain.usecase.auth.GetUserDataUseCase
 import com.example.e_permoziapp.domain.usecase.auth.GetUserIdUseCase
 import com.example.e_permoziapp.domain.usecase.auth.LogoutUseCase
@@ -17,12 +18,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.math.log
 
 class BaseViewmodel(
-    private val getUserDataUseCase: GetUserDataUseCase,
     private val getUserIdUseCase: GetUserIdUseCase,
     private val sessionRepository: SessionRepository,
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
+    private val getRoleUseCase: GetRoleUseCase
 ): ViewModel() {
     private val _isLogOut = MutableSharedFlow<Boolean>()
     private val isLogout: SharedFlow<Boolean> = _isLogOut
@@ -35,30 +37,21 @@ class BaseViewmodel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            getUserData()
+            validateUserId()
         }
     }
 
-    private fun getUserData() {
+    private fun validateUserId() {
         viewModelScope.launch(Dispatchers.IO) {
             val userId = getUserIdUseCase.invoke()
+            val role = getRoleUseCase()
             if (userId < 1) {
                 logOut()
                 return@launch
             }
-            val response = getUserDataUseCase.execute(userId)
-            Timber.d("response: $response")
-            if (response.isSuccess) {
-                val body = response.getOrNull()
-                if (body != null) {
-                    val userStatus = body.status
-                    if (userStatus != "active") {
-                        logOut()
-                        _isLogOut.emit(true)
-                    }
-                }else {
-                    return@launch
-                }
+            if (role.isEmpty()) {
+                logOut()
+                return@launch
             }
         }
     }

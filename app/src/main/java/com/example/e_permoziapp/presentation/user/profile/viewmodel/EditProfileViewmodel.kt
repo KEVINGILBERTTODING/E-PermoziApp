@@ -29,52 +29,71 @@ class EditProfileViewmodel(
 ): ViewModel() {
     var userModel: UserModel? = null
     var fileSelectModel: FileSelectModel? = null
+    var fileSelectNpwpModel: FileSelectModel? = null
     private val _updateState = MutableStateFlow<UiState<Unit>>(UiState.Idle)
     val updateState: StateFlow<UiState<Unit>> = _updateState
     private val _selectedFileState = MutableStateFlow<UiState<String?>>(UiState.Idle)
     val selectedFileState: StateFlow<UiState<String?>> = _selectedFileState
+    private val _selectedFileNpwpState = MutableStateFlow<UiState<String?>>(UiState.Idle)
+    val selectedFileNpwpState: StateFlow<UiState<String?>> = _selectedFileNpwpState
+    var typeFileSelectedState = ""
 
     fun validateForm(name: String?, email: String?,
-                             password: String?, mobileNumber: String?){
+                             password: String?, mobileNumber: String?, nib: String?,
+                     nik: String?, placeOfBirth: String?, dateOfBirth: String?, gender: String?, religion: String?, job: String?, region: String?, address: String?){
         viewModelScope.launch {
             Timber.w("email", email)
             val userId = getUserIdUseCase()
-            val validateResponse = validateUpdateUserProfileUseCase(name, email, password, mobileNumber, fileSelectModel)
+            val validateResponse = validateUpdateUserProfileUseCase(name, email, password, mobileNumber, fileSelectModel, nib, fileSelectNpwpModel, nik, placeOfBirth, dateOfBirth, gender, religion, job, region, address)
             if (validateResponse.isFailure) {
                 _updateState.emit(UiState.Error(validateResponse.exceptionOrNull()?.message ?: Constant.somethingWrong))
                 return@launch
             }
-            updateProfile(userId, name!!, email!!, password, mobileNumber!!)
+            updateProfile(userId, name!!, email!!, password, mobileNumber!!, nib!!, nik!!, placeOfBirth!!, dateOfBirth!!, gender!!, religion!!, job!!, region!!, address!!)
         }
     }
 
     fun validateSelectedFile(uri: Uri) {
         viewModelScope.launch {
             try {
-                val key = "ktp"
+                val key = if (typeFileSelectedState == "ktp") "ktp" else "npwp"
                 val fileName = FileHelper.getFileNameFromUri(uri, context)
                 val format = FileHelper.getMimeTypeFromUri(context, uri)
                 val byteArray = ImageHelper.uriToBitmap(context, uri)
 
                 val validateResponse = validateFileUploadUseCase(key, fileName, format, byteArray, true)
-                validateResponse
-                    .onSuccess {
-                        fileSelectModel = FileSelectModel(uri, fileName, format, byteArray, key)
-                        _selectedFileState.emit(UiState.Success(fileName))
-                    }
-                    .onFailure {
-                        fileSelectModel = null
-                        _selectedFileState.emit(UiState.Error(it.message ?: Constant.somethingWrong)) }
+                if (typeFileSelectedState == "ktp") {
+                    validateResponse
+                        .onSuccess {
+                            fileSelectModel = FileSelectModel(uri, fileName, format, byteArray, key)
+                            _selectedFileState.emit(UiState.Success(fileName))
+                        }
+                        .onFailure {
+                            fileSelectModel = null
+                            _selectedFileState.emit(UiState.Error(it.message ?: Constant.somethingWrong)) }
+                }else {
+                    validateResponse
+                        .onSuccess {
+                            fileSelectNpwpModel = FileSelectModel(uri, fileName, format, byteArray, key)
+                            _selectedFileNpwpState.emit(UiState.Success(fileName))
+                        }
+                        .onFailure {
+                            fileSelectNpwpModel = null
+                            _selectedFileNpwpState.emit(UiState.Error(it.message ?: Constant.somethingWrong)) }
+                }
+
             }catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
     private fun updateProfile(userId: Int, name: String, email: String,
-                              password: String?, mobileNumber: String) {
+                              password: String?, mobileNumber: String, nib: String, nik: String, placeOfBirth: String, dateOfBirth: String, gender: String, religion: String,
+                              job: String, region: String, address: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _updateState.emit(UiState.Loading)
-            val response = updateUserProfileUseCase(userId, name, email, password, mobileNumber, fileSelectModel)
+            val response = updateUserProfileUseCase(userId, name, email, password, mobileNumber, fileSelectModel, nib, fileSelectNpwpModel,
+                nik, placeOfBirth, dateOfBirth, gender, religion, job, region, address)
             response
                 .onSuccess { _updateState.emit(UiState.Success(Unit)) }
                 .onFailure { _updateState.emit(UiState.Error(response.exceptionOrNull()?.message ?: Constant.somethingWrong)) }

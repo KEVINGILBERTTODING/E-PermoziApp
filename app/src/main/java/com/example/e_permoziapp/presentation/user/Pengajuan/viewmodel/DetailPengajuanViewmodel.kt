@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.core.util.FileHelper
 import com.example.e_permoziapp.core.util.ImageHelper
+import com.example.e_permoziapp.data.balasan.model.BalasanModel
 import com.example.e_permoziapp.data.pengajuan.model.UserPengajuanDetailModel
 import com.example.e_permoziapp.domain.Entity.FileSelectModel
 import com.example.e_permoziapp.domain.usecase.auth.GetUserIdUseCase
@@ -36,6 +37,8 @@ class DetailPengajuanViewmodel(
     val detailPengajuanState: StateFlow<UiState<UserPengajuanDetailModel>> = _detailPengajuanState
     private val _downloadState = MutableStateFlow<UiState<Uri>>(UiState.Idle)
     val downloadState: StateFlow<UiState<Uri>> = _downloadState
+    private val _downloadStateBalasan = MutableStateFlow<UiState<Uri>>(UiState.Idle)
+    val downloadStateBalasan: StateFlow<UiState<Uri>> = _downloadStateBalasan
     private val _fileSelectedState = MutableStateFlow<UiState<FileSelectModel>>(UiState.Idle)
     val fileSelectedState: StateFlow<UiState<FileSelectModel>> = _fileSelectedState
     var pengajuanId = 0
@@ -45,7 +48,6 @@ class DetailPengajuanViewmodel(
     val updateDataState: StateFlow<UiState<Unit>> = _updateDataState
     private val _destroyState = MutableStateFlow<UiState<Unit>>(UiState.Idle)
     val destroyState: StateFlow<UiState<Unit>> = _destroyState
-
 
      fun getDetailPengajuan(id: Int) {
          viewModelScope.launch(Dispatchers.IO) {
@@ -61,15 +63,26 @@ class DetailPengajuanViewmodel(
          }
     }
 
-    fun download(url: String, fileName: String) {
+    fun download(url: String, fileName: String, isFileBalasan: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            _downloadState.emit(UiState.Loading)
-            val response = downloadFileUseCase(url, fileName)
-            if (response.isSuccess) {
-                _downloadState.emit(UiState.Success(response.getOrThrow()))
-            } else {
-                _downloadState.emit(UiState.Error(response.exceptionOrNull()?.message ?: Constant.somethingWrong))
+            if (isFileBalasan) {
+                _downloadStateBalasan.emit(UiState.Loading)
+                val response = downloadFileUseCase(url, fileName)
+                if (response.isSuccess) {
+                    _downloadStateBalasan.emit(UiState.Success(response.getOrThrow()))
+                } else {
+                    _downloadStateBalasan.emit(UiState.Error(response.exceptionOrNull()?.message ?: Constant.somethingWrong))
+                }
+            }else {
+                _downloadState.emit(UiState.Loading)
+                val response = downloadFileUseCase(url, fileName)
+                if (response.isSuccess) {
+                    _downloadState.emit(UiState.Success(response.getOrThrow()))
+                } else {
+                    _downloadState.emit(UiState.Error(response.exceptionOrNull()?.message ?: Constant.somethingWrong))
+                }
             }
+
         }
     }
 

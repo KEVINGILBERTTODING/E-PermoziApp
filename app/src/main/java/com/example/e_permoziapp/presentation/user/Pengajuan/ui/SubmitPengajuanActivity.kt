@@ -10,9 +10,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_permoziapp.core.extention.getExtraOrDefault
+import com.example.e_permoziapp.core.extention.getIntentExtraOrDefault
 import com.example.e_permoziapp.core.extention.launchActivity
+import com.example.e_permoziapp.core.util.FileHelper
 import com.example.e_permoziapp.databinding.ActivitySubmitPengajuanBinding
 import com.example.e_permoziapp.presentation.common.state.UiState
+import com.example.e_permoziapp.presentation.common.ui.PhotoViewActivity
 import com.example.e_permoziapp.presentation.main.ui.BaseActivity
 import com.example.e_permoziapp.presentation.user.Pengajuan.adapter.PersyaratanPerizinanAdapter
 import com.example.e_permoziapp.presentation.user.Pengajuan.component.SuccesSubmitBottomSheet
@@ -42,7 +45,7 @@ class SubmitPengajuanActivity : BaseActivity() {
 
     private fun initAdapter() {
         adapter = PersyaratanPerizinanAdapter(mutableListOf(), true, viewmodel.fileSelectedModlList,
-            {
+            { _ ->
 
             }, {
                 viewmodel.currentPosId = it
@@ -54,6 +57,21 @@ class SubmitPengajuanActivity : BaseActivity() {
                     ))
                 }else {
                     Toast.makeText(this, "Pilih persyaratan perizinan", Toast.LENGTH_SHORT).show()
+                }
+            }, {
+                if (it.format.isNotEmpty()) {
+                    if (it.format == "application/pdf" || it.format == "pdf") {
+                        if (it.isUri) {
+                            FileHelper.openPdfFromLocalUri(it.uri!!, this@SubmitPengajuanActivity, it.fileName ?: "")
+                        }else {
+                            Timber.w("is not uri")
+                            viewmodel.download(it.url, it.fileName)
+                        }
+                    }else {
+                        launchActivity<PhotoViewActivity>(
+                            "url" to it.url
+                        )
+                    }
                 }
             })
         binding.rvPersyaratan.adapter = adapter
@@ -71,7 +89,6 @@ class SubmitPengajuanActivity : BaseActivity() {
                 when(val state = it) {
                     is UiState.Success -> {
                         adapter.updateFilePersyaratan(state.data, viewmodel.currentPosId.first)
-                        binding.btnSave.visibility = View.VISIBLE
                     }
                     is UiState.Error -> {
                         Toast.makeText(this@SubmitPengajuanActivity, state.message, Toast.LENGTH_SHORT).show()
@@ -91,14 +108,13 @@ class SubmitPengajuanActivity : BaseActivity() {
 
         lifecycleScope.launch {
             viewmodel.getPersyaratanState.collect{
+                resetAllView()
                 when(val state = it) {
                     is UiState.Loading -> {
                         setLoadingView()
                     }
                     is UiState.Error -> {
                         setErrorView()
-                        Toast.makeText(this@SubmitPengajuanActivity, state.message, Toast.LENGTH_SHORT).show()
-                        finish()
                     }
                     is UiState.Success -> {
                         adapter.updateData(state.data)
@@ -113,12 +129,17 @@ class SubmitPengajuanActivity : BaseActivity() {
             viewmodel.submitState.collect {
                 when(val state = it) {
                     is UiState.Loading -> {
-                        Toast.makeText(this@SubmitPengajuanActivity, "loading", Toast.LENGTH_SHORT).show()
+                        binding.progressBarSubmit.visibility = View.VISIBLE
+                        binding.btnSubmit.visibility = View.GONE
                     }
                     is UiState.Error -> {
+                        binding.progressBarSubmit.visibility = View.GONE
+                        binding.btnSubmit.visibility = View.VISIBLE
                         Toast.makeText(this@SubmitPengajuanActivity, state.message, Toast.LENGTH_SHORT).show()
                     }
                     is UiState.Success -> {
+                        binding.progressBarSubmit.visibility = View.GONE
+                        binding.btnSubmit.visibility = View.VISIBLE
                         if (::successSubmitBottomSheet.isInitialized) {
                             successSubmitBottomSheet.show(supportFragmentManager, "")
                         }else {
@@ -127,6 +148,39 @@ class SubmitPengajuanActivity : BaseActivity() {
                         }
 
                     }
+                    else -> {}
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewmodel.downloadState.collect {
+                when (val state = it) {
+                    is UiState.Loading -> {
+                        Toast.makeText(
+                            this@SubmitPengajuanActivity,
+                            "Mengunduh file...",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    is UiState.Success -> {
+                        Toast.makeText(
+                            this@SubmitPengajuanActivity,
+                            "Download berhasil",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        FileHelper.openFile(this@SubmitPengajuanActivity, state.data)
+                    }
+
+                    is UiState.Error -> {
+                        Toast.makeText(
+                            this@SubmitPengajuanActivity,
+                            state.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
                     else -> {}
                 }
             }
@@ -143,39 +197,52 @@ class SubmitPengajuanActivity : BaseActivity() {
     }
 
     private fun onCollectEventState() {
-        binding.btnSave.setOnClickListener {
+        binding.btnSubmit.setOnClickListener {
             viewmodel.validateSubmitForm()
+        }
+        binding.btnBack.btnBack.setOnClickListener {
+            finish()
         }
     }
 
     private fun initUi() {
         if (viewmodel.jenisPerizinanId <= 0) {
-            Toast.makeText(this@SubmitPengajuanActivity, "Jenis perizinan tidak valid", Toast.LENGTH_SHORT).show()
-            finish()
+            setEmptyView()
         }
-        binding.btnSave.visibility = View.GONE
+        binding.tvPengajuanName.text = viewmodel.jenisPengajuanTitle
+        resetAllView()
     }
 
     private fun init() {
-        val id = intent.getExtraOrDefault("id", 0)
+        val id = getIntentExtraOrDefault("id", 0)
         viewmodel.jenisPerizinanId = id
+        viewmodel.jenisPengajuanTitle = getIntentExtraOrDefault("title", "")
         successSubmitBottomSheet = SuccesSubmitBottomSheet() {
             navigateToHome()
         }
     }
+    private fun resetAllView() {
+        binding.rvPersyaratan.visibility = View.GONE
+        binding.lrSkeleton.lrSkeletonPersyaratan.visibility = View.GONE
+        binding.rlButtonSubmit.visibility = View.GONE
+        binding.lrEmptyView.lrEmpty.visibility = View.GONE
+        binding.lrErrorView.lrError.visibility = View.GONE
+    }
 
     private fun setLoadingView() {
-        binding.progressBar.visibility = View.VISIBLE
-        binding.rvPersyaratan.visibility = View.GONE
+        binding.lrSkeleton.lrSkeletonPersyaratan.visibility = View.VISIBLE
     }
 
     private fun setSuccessView() {
-        binding.progressBar.visibility = View.GONE
         binding.rvPersyaratan.visibility = View.VISIBLE
+        binding.rlButtonSubmit.visibility = View.VISIBLE
+    }
+
+    private fun setEmptyView() {
+        binding.lrEmptyView.lrEmpty.visibility = View.VISIBLE
     }
 
     private fun setErrorView() {
-        binding.progressBar.visibility = View.GONE
-        binding.rvPersyaratan.visibility = View.GONE
+        binding.lrErrorView.lrError.visibility = View.VISIBLE
     }
 }

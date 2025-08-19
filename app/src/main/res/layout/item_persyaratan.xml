@@ -1,49 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="0dp"
+    app:contentPadding="16dp"
+    android:foreground="?android:selectableItemBackground"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@color/white"
     android:layout_height="wrap_content">
-    
-    <TextView
-        android:id="@+id/tvTitle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:textSize="16sp"
         android:layout_height="wrap_content"
-        android:text="Title"/>
-
-    <TextView
-        android:id="@+id/tvRequired"
-        android:layout_width="match_parent"
-        android:textSize="12sp"
-        android:layout_height="wrap_content"
-        android:text="required"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/unduh_file"
-        android:id="@+id/btnDownload"/>
-
-    <RelativeLayout
-        android:id="@+id/rlUploadFile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pilih_file"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentLeft="true"
-            android:id="@+id/btnUpload"/>
+            android:text="name"
+            android:fontFamily="@font/satoshi_medium"
+            android:textColor="@color/black"
+            android:textSize="14sp"/>
 
         <TextView
-            android:id="@+id/tvName"
-            android:layout_width="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_toRightOf="@+id/btnUpload"
+            android:id="@+id/tvFileNotFound"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""/>
-    </RelativeLayout>
+            android:text="@string/tidak_ada_file"
+            android:fontFamily="@font/satoshi_regular"
+            android:textColor="@color/black_53"
+            android:textSize="12sp"/>
 
-</LinearLayout>
+        <RelativeLayout
+            android:id="@+id/rlButton"
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAction"
+                app:cornerRadius="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                style="@style/button_secondary_style"
+                android:fontFamily="@font/satoshi_medium"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:text="@string/pilih_file"/>
+
+            <FrameLayout
+                android:layout_toRightOf="@id/btnAction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/tilFilename"
+                    android:clickable="true"
+                    android:focusable="true"
+                    style="@style/text_input_layout_default_style"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:maxLines="1"
+                        android:enabled="false"
+                        android:lines="1"
+                        android:textSize="12sp"
+                        style="@style/text_field_default_style"
+                        android:id="@+id/etFileName"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:id="@+id/btnFileName"
+                    android:background="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </FrameLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>

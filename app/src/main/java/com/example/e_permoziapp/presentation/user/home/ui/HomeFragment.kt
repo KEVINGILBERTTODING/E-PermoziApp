@@ -8,16 +8,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.e_permoziapp.R
 import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
 import com.example.e_permoziapp.databinding.FragmentHomeBinding
+import com.example.e_permoziapp.presentation.common.component.InfoBottomSheet
 import com.example.e_permoziapp.presentation.common.state.UiState
+import com.example.e_permoziapp.presentation.manual_book.ui.ManualBookActivity
 import com.example.e_permoziapp.presentation.user.Pengajuan.ui.DetailPengajuanActivity
 import com.example.e_permoziapp.presentation.user.Pengajuan.ui.SubmitPengajuanActivity
 import com.example.e_permoziapp.presentation.user.home.adapter.PengajuanAdapter
 import com.example.e_permoziapp.presentation.user.home.component.JenisPerizinanPickerBottomSheet
 import com.example.e_permoziapp.presentation.user.home.viewmodel.HomeViewmodel
+import com.example.e_permoziapp.presentation.user.profile.viewmodel.UserProfileViewmodel
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -25,7 +30,9 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var pengajuanAdapter: PengajuanAdapter
     private val viewmodel: HomeViewmodel by viewModel()
+    private val userProfileViewmodel : UserProfileViewmodel by activityViewModel()
     private lateinit var jenisPerizinanPickerBottomSheet: JenisPerizinanPickerBottomSheet
+    private lateinit var infoBottomSheet: InfoBottomSheet
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,11 +51,19 @@ class HomeFragment : Fragment() {
 
     private fun init() {
         jenisPerizinanPickerBottomSheet = JenisPerizinanPickerBottomSheet {
-            if (it > 0) {
+            if (it.id > 0) {
                 requireActivity().launchActivity<SubmitPengajuanActivity>(
-                    "id" to it
+                    "id" to it.id,
+                    "title" to it.namaPerizinan
                 )
             }
+        }
+        infoBottomSheet = InfoBottomSheet(
+            title = "Informasi",
+            desc = requireContext().getString(R.string.warning_message_data_not_verified),
+            isShowButton = true
+        ) {
+
         }
     }
 
@@ -57,7 +72,14 @@ class HomeFragment : Fragment() {
             getAllPengajuan()
         }
         binding.fabAdd.setOnClickListener {
-            jenisPerizinanPickerBottomSheet.show(requireActivity().supportFragmentManager, "")
+            if (viewmodel.isUserDataVerified) {
+                jenisPerizinanPickerBottomSheet.show(requireActivity().supportFragmentManager, "")
+            }else {
+                infoBottomSheet.show(requireActivity().supportFragmentManager, "")
+            }
+        }
+        binding.cvManualBook.setOnClickListener {
+            requireActivity().launchActivity<ManualBookActivity>()
         }
 
     }
@@ -70,8 +92,10 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             viewmodel.uiState.collect {
                 binding.swipeRefresh.isRefreshing = false
+                binding.fabAdd.visibility = View.GONE
                 when(val state= it) {
-                    is UiState.Idle -> {}
+                    is UiState.Idle -> {
+                    }
                     is UiState.Loading -> {setLoadingView()}
                     is UiState.Success -> {
                         state.data?.let {
@@ -84,6 +108,23 @@ class HomeFragment : Fragment() {
                         Toast.makeText(requireActivity(), state.message, Toast.LENGTH_SHORT).show()
                     }
 
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewmodel.greetings.collect {
+                binding.tvGreeting.text = it
+            }
+        }
+        lifecycleScope.launch {
+            userProfileViewmodel.userProfileState.collect {
+                when(val state = it) {
+                    is UiState.Success -> {
+                        val dataUser = state.data
+                        viewmodel.isUserDataVerified = dataUser.isVerified ?: false
+                    }else -> {
+                        viewmodel.isUserDataVerified = false
+                    }
                 }
             }
         }
@@ -124,6 +165,7 @@ class HomeFragment : Fragment() {
         }else {
             binding.rvPengajuan.visibility = View.VISIBLE
         }
+        binding.fabAdd.visibility = View.VISIBLE
     }
 
     private fun setErrorView() {
@@ -131,6 +173,7 @@ class HomeFragment : Fragment() {
         binding.rvPengajuan.visibility = View.GONE
         binding.lrEmpty.lrEmpty.visibility = View.GONE
         binding.lrError.lrError.visibility = View.VISIBLE
+        binding.fabAdd.visibility = View.VISIBLE
     }
 
 }

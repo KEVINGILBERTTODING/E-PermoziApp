@@ -20,6 +20,7 @@ import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -48,7 +49,7 @@ val networkModule = module {
             HttpResponseValidator {
                 validateResponse {
                     if (it.status == HttpStatusCode.Unauthorized) {
-                        GlobalScope.launch(Dispatchers.Main) {
+                        CoroutineScope(Dispatchers.Main).launch {
                             getKoin().get<LogoutUseCase>().invoke()
                         }
                     }

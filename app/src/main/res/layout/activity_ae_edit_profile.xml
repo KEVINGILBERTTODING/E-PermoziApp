@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.user.profile.ui.EditProfileActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lrBack"
+        android:foreground="?android:selectableItemBackground"
+        android:layout_marginStart="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+        <include
+            layout="@layout/button_back_layout"/>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:padding="16dp"
+        android:background="@drawable/bottom_sheet_bg_gray"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_above="@id/rlBottom"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:text="@string/ubah_profil"
+                    android:fontFamily="@font/satoshi_bold"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:layout_width="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="100dp">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivProfile"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        app:cardElevation="0dp"
+                        app:contentPadding="5dp"
+                        app:cardCornerRadius="12dp"
+                        android:id="@+id/cvEdit"
+                        android:foreground="?android:selectableItemBackground"
+                        app:cardBackgroundColor="#4D000000"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_height="wrap_content">
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:id="@+id/btnEdit"
+                            android:backgroundTint="@color/white"
+                            android:background="@drawable/ic_edit"/>
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:hint="@string/email"
+                    android:layout_marginTop="25dp"
+                    style="@style/text_input_layout_default_style"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:inputType="textEmailAddress"
+                        style="@style/text_field_default_style"
+                        android:id="@+id/etEmail"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:hint="@string/nama_lengkap"
+                    style="@style/text_input_layout_default_style"
+                    android:layout_marginTop="12dp"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/etFullName"
+                        style="@style/text_field_default_style"
+                        android:inputType="textPersonName"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/password"
+                    style="@style/text_input_layout_default_style"
+                    app:passwordToggleEnabled="true"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        style="@style/text_field_default_style"
+                        android:inputType="textPassword"
+                        android:id="@+id/etPassword"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/kosongkan_jika_tidak_ingin"
+                    android:fontFamily="@font/satoshi_regular"
+                    android:textColor="@color/black_53"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:id="@+id/rlBottom"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="12dp"
+            android:gravity="bottom"
+            android:layout_height="wrap_content">
+            <ProgressBar
+                android:layout_width="24dp"
+                android:indeterminateTint="@color/main"
+                android:id="@+id/progressBar"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:layout_height="24dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:id="@+id/btnSubmit"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/satoshi_bold"
+                android:layout_height="56dp"
+                android:text="@string/simpan"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

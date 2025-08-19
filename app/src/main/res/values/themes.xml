@@ -13,6 +13,10 @@
         <item name="android:statusBarColor">@color/bg</item>
         <item name="colorPrimary">@color/main</item>
     </style>
+    <style name="tablayout_style" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:fontFamily">@font/satoshi_medium</item>
+        <item name="android:textSize">14dp</item>
+    </style>
     <style name="text_field_default_style" parent="Theme.Material3.Light.NoActionBar">
         <item name="fontFamily">@font/satoshi_medium</item>
         <item name="android:textSize">14sp</item>
@@ -42,6 +46,18 @@
         <item name="android:textColor">@color/black_80</item>
         <item name="android:fontFamily">@font/satoshi_medium</item>
     </style>
+
+    <style name="SpinnerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/black</item>
+        <item name="fontFamily">@font/satoshi_regular</item>
+    </style>
+
+    <style name="MyDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/main</item>
+        <item name="fontFamily">@font/satoshi_medium</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
 
     <style name="Theme.EPermoziApp" parent="Base.Theme.EPermoziApp" />
 </resources>

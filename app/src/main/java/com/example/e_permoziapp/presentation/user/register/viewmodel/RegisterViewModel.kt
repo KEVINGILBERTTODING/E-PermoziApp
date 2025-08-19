@@ -46,10 +46,6 @@ class RegisterViewModel(
             val validatePassword = passwordUseCase.invoke(password)
             val validateFullname = validateFormTextUseCase.invoke(name)
             val validateMobileNumber = validateMobileNumberUseCase.invoke(mobileNumber)
-            val uriKtp = imgSelected.value.uri
-            val ktpBteArray = ImageHelper.uriToBitmap(context, uriKtp)
-            val fileFormat = FileHelper.getMimeTypeFromUri(context, uriKtp)
-            val fileUploadUseCase = validateFileUploadUseCase.invoke("ktp", imgSelected.value.fileName, fileFormat, ktpBteArray, true)
 
             if (validateEmail.isFailure) {
                 _uiState.emit(UiState.Error(validateEmail.exceptionOrNull()?.message ?: "Email tidak valid"))
@@ -68,18 +64,15 @@ class RegisterViewModel(
                 return@launch
             }
 
-            if (fileUploadUseCase.isFailure) {
-                _uiState.emit(UiState.Error(fileUploadUseCase.exceptionOrNull()?.message ?: "File tidak valid"))
-                return@launch
-            }
-            register(email!!, name!!, password!!, mobileNumber!!, ktpBteArray!!)
+
+            register(email!!, name!!, password!!, mobileNumber!!)
         }
     }
 
-    fun register(email: String, name: String, password: String, mobileNumber: String, ktp: ByteArray) {
+    fun register(email: String, name: String, password: String, mobileNumber: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.emit(UiState.Loading)
-            val response = registerUseCase.invoke(email, name, password, mobileNumber, ktp)
+            val response = registerUseCase.invoke(email, name, password, mobileNumber)
             if (response.isSuccess) {
                 _uiState.emit(UiState.Success("Berhasil registrasi"))
             } else {

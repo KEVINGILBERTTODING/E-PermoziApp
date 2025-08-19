@@ -4,6 +4,7 @@ import com.example.e_permoziapp.core.constant.Constant
 import com.example.e_permoziapp.data.common.model.ResponseApiModel
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanModel
 import com.example.e_permoziapp.data.pengajuan.model.PengajuanRequestModel
+import com.example.e_permoziapp.data.pengajuan.model.ResponsePengajuanAEModel
 import com.example.e_permoziapp.data.pengajuan.model.UserPengajuanDetailModel
 import com.example.e_permoziapp.data.pengajuan.model.UserProfilePengajuanModel
 import com.example.e_permoziapp.domain.Entity.FileSelectModel
@@ -129,6 +130,51 @@ class PengajuanRepositoryImpl(
                         Result.failure(Exception(body.message ?: Constant.somethingWrong))
                 }else -> {
                     Result.failure(Exception(body.message ?: Constant.somethingWrong))
+                }
+            }
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getAEPengajuan(
+        startDate: String?,
+        endDate: String?,
+        userId: Int,
+        role: String,
+        idJenisPerizinan: Int?
+    ): Result<ResponsePengajuanAEModel> {
+        return try {
+            val response = pengajuanService.getAEPengajuan(startDate, endDate, userId, role, idJenisPerizinan)
+            val body = response.body<ResponseApiModel<ResponsePengajuanAEModel>>()
+            if (body.data != null) {
+                Result.success(body.data)
+            }else {
+                Result.failure(Exception(body.message))
+            }
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun replyPengajuan(
+        aempId: Int,
+        userId: Int,
+        pengajuanId: Int,
+        status: String,
+        role: String,
+        balasanFile: FileSelectModel?,
+        balasanText: String?
+    ): Result<Unit> {
+        return try {
+            val response = pengajuanService.replyPengajuan(aempId, userId, pengajuanId, status, role, balasanFile, balasanText)
+            when(response.status) {
+                HttpStatusCode.OK -> {
+                    Result.success(Unit)
+                }else -> {
+                    Result.failure(Exception(Constant.somethingWrong))
                 }
             }
         }catch (e: Exception) {

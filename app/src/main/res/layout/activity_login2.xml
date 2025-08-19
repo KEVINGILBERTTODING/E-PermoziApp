@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:paddingTop="16dp"
+    android:background="@color/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.admin_employee.auth.ui.LoginActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/iv_login_admin"
+            android:layout_height="212dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="16dp"
+            android:background="@drawable/bottom_sheet_bg_gray"
+            android:orientation="vertical">
+            <com.google.android.material.tabs.TabLayout
+                android:layout_width="match_parent"
+                android:id="@+id/tabLayout"
+                app:tabBackground="@color/bg"
+                style="@style/tablayout_style"
+                android:layout_marginTop="10dp"
+                app:tabGravity="fill"
+                app:tabIndicatorFullWidth="true"
+                app:tabIndicatorColor="@color/main"
+                android:layout_height="wrap_content"/>
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/lrBack"
+            layout="@layout/button_back_layout"/>
+    </FrameLayout>
+
+</RelativeLayout>

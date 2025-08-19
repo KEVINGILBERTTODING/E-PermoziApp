@@ -1,8 +1,12 @@
 package com.example.e_permoziapp.data.common.repository
 
+import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
+import android.provider.MediaStore
+import com.example.e_permoziapp.core.util.FileHelper
 import com.example.e_permoziapp.domain.repository.DownloadFileRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -25,12 +29,25 @@ class DownloadFileRepositoryImpl(
             val response = httpClient.get(url)
             val channel: ByteReadChannel = response.body()
 
-            val file = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                filename
-            )
+            val mimeType = FileHelper.getMimeTypeFromFilename(filename) ?: "application/octet-stream"
 
-            FileOutputStream(file).use { outputStream ->
+            val resolver = context.contentResolver
+            val contentValues = ContentValues().apply {
+                put(MediaStore.Downloads.DISPLAY_NAME, filename)
+                put(MediaStore.Downloads.MIME_TYPE, mimeType)
+                put(MediaStore.Downloads.IS_PENDING, 1)
+            }
+
+            val collection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            } else {
+                MediaStore.Files.getContentUri("external")
+            }
+
+            val uri = resolver.insert(collection, contentValues)
+                ?: return@withContext Result.failure(Exception("Failed to insert into MediaStore"))
+
+            resolver.openOutputStream(uri)?.use { outputStream ->
                 val buffer = ByteArray(4096)
                 while (!channel.isClosedForRead) {
                     val bytesRead = channel.readAvailable(buffer)
@@ -38,21 +55,12 @@ class DownloadFileRepositoryImpl(
                     outputStream.write(buffer, 0, bytesRead)
                 }
                 outputStream.flush()
-            }
+            } ?: return@withContext Result.failure(Exception("Failed to open output stream."))
+            contentValues.clear()
+            contentValues.put(MediaStore.Downloads.IS_PENDING, 0)
+            resolver.update(uri, contentValues, null, null)
 
-            suspendCancellableCoroutine<Result<Uri>> { cont ->
-                android.media.MediaScannerConnection.scanFile(
-                    context,
-                    arrayOf(file.absolutePath),
-                    null
-                ) { _, uri ->
-                    if (uri != null) {
-                        cont.resume(Result.success(uri)) { cause, _, _ -> }
-                    } else {
-                        cont.resume(Result.failure(Exception("File URI is null after scan."))) { cause, _, _ -> }
-                    }
-                }
-            }
+            Result.success(uri)
         } catch (e: Exception) {
             e.printStackTrace()
             Result.failure(e)

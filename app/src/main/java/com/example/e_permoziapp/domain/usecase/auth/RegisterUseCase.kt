@@ -12,8 +12,7 @@ class RegisterUseCase(
         email: String,
         fullname: String,
         password: String,
-        mobileNumber: String,
-        ktp: ByteArray): Result<ResponseApiModel<String?>> {
-        return repository.register(email, fullname, mobileNumber, password, ktp)
+        mobileNumber: String): Result<ResponseApiModel<String?>> {
+        return repository.register(email, fullname, mobileNumber, password)
     }
 }

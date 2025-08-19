@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">E-PermoziApp</string>
+    <string name="app_name">e-Permozi</string>
     <string name="email">Email</string>
     <string name="password">Kata Sandi</string>
     <string name="login">Masuk</string>
@@ -12,6 +12,46 @@
     <string name="something_wrong">Terjadi kesalahan</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="unduh_file">Unduh File</string>
+    <string name="lewati">Lewati</string>
+    <string name="mulai_sekarang">Mulai Sekarang</string>
+    <string name="title_onboard_1">Selamat Datang di e-Permozi</string>
+    <string name="desc_onboard_1">Ajukan berbagai jenis perizinan dengan mudah, cepat, dan transparan langsung dari genggaman Anda.</string>
+    <string name="title_onboard_2">Pengajuan Lebih Praktis</string>
+    <string name="desc_onboard_2">Lengkapi formulir, unggah dokumen, dan kirim permohonan izin kapan saja, di mana saja.</string>
+    <string name="title_onboard_3">Lacak Status Perizinan Anda</string>
+    <string name="desc_onboard_3">Pantau setiap tahapan proses perizinan secara real-time dari pengajuan hingga persetujuan.</string>
+    <string name="title_onboard_4">Keamanan Data Terjamin</string>
+    <string name="desc_onboard_4">Data Anda tersimpan aman dan hanya digunakan untuk keperluan perizinan resmi sesuai regulasi.</string>
+    <string name="title_onboard_5">Mulai Pengajuan</string>
+    <string name="desc_onboard_5">Sudah siap mengajukan izin pertama Anda?</string>
+    <string name="title_manual_book_1">Klik Tombol “+” (Tambah Pengajuan)</string>
+    <string name="desc_manual_book_1">
+        Mulailah proses pengajuan dengan menekan tombol "+" yang terdapat pada halaman utama aplikasi.
+    </string>
+    <string name="title_manual_book_2">Pilih Jenis Perizinan</string>
+    <string name="desc_manual_book_2">
+        Pilih jenis perizinan yang ingin Anda ajukan dari daftar yang tersedia.
+    </string>
+    <string name="title_manual_book_3">Unggah Berkas Persyaratan</string>
+    <string name="desc_manual_book_3">
+        Lengkapi pengajuan dengan mengunggah seluruh file persyaratan yang dibutuhkan sesuai jenis perizinan.
+    </string>
+    <string name="title_manual_book_4">Status Pengajuan</string>
+    <string name="desc_manual_book_4">
+        Setelah pengajuan dikirim, status akan ditampilkan sebagai salah satu dari tiga kondisi, yaitu <b>Diproses</b> (pengajuan sedang dalam peninjauan), <b>Disetujui</b> (pengajuan telah disetujui oleh pihak terkait), atau <b>Ditolak</b> (pengajuan tidak disetujui).
+    </string>
+    <string name="title_manual_book_5">Mengedit Pengajuan</string>
+    <string name="desc_manual_book_5">
+        Pengajuan hanya dapat diubah maksimal 3 hari setelah tanggal pengajuan dan selama status masih dalam proses.
+    </string>
+    <string name="title_manual_book_6">Pemberitahuan Hasil Pengajuan</string>
+    <string name="desc_manual_book_6">
+        Anda akan menerima notifikasi melalui email apabila pengajuan disetujui atau ditolak.
+    </string>
+    <string name="title_manual_book_7">Melihat Hasil Pengajuan</string>
+    <string name="desc_manual_book_7">
+        Pada halaman Detail Pengajuan, klik tombol "Pesan" untuk melihat hasil pengajuan. Jika pengajuan ditolak, akan ditampilkan alasan penolakan secara rinci, sedangkan jika pengajuan disetujui, akan tersedia tombol "Download" untuk mengunduh file persetujuan perizinan.
+    </string>
     <string name="pilih_file">Pilih File</string>
     <string name="pilih_perizinan">Pilih Perizinan</string>
     <string name="balasan">Balasan</string>
@@ -33,14 +73,56 @@
     <string name="terjadi_kesalahan">Terjadi kesalahan</string>
     <string name="sepertinya_ada_masalah">Sepertinya ada masalah saat mengambil data. Yuk coba muat ulang.</string>
     <string name="ubah_profil">Edit profil</string>
+    <string name="panduan_pengguna">Panduan Pengguna</string>
     <string name="keluar">Keluar</string>
     <string name="oke">Oke</string>
+    <string name="kosongkan_jika_tidak_ingin">Kosongkan jika tidak ingin mengubah kata sandi*</string>
     <string name="profile">Profil</string>
+    <string name="informasi">Informasi</string>
     <string name="yakin_mau_keluar">Yakin mau keluar?</string>
+    <string name="tidak_ada_file">Tidak ada file.</string>
+    <string name="data_pengaju">Data Pengaju</string>
+    <string name="tolak">Tolak</string>
+    <string name="setuju">Setuju</string>
+    <string name="setuju_pengajuan_perizinan">Setuju Pengajuan Perizinan</string>
+    <string name="tolak_pengajuan_perizinan">Tolak Pengajuan Perizinan</string>
+    <string name="berkas_pengajuan">Berkas Pengajuan</string>
     <string name="pengajuan_terkirim">Pengajuan Terkirim!</string>
+    <string name="form_pengajuan">Form Pengajuan</string>
     <string name="tenang_kamu_bisa_login_lagi_kapan_aja">Tenang, kamu bisa login lagi kapan saja.</string>
+    <string name="detail_pengajuan">Detail Pengajuan</string>
+    <string name="edit_pengajuan">Edit Pengajuan</string>
+    <string name="pengajuan_disetujui">Pengajuan Disetujui!</string>
+    <string name="pengajuan_ditolak">Pengajuan Ditolak!</string>
+    <string name="tanggal_mulai">Tanggal mulai</string>
+    <string name="tanggal_akhir">Tanggal akhir</string>
+    <string name="hapus_filter">Hapus filter</string>
+    <string name="filter">Filter</string>
+    <string name="unduh_file_persetujuan">Unduh file persetujuan</string>
+    <string name="kelola_pengajuan_apa_hari_ini">Kelola pengajuan apa hari ini?</string>
+    <string name="masuk_untuk_mengelola">
+        Masuk untuk mengelola pengajuan perizinan yang masuk.
+    </string>
+    <string name="pengajuan_dapat_diubah">
+        Pengajuan hanya dapat diubah maksimal 3 hari setelah tanggal pengajuan dan selama status masih dalam proses.
+    </string>
     <string name="submission_success_message">
     Pengajuan Anda telah kami terima dan sedang diproses.&#10;Jika disetujui, Anda dapat mengunduh file persetujuan melalui halaman <b>Detail Pengajuan</b>.&#10;Jangan lupa periksa email Anda secara berkala untuk notifikasi pembaruan.
     </string>
+    <string name="nib">Nomor Induk Berusaha</string>
+    <string name="npwp">NPWP</string>
+    <string name="pilih_npwp">Pilih NPWP</string>
+    <string name="warning_message_data_not_verified">Harap lengkapi data KTP, NPWP, dan Nomor NIB Anda di halaman Profil sebelum dapat mengajukan perizinan.</string>
+    <string name="nik">NIK</string>
+    <string name="tempat_lahir">Tempat Lahir</string>
+    <string name="tgl_lahir">Tanggal Lahir</string>
+    <string name="jenis_kelamin">Jenis Kelamin</string>
+    <string name="Agama">Agama</string>
+    <string name="Pekerjaan">Pekerjaan</string>
+    <string name="Kewarganegaraan">Kewarganegaraan</string>
+    <string name="alamat">Alamat Lengkap</string>
+    <string name="pilih_jenis_kelamin">Pilih Jenis Kelamin</string>
+    <string name="pilih_agama">Pilih Agama</string>
+    <string name="pilih_kewarganegaraan">Pilih Kewarganegaraan</string>
 
 </resources>

@@ -20,8 +20,7 @@ class RegisterServiceImpl(
         email: String,
         fullname: String,
         mobileNumber: String,
-        password: String,
-        ktp: ByteArray
+        password: String
     ): HttpResponse {
         val response = service.submitFormWithBinaryData(
             url = "${ServerInfo.BASE_URL}user/register",
@@ -30,10 +29,6 @@ class RegisterServiceImpl(
                 append("email", email)
                 append("password",password)
                 append("mobile_number", mobileNumber)
-                append("ktp", ktp, Headers.build {
-                    append(HttpHeaders.ContentDisposition, "filename=ktp.jpg")
-                    append(HttpHeaders.ContentType, ContentType.Image.JPEG.toString())
-                })
             }
         ){
             method = HttpMethod.Post

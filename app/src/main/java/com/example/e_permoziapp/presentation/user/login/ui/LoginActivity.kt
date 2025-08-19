@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.databinding.ActivityLoginBinding
+import com.example.e_permoziapp.presentation.admin_employee.auth.ui.LoginActivity
 import com.example.e_permoziapp.presentation.common.state.UiState
 import com.example.e_permoziapp.presentation.user.home.ui.HomeActivity
 import com.example.e_permoziapp.presentation.user.login.viewmodel.LoginViewmodel
@@ -64,5 +65,9 @@ class LoginActivity : AppCompatActivity() {
         binding.btnRegister.setOnClickListener {
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
+        binding.btnAdminEmployee.setOnClickListener {
+            launchActivity<LoginActivity>()
+        }
+
     }
 }

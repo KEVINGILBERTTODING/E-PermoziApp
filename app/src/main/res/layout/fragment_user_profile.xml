@@ -12,7 +12,7 @@
     tools:context=".presentation.user.profile.ui.UserProfileFragment">
     <TextView
         android:layout_width="wrap_content"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textColor="@color/black"
         android:text="@string/profile"
         android:fontFamily="@font/satoshi_bold"
@@ -23,9 +23,9 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:id="@+id/rlPhoto"
-            android:layout_height="wrap_content">
+            android:layout_height="80dp">
             <ProgressBar
                 android:id="@+id/progressBarPhoto"
                 android:layout_centerInParent="true"
@@ -38,6 +38,24 @@
                 android:layout_width="80dp"
                 android:layout_alignParentStart="true"
                 android:layout_height="80dp"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                app:cardElevation="0dp"
+                app:contentPadding="5dp"
+                app:cardCornerRadius="10dp"
+                android:id="@+id/cvEdit"
+                android:foreground="?android:selectableItemBackground"
+                app:cardBackgroundColor="#4D000000"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:id="@+id/btnEdit"
+                    android:backgroundTint="@color/white"
+                    android:background="@drawable/ic_edit"/>
+            </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
 

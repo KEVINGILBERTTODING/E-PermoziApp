@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.e_permoziapp.core.extention.launchActivity
 import com.example.e_permoziapp.databinding.ActivitySplashBinding
+import com.example.e_permoziapp.presentation.onboarding.ui.OnboardingActivity
 import com.example.e_permoziapp.presentation.user.home.ui.HomeActivity
 import com.example.e_permoziapp.presentation.user.login.ui.LoginActivity
 import kotlinx.coroutines.launch
@@ -26,11 +27,17 @@ class SplashActivity : AppCompatActivity() {
                 if (it) {
                     if (viewmodel.role == "user") {
                         launchActivity<HomeActivity>()
+                    }else if (viewmodel.role == "admin" || viewmodel.role == "employee") {
+                        launchActivity<com.example.e_permoziapp.presentation.admin_employee.home.ui.HomeActivity>()
                     }else {
                         launchActivity<LoginActivity>()
                     }
                 }else {
-                    launchActivity<LoginActivity>()
+                    if (!viewmodel.isFinishOnboarding()) {
+                        launchActivity<OnboardingActivity>()
+                    }else {
+                        launchActivity<LoginActivity>()
+                    }
                 }
                 finish()
             }

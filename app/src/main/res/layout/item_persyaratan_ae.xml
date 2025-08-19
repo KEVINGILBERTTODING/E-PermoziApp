@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:layout_marginBottom="16dp"
+    android:background="@drawable/bg_gray_stroke_16"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="name"
+            android:fontFamily="@font/satoshi_medium"
+            android:textColor="@color/black"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tvFileNotFound"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tidak_ada_file"
+            android:fontFamily="@font/satoshi_regular"
+            android:textColor="@color/black_53"
+            android:textSize="12sp"/>
+
+        <RelativeLayout
+            android:id="@+id/rlButton"
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAction"
+                app:cornerRadius="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                style="@style/button_secondary_style"
+                android:fontFamily="@font/satoshi_medium"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:text="@string/unduh_file"/>
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

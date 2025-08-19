@@ -9,4 +9,10 @@ data class JenisPerizinanModel (
     val id: Int,
     @SerialName("nama_perizinan")
     val namaPerizinan: String =  ""
-)
+
+
+) {
+    override fun toString(): String {
+        return namaPerizinan
+    }
+}
